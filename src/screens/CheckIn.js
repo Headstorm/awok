@@ -56,7 +56,9 @@ const CheckIn = (props) => {
     props.history.push(path);
   };
 
+  // eslint-disable-next-line no-unused-vars
   const [immuneCount, setImmuneCount] = useState(1);
+  // eslint-disable-next-line no-unused-vars
   const [fineCount, setFineCount] = useState(5);
   const totalOccupancy = 50;
   const percentOccupation = ((immuneCount + fineCount) / totalOccupancy) * 100;
