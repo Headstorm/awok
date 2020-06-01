@@ -1,10 +1,5 @@
 import React from 'react';
-import './App.css';
-import {
-  BrowserRouter as Router,
-  Switch,
-  Route
-} from "react-router-dom";
+import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 import GoodDay from './screens/GoodDay';
 import CheckIn from './screens/CheckIn';
 import AlertsOptIn from './screens/AlertsOptIn';
@@ -33,13 +28,13 @@ function App() {
         <Route path="/good-day">
           <GoodDay />
         </Route>
-        <Route path="/Safety-Rejection">
+        <Route path="/safety-rejection">
           <SafetyRejection />
         </Route>
-        <Route path="/Symptoms-Screen">
+        <Route path="/symptoms-screen">
           <SymptomsScreen />
         </Route>
-        <Route path="/WFH-Conf">
+        <Route path="/wfh-conf">
           <WFHConf />
         </Route>
         <Route path="/">

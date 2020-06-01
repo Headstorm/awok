@@ -1,12 +1,25 @@
-
 import React from 'react';
+import styled from 'styled-components';
 
-function WFHConf() {
+const BaseContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-self: center;
+  margin: 10rem 2rem 0rem 2rem;
+`;
+
+const WFHConf = (props) => {
   return (
-    <p>
-      Edit <code>src/WFHConf.js</code> and save to reload.
-    </p>
+    <BaseContainer>
+      <h2>
+        Thank you for helping to keep the office safe and healthy.
+        <br />
+        <br />
+        Please remember to reach out to your Project Lead via Slack or email if
+        you need to take some time off
+      </h2>
+    </BaseContainer>
   );
-}
+};
 
 export default WFHConf;
