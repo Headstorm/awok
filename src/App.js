@@ -1,18 +1,14 @@
-import React from 'react';
-import './App.css';
-import {
-  BrowserRouter as Router,
-  Switch,
-  Route
-} from "react-router-dom";
-import GoodDay from './screens/GoodDay';
-import CheckIn from './screens/CheckIn';
-import AlertsOptIn from './screens/AlertsOptIn';
-import COVIDCheck from './screens/COVIDCheck';
-import COVIDTestDate from './screens/COVIDTestDate';
-import SafetyRejection from './screens/SafetyRejection';
-import SymptomsScreen from './screens/SymptomsScreen';
-import WFHConf from './screens/WFHConf';
+import React from "react";
+import "./App.css";
+import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
+import GoodDay from "./screens/GoodDay";
+import CheckIn from "./screens/CheckIn";
+import AlertsOptIn from "./screens/AlertsOptIn";
+import COVIDCheck from "./screens/COVIDCheck";
+import COVIDTestDate from "./screens/COVIDTestDate";
+import SafetyRejection from "./screens/SafetyRejection";
+import SymptomsScreen from "./screens/SymptomsScreen";
+import WFHConf from "./screens/WFHConf";
 
 function App() {
   return (
