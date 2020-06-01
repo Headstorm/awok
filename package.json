@@ -12,6 +12,7 @@
     "react-router": "^5.2.0",
     "react-scripts": "3.4.1"
   },
+  "homepage": "/project-reckoning",
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
