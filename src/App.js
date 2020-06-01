@@ -1,14 +1,13 @@
-import React from "react";
-import "./App.css";
-import { HashRouter as Router, Switch, Route } from "react-router-dom";
-import GoodDay from "./screens/GoodDay";
-import CheckIn from "./screens/CheckIn";
-import AlertsOptIn from "./screens/AlertsOptIn";
-import COVIDCheck from "./screens/COVIDCheck";
-import COVIDTestDate from "./screens/COVIDTestDate";
-import SafetyRejection from "./screens/SafetyRejection";
-import SymptomsScreen from "./screens/SymptomsScreen";
-import WFHConf from "./screens/WFHConf";
+import React from 'react';
+import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
+import GoodDay from './screens/GoodDay';
+import CheckIn from './screens/CheckIn';
+import AlertsOptIn from './screens/AlertsOptIn';
+import COVIDCheck from './screens/COVIDCheck';
+import COVIDTestDate from './screens/COVIDTestDate';
+import SafetyRejection from './screens/SafetyRejection';
+import SymptomsScreen from './screens/SymptomsScreen';
+import WFHConf from './screens/WFHConf';
 
 function App() {
   return (
@@ -29,13 +28,13 @@ function App() {
         <Route path="/good-day">
           <GoodDay />
         </Route>
-        <Route path="/Safety-Rejection">
+        <Route path="/safety-rejection">
           <SafetyRejection />
         </Route>
-        <Route path="/Symptoms-Screen">
+        <Route path="/symptoms-screen">
           <SymptomsScreen />
         </Route>
-        <Route path="/WFH-Conf">
+        <Route path="/wfh-conf">
           <WFHConf />
         </Route>
         <Route path="/">

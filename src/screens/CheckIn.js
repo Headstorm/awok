@@ -1,26 +1,100 @@
-import React from "react";
-import logo from "../logo.svg";
-import "../App.css";
+import React, { useState } from 'react';
+import { Button, withStyles, LinearProgress } from '@material-ui/core';
+import styled from 'styled-components';
+import { withRouter } from 'react-router-dom';
 
-function CheckIn() {
+const SignInButton = withStyles(() => ({
+  root: {
+    color: '#FFFFFF',
+    backgroundColor: '#D96239',
+    marginBottom: '2rem',
+  },
+}))(Button);
+
+const WorkRemoteButton = withStyles(() => ({
+  root: {
+    color: '#D96239',
+  },
+}))(Button);
+
+const BaseContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  margin: 8rem 2rem 0rem 2rem;
+`;
+
+const HeaderDiv = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-content: space-between;
+`;
+
+const FooterDiv = styled.div`
+  display: flex;
+  flex-direction: column;
+`;
+
+const Immune = styled.div`
+  background-color: #50c02e;
+
+  h2 {
+    margin-left: 1rem;
+  }
+`;
+
+const Fine = styled.div`
+  background-color: #e1e1e1;
+  margin: 1rem 0rem;
+
+  h2 {
+    margin-left: 1rem;
+  }
+`;
+
+const CheckIn = (props) => {
+  const nextPath = (path) => {
+    props.history.push(path);
+  };
+
+  const [immuneCount, setImmuneCount] = useState(1);
+  const [fineCount, setFineCount] = useState(5);
+  const totalOccupancy = 50;
+  const percentOccupation = ((immuneCount + fineCount) / totalOccupancy) * 100;
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
+    <BaseContainer>
+      <HeaderDiv>
+        <Immune>
+          <h2>{immuneCount} Immune to COVID</h2>
+        </Immune>
+        <Fine>
+          <h2>{fineCount} Feeling Fine</h2>
+        </Fine>
+        <LinearProgress variant="determinate" value={percentOccupation} />
+        {percentOccupation}% Occupied
+      </HeaderDiv>
+      <FooterDiv>
+        <h2>
+          This app will ask you a few questions to help ensure a safe and
+          healthy workplace
+          <br />
+          <br />
+          All answers are completely anonymous. We do not track your phone,
+          location, or anything about you
+        </h2>
+        <SignInButton
+          size="large"
+          variant="contained"
+          onClick={() => nextPath('/covid-check')}
         >
-          Learn React
-        </a>
-      </header>
-    </div>
+          Sign In
+        </SignInButton>
+        <WorkRemoteButton onClick={() => nextPath('/good-day')}>
+          I'm going to work remote
+        </WorkRemoteButton>
+      </FooterDiv>
+    </BaseContainer>
   );
-}
+};
 
-export default CheckIn;
+export default withRouter(CheckIn);
