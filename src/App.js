@@ -1,6 +1,6 @@
 import React from "react";
 import "./App.css";
-import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
+import { HashRouter as Router, Switch, Route } from "react-router-dom";
 import GoodDay from "./screens/GoodDay";
 import CheckIn from "./screens/CheckIn";
 import AlertsOptIn from "./screens/AlertsOptIn";
