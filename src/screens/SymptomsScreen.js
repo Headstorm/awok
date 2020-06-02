@@ -2,6 +2,8 @@ import React from 'react';
 import { Button, withStyles } from '@material-ui/core';
 import styled from 'styled-components';
 import { withRouter } from 'react-router-dom';
+import Header from '../common/Header';
+import Footer from '../common/Footer';
 
 const YesButton = withStyles(() => ({
   root: {
@@ -21,11 +23,11 @@ const NoButton = withStyles(() => ({
 const BaseContainer = styled.div`
   display: flex;
   flex-direction: column;
-  margin: 10rem 2rem 0rem 2rem;
+  margin: 2rem 2rem 0rem 2rem;
 `;
 
 const HeaderDiv = styled.div`
-  margin-bottom: 5rem;
+  margin-bottom: 2rem;
 `;
 
 const COVIDCheck = (props) => {
@@ -35,6 +37,7 @@ const COVIDCheck = (props) => {
 
   return (
     <BaseContainer>
+      <Header/>
       <HeaderDiv>
         <h2>
           Have you experienced any of the following in the last 24 hours?
@@ -61,6 +64,7 @@ const COVIDCheck = (props) => {
       >
         No
       </NoButton>
+      <Footer/>
     </BaseContainer>
   );
 };

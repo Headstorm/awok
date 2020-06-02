@@ -8,6 +8,8 @@ import {
 } from '@material-ui/core';
 import styled from 'styled-components';
 import { withRouter } from 'react-router-dom';
+import Footer from '../common/Footer';
+import Header from '../common/Header';
 
 const CheckInButton = withStyles(() => ({
   root: {
@@ -26,11 +28,11 @@ const NoButton = withStyles(() => ({
 const BaseContainer = styled.div`
   display: flex;
   flex-direction: column;
-  margin: 5rem 2rem 0rem 2rem;
+  margin: 2rem 2rem 0rem 2rem;
 `;
 
 const HeaderDiv = styled.div`
-  margin-bottom: 5rem;
+  margin-bottom: 2rem;
 `;
 
 const COVIDTestDate = (props) => {
@@ -40,6 +42,7 @@ const COVIDTestDate = (props) => {
 
   return (
     <BaseContainer>
+      <Header/>
       <HeaderDiv>
         <h2>
           When did you test positive?
@@ -68,6 +71,7 @@ const COVIDTestDate = (props) => {
       <NoButton size="large" onClick={() => nextPath('/alerts')}>
         I would rather not say
       </NoButton>
+      <Footer/>
     </BaseContainer>
   );
 };

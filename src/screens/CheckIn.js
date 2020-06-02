@@ -3,6 +3,8 @@ import { Button, withStyles, LinearProgress } from '@material-ui/core';
 import styled from 'styled-components';
 import { withRouter } from 'react-router-dom';
 import { getCheckInCounts } from '../apiCalls';
+import Header from '../common/Header';
+import Footer from '../common/Footer';
 
 const SignInButton = withStyles(() => ({
   root: {
@@ -21,7 +23,7 @@ const WorkRemoteButton = withStyles(() => ({
 const BaseContainer = styled.div`
   display: flex;
   flex-direction: column;
-  margin: 8rem 2rem 0rem 2rem;
+  margin: 2rem 2rem 1rem 2rem;
 `;
 
 const HeaderDiv = styled.div`
@@ -76,6 +78,7 @@ const CheckIn = (props) => {
 
   return (
     <BaseContainer>
+      <Header/>
       <HeaderDiv>
         <Immune>
           <h2>{immuneCount} Immune to COVID</h2>
@@ -88,12 +91,7 @@ const CheckIn = (props) => {
       </HeaderDiv>
       <FooterDiv>
         <h2>
-          This app will ask you a few questions to help ensure a safe and
-          healthy workplace
-          <br />
-          <br />
-          All answers are completely anonymous. We do not track your phone,
-          location, or anything about you
+          <Footer startText/>
         </h2>
         <SignInButton
           size="large"

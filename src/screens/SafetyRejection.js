@@ -2,6 +2,7 @@ import React from 'react';
 import { Button, withStyles } from '@material-ui/core';
 import styled from 'styled-components';
 import { withRouter } from 'react-router-dom';
+import Footer from '../common/Footer';
 
 const GoingHomeButton = withStyles(() => ({
   root: {
@@ -13,11 +14,11 @@ const GoingHomeButton = withStyles(() => ({
 const BaseContainer = styled.div`
   display: flex;
   flex-direction: column;
-  margin: 15rem 2rem 0rem 2rem;
+  margin: 2rem 2rem 0rem 2rem;
 `;
 
 const HeaderQuestion = styled.h2`
-  margin-bottom: 16rem;
+  margin-bottom: 2rem;
 `;
 
 const SafetyRejection = (props) => {
@@ -40,6 +41,7 @@ const SafetyRejection = (props) => {
       >
         Going back home
       </GoingHomeButton>
+      <Footer/>
     </BaseContainer>
   );
 };

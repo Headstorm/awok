@@ -2,6 +2,8 @@ import React from 'react';
 import { Button, withStyles } from '@material-ui/core';
 import styled from 'styled-components';
 import { withRouter } from 'react-router-dom';
+import Footer from '../common/Footer';
+import Header from '../common/Header';
 
 const YesButton = withStyles(() => ({
   root: {
@@ -21,11 +23,11 @@ const NoButton = withStyles(() => ({
 const BaseContainer = styled.div`
   display: flex;
   flex-direction: column;
-  margin: 15rem 2rem 0rem 2rem;
+  margin: 2rem 2rem 0rem 2rem;
 `;
 
 const HeaderQuestion = styled.h2`
-  margin-bottom: 16rem;
+  margin-bottom: 2rem;
 `;
 
 const COVIDCheck = (props) => {
@@ -36,6 +38,7 @@ const COVIDCheck = (props) => {
 
   return (
     <BaseContainer>
+      <Header/>
       <HeaderQuestion>
         Have you ever tested positive for Covid-19?
       </HeaderQuestion>
@@ -53,6 +56,7 @@ const COVIDCheck = (props) => {
       >
         No
       </NoButton>
+      <Footer/>
     </BaseContainer>
   );
 };
