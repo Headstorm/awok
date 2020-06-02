@@ -2,8 +2,6 @@ import React from 'react';
 import { Button, withStyles } from '@material-ui/core';
 import styled from 'styled-components';
 import { withRouter } from 'react-router-dom';
-import Footer from '../common/Footer';
-import Header from '../common/Header';
 
 const GoingHomeButton = withStyles(() => ({
   root: {

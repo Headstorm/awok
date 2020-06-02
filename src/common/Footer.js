@@ -6,8 +6,6 @@ const Footer = (props) => {
   const BaseContainer = styled.div`
     padding: 1rem;
     bottom: 0;
-    flex-shrink: 0;
-
     ${!props.startText && `
       background-color: rgb(209, 224, 224,30%);
     `}

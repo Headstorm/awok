@@ -8,8 +8,6 @@ import {
 } from '@material-ui/core';
 import styled from 'styled-components';
 import { withRouter } from 'react-router-dom';
-import Footer from '../common/Footer';
-import Header from '../common/Header';
 
 const CheckInButton = withStyles(() => ({
   root: {

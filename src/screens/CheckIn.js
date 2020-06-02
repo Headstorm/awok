@@ -3,8 +3,6 @@ import { Button, withStyles, LinearProgress } from '@material-ui/core';
 import styled from 'styled-components';
 import { withRouter } from 'react-router-dom';
 import { getCheckInCounts } from '../apiCalls';
-import Header from '../common/Header';
-import Footer from '../common/Footer';
 
 const SignInButton = withStyles(() => ({
   root: {
