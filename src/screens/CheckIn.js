@@ -1,7 +1,8 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Button, withStyles, LinearProgress } from '@material-ui/core';
 import styled from 'styled-components';
 import { withRouter } from 'react-router-dom';
+import { getCheckInCounts } from '../apiCalls';
 
 const SignInButton = withStyles(() => ({
   root: {
@@ -57,11 +58,21 @@ const CheckIn = (props) => {
   };
 
   // eslint-disable-next-line no-unused-vars
-  const [immuneCount, setImmuneCount] = useState(1);
+  const [immuneCount, setImmuneCount] = useState(0);
   // eslint-disable-next-line no-unused-vars
-  const [fineCount, setFineCount] = useState(5);
-  const totalOccupancy = 50;
+  const [fineCount, setFineCount] = useState(0);
+  const totalOccupancy = 25;
   const percentOccupation = ((immuneCount + fineCount) / totalOccupancy) * 100;
+
+  useEffect(() => {
+    getCheckInCounts()
+      .then((res) => res.json())
+      .then((response) => {
+        setImmuneCount(response.positiveCount);
+        setFineCount(response.negativeCount);
+      })
+      .catch((error) => console.log(error));
+  });
 
   return (
     <BaseContainer>
