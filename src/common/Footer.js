@@ -5,9 +5,9 @@ import styled from 'styled-components';
 const Footer = props => {
   const BaseContainer = styled.div`
     display: flex;
-    flex-direction: column;
     padding: 1rem;
-  
+    bottom: 0;
+    
     ${!props.startText && `
       background-color: rgb(209, 224, 224,30%);
     `}
