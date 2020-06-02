@@ -6,7 +6,9 @@ import HeadstormLogo from '../headstorm_logo.png';
 const BaseContainer = styled.div`
   display: flex;
   flex-direction: row;
-  padding-bottom: 1rem;
+  padding: 1.5rem;
+  background-color: rgb(209, 224, 224,30%);
+  border-bottom: .2rem solid #d1e0e0;
 `;
 
 const Logo = styled.div`
@@ -40,7 +42,7 @@ const Header = props => {
   return (
     <BaseContainer>
       {logo}
-      <Count>Checked In {immuneCount + fineCount} / {totalOccupancy}</Count>
+      {props.checkInCount ? <Count>Checked In {immuneCount + fineCount} / {totalOccupancy}</Count> : null}
     </BaseContainer>
   )
 };

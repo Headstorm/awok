@@ -23,7 +23,7 @@ const NoButton = withStyles(() => ({
 const BaseContainer = styled.div`
   display: flex;
   flex-direction: column;
-  margin: 2rem 2rem 0rem 2rem;
+  margin: 2rem;
 `;
 
 const HeaderQuestion = styled.h2`
@@ -37,27 +37,29 @@ const COVIDCheck = (props) => {
   };
 
   return (
-    <BaseContainer>
-      <Header/>
-      <HeaderQuestion>
-        Have you ever tested positive for Covid-19?
-      </HeaderQuestion>
-      <YesButton
-        size="large"
-        variant="outlined"
-        onClick={() => handleClick('/covid-test-date', true)}
-      >
-        Yes
-      </YesButton>
-      <NoButton
-        size="large"
-        variant="contained"
-        onClick={() => handleClick('/symptoms-screen', false)}
-      >
-        No
-      </NoButton>
+    <>
+      <Header checkInCount/>
+      <BaseContainer>
+        <HeaderQuestion>
+          Have you ever tested positive for Covid-19?
+        </HeaderQuestion>
+        <YesButton
+          size="large"
+          variant="outlined"
+          onClick={() => handleClick('/covid-test-date', true)}
+        >
+          Yes
+        </YesButton>
+        <NoButton
+          size="large"
+          variant="contained"
+          onClick={() => handleClick('/symptoms-screen', false)}
+        >
+          No
+        </NoButton>
+      </BaseContainer>
       <Footer/>
-    </BaseContainer>
+    </>
   );
 };
 

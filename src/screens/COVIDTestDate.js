@@ -41,38 +41,40 @@ const COVIDTestDate = (props) => {
   };
 
   return (
-    <BaseContainer>
-      <Header/>
-      <HeaderDiv>
-        <h2>
-          When did you test positive?
-          <br />
-          <br />
-          We will use this information to alert other people who have visited
-          this office.
-        </h2>
-      </HeaderDiv>
-      <form noValidate>
-        <TextField label="Month" />
-        <TextField label="Day" />
-        <TextField label="Year" />
-      </form>
-      <FormControlLabel
-        control={<Checkbox />}
-        label="Remember my answer on this device"
-      />
-      <CheckInButton
-        size="large"
-        variant="contained"
-        onClick={() => nextPath('/alerts')}
-      >
-        Check In
-      </CheckInButton>
-      <NoButton size="large" onClick={() => nextPath('/alerts')}>
-        I would rather not say
-      </NoButton>
+    <>
+      <Header checkInCount/>
+      <BaseContainer>
+        <HeaderDiv>
+          <h2>
+            When did you test positive?
+            <br />
+            <br />
+            We will use this information to alert other people who have visited
+            this office.
+          </h2>
+        </HeaderDiv>
+        <form noValidate>
+          <TextField label="Month" />
+          <TextField label="Day" />
+          <TextField label="Year" />
+        </form>
+        <FormControlLabel
+          control={<Checkbox />}
+          label="Remember my answer on this device"
+        />
+        <CheckInButton
+          size="large"
+          variant="contained"
+          onClick={() => nextPath('/alerts')}
+        >
+          Check In
+        </CheckInButton>
+        <NoButton size="large" onClick={() => nextPath('/alerts')}>
+          I would rather not say
+        </NoButton>
+      </BaseContainer>
       <Footer/>
-    </BaseContainer>
+    </>
   );
 };
 
