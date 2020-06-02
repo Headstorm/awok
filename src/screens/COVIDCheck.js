@@ -29,7 +29,8 @@ const HeaderQuestion = styled.h2`
 `;
 
 const COVIDCheck = (props) => {
-  const nextPath = (path) => {
+  const handleClick = (path, isPositive) => {
+    localStorage.setItem('isPositive', isPositive);
     props.history.push(path);
   };
 
@@ -41,14 +42,14 @@ const COVIDCheck = (props) => {
       <YesButton
         size="large"
         variant="outlined"
-        onClick={() => nextPath('/covid-test-date')}
+        onClick={() => handleClick('/covid-test-date', true)}
       >
         Yes
       </YesButton>
       <NoButton
         size="large"
         variant="contained"
-        onClick={() => nextPath('/symptoms-screen')}
+        onClick={() => handleClick('/symptoms-screen', false)}
       >
         No
       </NoButton>
