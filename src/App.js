@@ -8,6 +8,7 @@ import COVIDTestDate from './screens/COVIDTestDate';
 import SafetyRejection from './screens/SafetyRejection';
 import SymptomsScreen from './screens/SymptomsScreen';
 import WFHConf from './screens/WFHConf';
+import COVIDPostive from './screens/COVIDPostive';
 
 function App() {
   return (
@@ -36,6 +37,9 @@ function App() {
         </Route>
         <Route path="/wfh-conf">
           <WFHConf />
+        </Route>
+        <Route path="/covid-positive">
+          <COVIDPostive />
         </Route>
         <Route path="/">
           <CheckIn />
