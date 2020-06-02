@@ -77,36 +77,30 @@ const CheckIn = (props) => {
   });
 
   return (
-    <>
-      <Header checkInCount={false}/>
-      <BaseContainer>
-        <HeaderDiv>
-          <Immune>
-            <h2>{immuneCount} Immune to COVID</h2>
-          </Immune>
-          <Fine>
-            <h2>{fineCount} Feeling Fine</h2>
-          </Fine>
-          <LinearProgress variant="determinate" value={percentOccupation} />
-          {percentOccupation}% Occupied
-        </HeaderDiv>
-        <FooterDiv>
-          <h2>
-            <Footer startText/>
-          </h2>
-          <SignInButton
-            size="large"
-            variant="contained"
-            onClick={() => nextPath('/covid-check')}
-          >
-            Sign In
-          </SignInButton>
-          <WorkRemoteButton onClick={() => nextPath('/good-day')}>
-            I'm going to work remote
-          </WorkRemoteButton>
-        </FooterDiv>
-      </BaseContainer>
-    </>
+    <BaseContainer>
+      <HeaderDiv>
+        <Immune>
+          <h2>{immuneCount} Immune to COVID</h2>
+        </Immune>
+        <Fine>
+          <h2>{fineCount} Feeling Fine</h2>
+        </Fine>
+        <LinearProgress variant="determinate" value={percentOccupation} />
+        {percentOccupation}% Occupied
+      </HeaderDiv>
+      <FooterDiv>
+        <SignInButton
+          size="large"
+          variant="contained"
+          onClick={() => nextPath('/covid-check')}
+        >
+          Sign In
+        </SignInButton>
+        <WorkRemoteButton onClick={() => nextPath('/good-day')}>
+          I'm going to work remote
+        </WorkRemoteButton>
+      </FooterDiv>
+    </BaseContainer>
   );
 };
 

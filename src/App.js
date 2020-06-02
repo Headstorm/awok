@@ -8,10 +8,13 @@ import COVIDTestDate from './screens/COVIDTestDate';
 import SafetyRejection from './screens/SafetyRejection';
 import SymptomsScreen from './screens/SymptomsScreen';
 import WFHConf from './screens/WFHConf';
+import Header from './common/Header';
+import Footer from './common/Footer';
 
 function App() {
   return (
     <Router>
+      <Header/>
       <Switch>
         <Route path="/alerts">
           <AlertsOptIn />
@@ -41,6 +44,7 @@ function App() {
           <CheckIn />
         </Route>
       </Switch>
+      <Footer/>
     </Router>
   );
 }

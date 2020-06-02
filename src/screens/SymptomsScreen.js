@@ -36,38 +36,34 @@ const COVIDCheck = (props) => {
   };
 
   return (
-    <>
-      <Header checkInCount/>
-      <BaseContainer>
-        <HeaderDiv>
-          <h2>
-            Have you experienced any of the following in the last 24 hours?
-            <br />
-            <br />
-            Loss of taste and smell <br />
-            Fever <br />
-            Dry Cough <br />
-            Sore Throat <br />
-            ...{' '}
-          </h2>
-        </HeaderDiv>
-        <YesButton
-          size="large"
-          variant="outlined"
-          onClick={() => nextPath('/safety-rejection')}
-        >
-          Yes
-        </YesButton>
-        <NoButton
-          size="large"
-          variant="contained"
-          onClick={() => nextPath('/alerts')}
-        >
-          No
-        </NoButton>
-      </BaseContainer>
-      <Footer/>
-    </>
+    <BaseContainer>
+      <HeaderDiv>
+        <h2>
+          Have you experienced any of the following in the last 24 hours?
+          <br />
+          <br />
+          Loss of taste and smell <br />
+          Fever <br />
+          Dry Cough <br />
+          Sore Throat <br />
+          ...{' '}
+        </h2>
+      </HeaderDiv>
+      <YesButton
+        size="large"
+        variant="outlined"
+        onClick={() => nextPath('/safety-rejection')}
+      >
+        Yes
+      </YesButton>
+      <NoButton
+        size="large"
+        variant="contained"
+        onClick={() => nextPath('/alerts')}
+      >
+        No
+      </NoButton>
+    </BaseContainer>
   );
 };
 

@@ -30,6 +30,12 @@ const HeaderQuestion = styled.h2`
   margin-bottom: 2rem;
 `;
 
+const Body = styled.div`
+  flex: 1 0 auto;
+  min-height: calc(100vh - 70px);
+  margin: 0;
+`;
+
 const COVIDCheck = (props) => {
   const handleClick = (path, isPositive) => {
     localStorage.setItem('isPositive', isPositive);
@@ -37,29 +43,25 @@ const COVIDCheck = (props) => {
   };
 
   return (
-    <>
-      <Header checkInCount/>
-      <BaseContainer>
-        <HeaderQuestion>
-          Have you ever tested positive for Covid-19?
-        </HeaderQuestion>
-        <YesButton
-          size="large"
-          variant="outlined"
-          onClick={() => handleClick('/covid-test-date', true)}
-        >
-          Yes
-        </YesButton>
-        <NoButton
-          size="large"
-          variant="contained"
-          onClick={() => handleClick('/symptoms-screen', false)}
-        >
-          No
-        </NoButton>
-      </BaseContainer>
-      <Footer/>
-    </>
+    <BaseContainer>
+      <HeaderQuestion>
+        Have you ever tested positive for Covid-19?
+      </HeaderQuestion>
+      <YesButton
+        size="large"
+        variant="outlined"
+        onClick={() => handleClick('/covid-test-date', true)}
+      >
+        Yes
+      </YesButton>
+      <NoButton
+        size="large"
+        variant="contained"
+        onClick={() => handleClick('/symptoms-screen', false)}
+      >
+        No
+      </NoButton>
+    </BaseContainer>
   );
 };
 

@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import { getCheckInCounts } from '../apiCalls';
 import HeadstormLogo from '../headstorm_logo.png';
+import { withRouter } from 'react-router-dom';
 
 const BaseContainer = styled.div`
   display: flex;
@@ -20,6 +21,7 @@ const Count = styled.div`
 `;
 
 const Header = props => {
+  const showCheckInCount = ['/', '/safety-rejection'].includes(props.location.pathname) ? false : true;
   // eslint-disable-next-line no-unused-vars
   const [immuneCount, setImmuneCount] = useState(0);
   // eslint-disable-next-line no-unused-vars
@@ -42,9 +44,9 @@ const Header = props => {
   return (
     <BaseContainer>
       {logo}
-      {props.checkInCount ? <Count>Checked In {immuneCount + fineCount} / {totalOccupancy}</Count> : null}
+      {showCheckInCount ? <Count>Checked In {immuneCount + fineCount} / {totalOccupancy}</Count> : null}
     </BaseContainer>
   )
 };
 
-export default Header;
+export default withRouter(Header);

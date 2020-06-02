@@ -28,25 +28,21 @@ const SafetyRejection = (props) => {
   };
 
   return (
-    <>
-      <Header checkInCount={false}/>
-      <BaseContainer>
-        <HeaderQuestion>
-          Going to work with these symptoms puts the rest of your office at risk.
-          <br />
-          <br />
-          Please work from home today.
-        </HeaderQuestion>
-        <GoingHomeButton
-          size="large"
-          variant="contained"
-          onClick={() => nextPath('/wfh-conf')}
-        >
-          Going back home
-        </GoingHomeButton>
-      </BaseContainer>
-      <Footer/>
-    </>
+    <BaseContainer>
+      <HeaderQuestion>
+        Going to work with these symptoms puts the rest of your office at risk.
+        <br />
+        <br />
+        Please work from home today.
+      </HeaderQuestion>
+      <GoingHomeButton
+        size="large"
+        variant="contained"
+        onClick={() => nextPath('/wfh-conf')}
+      >
+        Going back home
+      </GoingHomeButton>
+    </BaseContainer>
   );
 };
 
