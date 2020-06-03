@@ -8,6 +8,7 @@ import COVIDTestDate from './screens/COVIDTestDate';
 import SafetyRejection from './screens/SafetyRejection';
 import SymptomsScreen from './screens/SymptomsScreen';
 import WFHConf from './screens/WFHConf';
+import AlreadyCheckedIn from './screens/AlreadyCheckedIn';
 import Header from './common/Header';
 import Footer from './common/Footer';
 import COVIDPostive from './screens/COVIDPostive';
@@ -52,6 +53,9 @@ function App() {
         </Route>
         <Route path="/covid-positive">
           <COVIDPostive />
+        </Route>
+        <Route path='/already-checked-in'>
+          <AlreadyCheckedIn />
         </Route>
         <Route path="/">
           <CheckIn />

@@ -6,6 +6,7 @@ import { getCheckInCounts } from '../apiCalls';
 import DonutChart from '../common/DonutChart';
 import InfoOutlinedIcon from '@material-ui/icons/InfoOutlined';
 import InfoPopUp from '../common/InfoPopUp';
+import AlreadyCheckedIn from './AlreadyCheckedIn';
 
 const StyledButton = withStyles(() => ({
   root: {
@@ -70,8 +71,9 @@ const CheckIn = (props) => {
       .catch((error) => console.log(error));
   });
 
-  console.log('state', showInfoModal)
-  return (
+  const hasCheckedInToday = localStorage.getItem('checkInDate') === new Date().toISOString().slice(0,10)
+
+  return hasCheckedInToday ? <AlreadyCheckedIn/> : (
     <BaseContainer>
       <HeaderDiv>
         <H2>Want to come into the office today?</H2>
