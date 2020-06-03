@@ -1,11 +1,13 @@
 import React, { useState } from 'react';
-import { TextField, Button } from '@material-ui/core';
+import { TextField, Button, Snackbar } from '@material-ui/core';
 import styled from 'styled-components';
 import { withRouter } from 'react-router-dom';
 
 const BaseContainer = styled.div`
   display: flex;
+  height: 100vh;
   flex-direction: column;
+  justify-content: space-between;
 `;
 
 const TitleHeader = styled.div`
@@ -23,6 +25,20 @@ const AdminForm = styled.div`
 
 const StyledTextField = styled(TextField)`
   margin-bottom: 1rem !important;
+`;
+
+const FooterDiv = styled.div`
+  display: flex;
+  flex: 3;
+  justify-content: flex-end;
+`;
+
+const StyledButton = styled(Button)`
+  align-self: flex-end;
+  margin-bottom: 5rem !important;
+  margin-right: 2rem !important;
+  background-color: #288bea !important;
+  color: #ffffff !important;
 `;
 
 const Admin = (props) => {
@@ -92,10 +108,13 @@ const Admin = (props) => {
             label="Success Message"
           />
         </form>
-        <Button size="large" variant="contained">
-          Save
-        </Button>
       </AdminForm>
+      <FooterDiv>
+        <Snackbar open />
+        <StyledButton size="large" variant="contained">
+          Save
+        </StyledButton>
+      </FooterDiv>
     </BaseContainer>
   );
 };
