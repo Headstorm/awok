@@ -6,7 +6,7 @@ import { withRouter } from 'react-router-dom';
 const GoingHomeButton = withStyles(() => ({
   root: {
     color: '#FFFFFF',
-    backgroundColor: '#D96239',
+    backgroundColor: '#518DFD',
   },
 }))(Button);
 
