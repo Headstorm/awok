@@ -19,7 +19,7 @@ const WorkRemoteButton = withStyles(() => ({
 }))(Button);
 
 const BaseContainer = styled.div`
-  display:flex;
+  display: flex;
   flex-direction: column;
   margin: 2rem 2rem 1rem 2rem;
   flex: 1 0;
