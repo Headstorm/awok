@@ -2,10 +2,9 @@ import React from 'react';
 import styled from 'styled-components';
 
 const BaseContainer = styled.div`
-  display: flex;
   flex-direction: column;
   align-self: center;
-  margin: 10rem 2rem 0rem 2rem;
+  flex: 1 0 auto;
 `;
 
 const GoodDay = (props) => {

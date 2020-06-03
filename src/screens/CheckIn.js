@@ -1,27 +1,25 @@
 import React, { useState, useEffect } from 'react';
-import { Button, withStyles, LinearProgress } from '@material-ui/core';
+import { Button, withStyles } from '@material-ui/core';
 import styled from 'styled-components';
 import { withRouter } from 'react-router-dom';
 import { getCheckInCounts } from '../apiCalls';
+import DonutChart from '../common/DonutChart';
+import InfoOutlinedIcon from '@material-ui/icons/InfoOutlined';
+import InfoPopUp from '../common/InfoPopUp';
 
-const SignInButton = withStyles(() => ({
+const StyledButton = withStyles(() => ({
   root: {
     color: '#FFFFFF',
-    backgroundColor: '#D96239',
+    backgroundColor: '#518DFD',
     marginBottom: '2rem',
-  },
-}))(Button);
-
-const WorkRemoteButton = withStyles(() => ({
-  root: {
-    color: '#D96239',
   },
 }))(Button);
 
 const BaseContainer = styled.div`
   display: flex;
   flex-direction: column;
-  margin: 8rem 2rem 0rem 2rem;
+  margin: 2rem 2rem 0rem 2rem;
+  flex: 1 0;
 `;
 
 const HeaderDiv = styled.div`
@@ -30,26 +28,20 @@ const HeaderDiv = styled.div`
   align-content: space-between;
 `;
 
-const FooterDiv = styled.div`
-  display: flex;
-  flex-direction: column;
+const H2 = styled.h2`
+  text-align: center;
+  padding: 0rem;
+  margin: 0;
 `;
 
-const Immune = styled.div`
-  background-color: #50c02e;
-
-  h2 {
-    margin-left: 1rem;
-  }
+const RemoteH2 = styled.h2`
+  text-align: center;
+  padding-bottom: 2rem;
+  margin: 0;
 `;
 
-const Fine = styled.div`
-  background-color: #e1e1e1;
-  margin: 1rem 0rem;
-
-  h2 {
-    margin-left: 1rem;
-  }
+const H3 = styled.h3`
+  text-align: center;
 `;
 
 const CheckIn = (props) => {
@@ -57,12 +49,15 @@ const CheckIn = (props) => {
     props.history.push(path);
   };
 
-  // eslint-disable-next-line no-unused-vars
+  const [showInfoModal, setShowInfoModal] = useState(false);
+  const [donutval, setDonutVal] = useState(0);
   const [immuneCount, setImmuneCount] = useState(0);
-  // eslint-disable-next-line no-unused-vars
   const [fineCount, setFineCount] = useState(0);
   const totalOccupancy = 25;
-  const percentOccupation = ((immuneCount + fineCount) / totalOccupancy) * 100;
+  
+  const handleDismiss = () => {
+    setShowInfoModal(false);
+   };
 
   useEffect(() => {
     getCheckInCounts()
@@ -70,42 +65,38 @@ const CheckIn = (props) => {
       .then((response) => {
         setImmuneCount(response.positiveCount);
         setFineCount(response.negativeCount);
+        setDonutVal((response.positiveCount + response.negativeCount) / totalOccupancy * 100);
       })
       .catch((error) => console.log(error));
   });
 
+  console.log('state', showInfoModal)
   return (
     <BaseContainer>
       <HeaderDiv>
-        <Immune>
-          <h2>{immuneCount} Immune to COVID</h2>
-        </Immune>
-        <Fine>
-          <h2>{fineCount} Feeling Fine</h2>
-        </Fine>
-        <LinearProgress variant="determinate" value={percentOccupation} />
-        {percentOccupation}% Occupied
-      </HeaderDiv>
-      <FooterDiv>
-        <h2>
-          This app will ask you a few questions to help ensure a safe and
-          healthy workplace
-          <br />
-          <br />
-          All answers are completely anonymous. We do not track your phone,
-          location, or anything about you
-        </h2>
-        <SignInButton
+        <H2>Want to come into the office today?</H2>
+        <H3>
+          {immuneCount + fineCount} out of {totalOccupancy} spots taken
+          <InfoOutlinedIcon
+            fontSize='small'
+            onClick={() => setShowInfoModal(true)}
+          />
+        </H3>
+        <h3>Today's checkins</h3>
+        <DonutChart value={donutval} spotsTaken={immuneCount + fineCount} totalOccupancy={totalOccupancy} />
+        <StyledButton
           size="large"
           variant="contained"
           onClick={() => nextPath('/covid-check')}
         >
-          Sign In
-        </SignInButton>
-        <WorkRemoteButton onClick={() => nextPath('/good-day')}>
-          I'm going to work remote
-        </WorkRemoteButton>
-      </FooterDiv>
+          Check In
+        </StyledButton>
+      </HeaderDiv>
+      <RemoteH2>Plan on working remote?</RemoteH2>     
+      <StyledButton onClick={() => nextPath('/good-day')}>
+        Working Remote
+      </StyledButton>
+      {showInfoModal ? <InfoPopUp handleDismiss={handleDismiss}/> : null}
     </BaseContainer>
   );
 };
