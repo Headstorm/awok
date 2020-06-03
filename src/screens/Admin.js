@@ -48,7 +48,10 @@ const Admin = (props) => {
   });
 
   const [open, setOpen] = useState(false);
-  const [savedSuccessfully, setSavedSuccessfully] = useState(false);
+
+  //   will be set depending on api success or fail
+  // eslint-disable-next-line no-unused-vars
+  const [savedSuccessfully, setSavedSuccessfully] = useState(true);
 
   const handleChange = (e) => {
     setFormData({
