@@ -8,11 +8,23 @@ import COVIDTestDate from './screens/COVIDTestDate';
 import SafetyRejection from './screens/SafetyRejection';
 import SymptomsScreen from './screens/SymptomsScreen';
 import WFHConf from './screens/WFHConf';
+import Header from './common/Header';
+import Footer from './common/Footer';
 import COVIDPostive from './screens/COVIDPostive';
+import styled from 'styled-components';
+
+const BaseContainer = styled.div`
+  display: flex;
+  flex-flow: column;
+  justify-content: space-between;
+  min-height: 100vh;
+`;
 
 function App() {
   return (
     <Router>
+      <BaseContainer>
+      <Header/>
       <Switch>
         <Route path="/alerts">
           <AlertsOptIn />
@@ -45,6 +57,8 @@ function App() {
           <CheckIn />
         </Route>
       </Switch>
+      <Footer/>
+      </BaseContainer>
     </Router>
   );
 }
