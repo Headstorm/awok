@@ -8,6 +8,7 @@ import {
 } from '@material-ui/core';
 import styled from 'styled-components';
 import { withRouter } from 'react-router-dom';
+import { patchCheckIn } from '../apiCalls';
 
 const CheckInButton = withStyles(() => ({
   root: {
@@ -47,7 +48,8 @@ const COVIDTestDate = (props) => {
     if(covidDate >= twoWeeksAgoDate) {
       nextPath('/covid-positive')
     } else {
-      nextPath('/alerts')
+      patchCheckIn(localStorage.getItem('isPositive'));
+      props.history.push('/good-day');
     }
   }
   return (

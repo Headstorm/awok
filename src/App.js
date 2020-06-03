@@ -26,9 +26,6 @@ function App() {
       <BaseContainer>
       <Header/>
       <Switch>
-        <Route path="/alerts">
-          <AlertsOptIn />
-        </Route>
         <Route path="/check-in">
           <CheckIn />
         </Route>

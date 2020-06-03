@@ -2,6 +2,7 @@ import React from 'react';
 import { Button, withStyles } from '@material-ui/core';
 import styled from 'styled-components';
 import { withRouter } from 'react-router-dom';
+import { patchCheckIn } from '../apiCalls';
 
 const YesButton = withStyles(() => ({
   root: {
@@ -58,9 +59,12 @@ const COVIDCheck = (props) => {
       <NoButton
         size="large"
         variant="contained"
-        onClick={() => nextPath('/alerts')}
+        onClick={() => {
+          patchCheckIn(localStorage.getItem('isPositive'));
+          props.history.push('/good-day');
+        }}
       >
-        No
+        No, Check In
       </NoButton>
     </BaseContainer>
   );
