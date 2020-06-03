@@ -23,18 +23,14 @@ const Count = styled.div`
 
 const Header = props => {
   const showCheckInCount = ['/', '/safety-rejection'].includes(props.location.pathname) ? false : true;
-  // eslint-disable-next-line no-unused-vars
-  const [immuneCount, setImmuneCount] = useState(0);
-  // eslint-disable-next-line no-unused-vars
-  const [fineCount, setFineCount] = useState(0);
+  const [numCheckedIn, setNumCheckedIn] = useState(0);
   const totalOccupancy = 25;
 
   useEffect(() => {
     getCheckInCounts()
       .then((res) => res.json())
       .then((response) => {
-        setImmuneCount(response.positiveCount);
-        setFineCount(response.negativeCount);
+        setNumCheckedIn(response.positiveCount + response.negativeCount);
       })
       .catch((error) => console.log(error));
   });
@@ -42,7 +38,7 @@ const Header = props => {
   return (
     <BaseContainer>
       <Logo src={HeadstormLogo} />
-      {showCheckInCount ? <Count>Checked In {immuneCount + fineCount} / {totalOccupancy}</Count> : null}
+      {showCheckInCount ? <Count>Checked In {numCheckedIn} / {totalOccupancy}</Count> : null}
     </BaseContainer>
   )
 };
