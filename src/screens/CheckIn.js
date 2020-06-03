@@ -89,7 +89,13 @@ const CheckIn = (props) => {
         <StyledButton
           size="large"
           variant="contained"
-          onClick={() => nextPath('/covid-check')}
+          onClick={() => {
+            if (localStorage.getItem('covidDate')) {
+              nextPath('/good-day');
+            } else {
+              nextPath('/covid-check');
+            }
+          }}
         >
           Check In
         </StyledButton>
