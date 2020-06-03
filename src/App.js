@@ -10,10 +10,20 @@ import SymptomsScreen from './screens/SymptomsScreen';
 import WFHConf from './screens/WFHConf';
 import Header from './common/Header';
 import Footer from './common/Footer';
+import COVIDPostive from './screens/COVIDPostive';
+import styled from 'styled-components';
+
+const BaseContainer = styled.div`
+  display: flex;
+  flex-flow: column;
+  justify-content: space-between;
+  min-height: 100vh;
+`;
 
 function App() {
   return (
     <Router>
+      <BaseContainer>
       <Header/>
       <Switch>
         <Route path="/alerts">
@@ -40,11 +50,15 @@ function App() {
         <Route path="/wfh-conf">
           <WFHConf />
         </Route>
+        <Route path="/covid-positive">
+          <COVIDPostive />
+        </Route>
         <Route path="/">
           <CheckIn />
         </Route>
       </Switch>
       <Footer/>
+      </BaseContainer>
     </Router>
   );
 }

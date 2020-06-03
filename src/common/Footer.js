@@ -5,7 +5,7 @@ import { withRouter } from 'react-router-dom';
 const Footer = (props) => {
   const BaseContainer = styled.div`
     padding: 1rem;
-    bottom: 0;
+    align-self: flex-end;
     ${!props.startText && `
       background-color: rgb(209, 224, 224,30%);
     `}

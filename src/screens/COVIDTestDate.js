@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import {
   Button,
   withStyles,
@@ -17,17 +17,12 @@ const CheckInButton = withStyles(() => ({
   },
 }))(Button);
 
-const NoButton = withStyles(() => ({
-  root: {
-    color: '#D96239',
-  },
-}))(Button);
-
 const BaseContainer = styled.div`
   display: flex;
   flex-direction: column;
   margin: 2rem 2rem 0rem 2rem;
-`;
+  flex: 1 0;
+  `;
 
 const HeaderDiv = styled.div`
   margin-bottom: 2rem;
@@ -38,6 +33,19 @@ const COVIDTestDate = (props) => {
     props.history.push(path);
   };
 
+  const [covidDate, setCovidDate] = useState();
+  const today = new Date();
+  const defaultDate = today.toISOString().slice(0,10);
+  const twoWeeksAgoDate = new Date(today-(1000 * 60 * 60 * 24 * 14)).toISOString().slice(0,10);
+
+  const onDateChange = (e) => { setCovidDate(e.target.value) }
+  const onCheckInClick = () => {
+    if(covidDate >= twoWeeksAgoDate) {
+      nextPath('/covid-positive')
+    } else {
+      nextPath('/alerts')
+    }
+  }
   return (
     <BaseContainer>
       <HeaderDiv>
@@ -50,9 +58,11 @@ const COVIDTestDate = (props) => {
         </h2>
       </HeaderDiv>
       <form noValidate>
-        <TextField label="Month" />
-        <TextField label="Day" />
-        <TextField label="Year" />
+        <TextField
+          type='date'
+          defaultValue={defaultDate}
+          onChange={onDateChange}
+        />
       </form>
       <FormControlLabel
         control={<Checkbox />}
@@ -61,13 +71,10 @@ const COVIDTestDate = (props) => {
       <CheckInButton
         size="large"
         variant="contained"
-        onClick={() => nextPath('/alerts')}
+        onClick={onCheckInClick}
       >
         Check In
       </CheckInButton>
-      <NoButton size="large" onClick={() => nextPath('/alerts')}>
-        I would rather not say
-      </NoButton>
     </BaseContainer>
   );
 };

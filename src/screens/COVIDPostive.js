@@ -13,7 +13,7 @@ const GoingHomeButton = withStyles(() => ({
 const BaseContainer = styled.div`
   display: flex;
   flex-direction: column;
-  margin: 2rem;
+  margin: 2rem 2rem 0rem 2rem;
   flex: 1 0;
   `;
 
@@ -21,7 +21,7 @@ const HeaderQuestion = styled.h2`
   margin-bottom: 2rem;
 `;
 
-const SafetyRejection = (props) => {
+const COVIDPositive = (props) => {
   const nextPath = (path) => {
     props.history.push(path);
   };
@@ -29,7 +29,7 @@ const SafetyRejection = (props) => {
   return (
     <BaseContainer>
       <HeaderQuestion>
-        Going to work with these symptoms puts the rest of your office at risk.
+        CDC Guidelines state "Stay home until 14 days after your last exposure"
         <br />
         <br />
         Please work from home today.
@@ -45,4 +45,4 @@ const SafetyRejection = (props) => {
   );
 };
 
-export default withRouter(SafetyRejection);
+export default withRouter(COVIDPositive);

@@ -22,6 +22,7 @@ const BaseContainer = styled.div`
   display: flex;
   flex-direction: column;
   margin: 2rem;
+  flex: 1 0;
 `;
 
 const HeaderQuestion = styled.h2`

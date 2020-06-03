@@ -12,10 +12,11 @@ const BaseContainer = styled.div`
   border-bottom: .2rem solid #d1e0e0;
 `;
 
-const Logo = styled.div`
+const Logo = styled.img`
   width: 50%;
   height: 50%;
 `;
+
 const Count = styled.div`
   margin-left: auto;
 `;
@@ -38,12 +39,9 @@ const Header = props => {
       .catch((error) => console.log(error));
   });
 
-  const logo = (
-    <img src={HeadstormLogo} height='50%' width='50%'/>
-  );
   return (
     <BaseContainer>
-      {logo}
+      <Logo src={HeadstormLogo} />
       {showCheckInCount ? <Count>Checked In {immuneCount + fineCount} / {totalOccupancy}</Count> : null}
     </BaseContainer>
   )

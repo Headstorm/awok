@@ -19,9 +19,10 @@ const WorkRemoteButton = withStyles(() => ({
 }))(Button);
 
 const BaseContainer = styled.div`
-  display: flex;
+  display:flex;
   flex-direction: column;
   margin: 2rem 2rem 1rem 2rem;
+  flex: 1 0;
 `;
 
 const HeaderDiv = styled.div`
@@ -76,7 +77,6 @@ const CheckIn = (props) => {
 
   return (
     <BaseContainer>
-      <HeaderDiv>
         <Immune>
           <h2>{immuneCount} Immune to COVID</h2>
         </Immune>
@@ -85,8 +85,6 @@ const CheckIn = (props) => {
         </Fine>
         <LinearProgress variant="determinate" value={percentOccupation} />
         {percentOccupation}% Occupied
-      </HeaderDiv>
-      <FooterDiv>
         <SignInButton
           size="large"
           variant="contained"
@@ -97,7 +95,6 @@ const CheckIn = (props) => {
         <WorkRemoteButton onClick={() => nextPath('/good-day')}>
           I'm going to work remote
         </WorkRemoteButton>
-      </FooterDiv>
     </BaseContainer>
   );
 };
