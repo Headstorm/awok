@@ -6,7 +6,7 @@ import { getCheckInCounts } from "../apiCalls";
 import DonutChart from "../common/DonutChart";
 import InfoOutlinedIcon from "@material-ui/icons/InfoOutlined";
 import InfoPopUp from "../common/InfoPopUp";
-import AlreadyCheckedIn from './AlreadyCheckedIn';
+import AlreadyCheckedIn from "./AlreadyCheckedIn";
 
 const StyledButton = withStyles(() => ({
   root: {
@@ -57,7 +57,7 @@ const CheckIn = (props) => {
     props.history.push(path);
   };
 
-  localStorage.clear()
+  localStorage.clear();
 
   const [showInfoModal, setShowInfoModal] = useState(false);
   const [donutval, setDonutVal] = useState(0);
