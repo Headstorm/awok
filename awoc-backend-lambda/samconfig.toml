@@ -1,0 +1,10 @@
+version = 0.1
+[default]
+[default.deploy]
+[default.deploy.parameters]
+stack_name = "awoc-backend-lambda"
+s3_bucket = "aws-sam-cli-managed-default-samclisourcebucket-8factkpepzr8"
+s3_prefix = "awoc-backend-lambda"
+region = "us-east-1"
+confirm_changeset = true
+capabilities = "CAPABILITY_IAM"
