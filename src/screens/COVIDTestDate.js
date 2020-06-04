@@ -14,18 +14,37 @@ const CheckInButton = withStyles(() => ({
     color: '#FFFFFF',
     backgroundColor: '#D96239',
     marginBottom: '2rem',
+    'grid-row-start': 4,
+    'grid-column-start': 2,
   },
 }))(Button);
 
 const BaseContainer = styled.div`
-  display: flex;
-  flex-direction: column;
-  margin: 2rem 2rem 0rem 2rem;
-  flex: 1 0;
-  `;
+  display: grid;
+  grid-template-rows: repeat(4, auto);
+  grid-template-columns: repeat(3, auto);
+  grid-gap: .625rem;
+  padding: .625rem;
+`;
 
 const HeaderDiv = styled.div`
   margin-bottom: 2rem;
+  grid-row-start: 1;
+  grid-column-start: 2;
+  text-align: center;
+`;
+
+const Form = styled.form`
+  grid-row-start: 2;
+  grid-column-start: 2;
+  text-align: center;
+  padding-bottom: 2rem;
+`;
+
+const CheckboxContainer = styled.div`
+  grid-row-start: 3;
+  grid-column-start: 2;
+  text-align: center;
 `;
 
 const COVIDTestDate = (props) => {
@@ -57,17 +76,19 @@ const COVIDTestDate = (props) => {
           this office.
         </h2>
       </HeaderDiv>
-      <form noValidate>
+      <Form noValidate>
         <TextField
           type='date'
           defaultValue={defaultDate}
           onChange={onDateChange}
         />
-      </form>
-      <FormControlLabel
-        control={<Checkbox />}
-        label="Remember my answer on this device"
-      />
+      </Form>
+      <CheckboxContainer>
+        <FormControlLabel
+          control={<Checkbox />}
+          label="Remember my answer on this device"
+        />
+      </CheckboxContainer>
       <CheckInButton
         size="large"
         variant="contained"

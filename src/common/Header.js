@@ -13,8 +13,8 @@ const BaseContainer = styled.div`
 `;
 
 const Logo = styled.img`
-  width: 50%;
-  height: 50%;
+  width: 30%;
+  height: 30%;
 `;
 
 const Count = styled.div`

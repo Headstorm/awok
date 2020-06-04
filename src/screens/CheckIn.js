@@ -12,19 +12,20 @@ const StyledButton = withStyles(() => ({
     color: '#FFFFFF',
     backgroundColor: '#518DFD',
     marginBottom: '2rem',
+    padding: '.5rem 1.375rem',
   },
 }))(Button);
 
 const BaseContainer = styled.div`
-  display: flex;
-  flex-direction: column;
-  margin: 2rem 2rem 0rem 2rem;
-  flex: 1 0;
+  display: grid;
+  grid-template-columns: repeat(3, auto);
+  grid-gap: .625rem;
+  padding: .625rem;
 `;
 
 const HeaderDiv = styled.div`
-  display: flex;
-  flex-direction: column;
+  grid-column-start: 2;
+  text-align: center;
   align-content: space-between;
 `;
 
@@ -38,6 +39,12 @@ const RemoteH2 = styled.h2`
   text-align: center;
   padding-bottom: 2rem;
   margin: 0;
+`;
+
+const RemoteDiv = styled.div`
+  grid-column-start: 2;
+  grid-row-start: 2;
+  text-align: center;
 `;
 
 const H3 = styled.h3`
@@ -92,10 +99,12 @@ const CheckIn = (props) => {
           Check In
         </StyledButton>
       </HeaderDiv>
-      <RemoteH2>Plan on working remote?</RemoteH2>     
-      <StyledButton onClick={() => nextPath('/good-day')}>
-        Working Remote
-      </StyledButton>
+      <RemoteDiv>
+        <RemoteH2>Plan on working remote?</RemoteH2>     
+        <StyledButton onClick={() => nextPath('/good-day')}>
+          Working Remote
+        </StyledButton>
+      </RemoteDiv>
       {showInfoModal ? <InfoPopUp handleDismiss={handleDismiss}/> : null}
     </BaseContainer>
   );

@@ -8,6 +8,8 @@ const YesButton = withStyles(() => ({
     color: '#D96239',
     borderColor: '#D96239',
     marginBottom: '2rem',
+    'grid-row-start': 2,
+    'grid-column-start': 2,
   },
 }))(Button);
 
@@ -15,17 +17,22 @@ const NoButton = withStyles(() => ({
   root: {
     color: '#FFFFFF',
     backgroundColor: '#D96239',
+    'grid-row-start': 3,
+    'grid-column-start': 2,
   },
 }))(Button);
 
 const BaseContainer = styled.div`
-  display: flex;
-  flex-direction: column;
-  margin: 2rem;
-  flex: 1 0;
+  display: grid;
+  grid-template-rows: repeat(3, auto);
+  grid-template-columns: repeat(3, auto);
+  grid-gap: .625rem;
+  padding: .625rem;
 `;
 
 const HeaderQuestion = styled.h2`
+  grid-row-start: 1;
+  grid-column-start: 2;
   margin-bottom: 2rem;
 `;
 
