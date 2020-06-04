@@ -2,11 +2,12 @@ import React from 'react';
 import { Button, withStyles } from '@material-ui/core';
 import styled from 'styled-components';
 import { withRouter } from 'react-router-dom';
+import { patchCheckIn } from '../apiCalls';
 
 const YesButton = withStyles(() => ({
   root: {
-    color: '#D96239',
-    borderColor: '#D96239',
+    color: '#518DFD',
+    borderColor: '#518DFD',
     marginBottom: '2rem',
     'grid-row-start': 2,
     'grid-column-start': 3,
@@ -66,22 +67,23 @@ const COVIDCheck = (props) => {
           ...{' '}
         </h2>
       </HeaderDiv>
-      <ButtonsContainer>
-        <YesButton
-          size="large"
-          variant="outlined"
-          onClick={() => nextPath('/safety-rejection')}
-        >
-          Yes
-        </YesButton>
-        <NoButton
-          size="large"
-          variant="contained"
-          onClick={() => nextPath('/alerts')}
-        >
-          No
-        </NoButton>
-      </ButtonsContainer>
+      <YesButton
+        size="large"
+        variant="outlined"
+        onClick={() => nextPath('/safety-rejection')}
+      >
+        Yes
+      </YesButton>
+      <NoButton
+        size="large"
+        variant="contained"
+        onClick={() => {
+          patchCheckIn(localStorage.getItem('isPositive'));
+          props.history.push('/good-day');
+        }}
+      >
+        No
+      </NoButton>
     </BaseContainer>
   );
 };

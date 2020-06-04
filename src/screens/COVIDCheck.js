@@ -5,8 +5,8 @@ import { withRouter } from 'react-router-dom';
 
 const YesButton = withStyles(() => ({
   root: {
-    color: '#D96239',
-    borderColor: '#D96239',
+    color: '#518DFD',
+    borderColor: '#518DFD',
     marginBottom: '2rem',
     width: '50%',
     ["@media (max-width:425px)"]: { width: '100%' }
