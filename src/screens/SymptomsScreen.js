@@ -12,6 +12,7 @@ const YesButton = withStyles(() => ({
     "grid-row-start": 2,
     "grid-column-start": 3,
     width: "50%",
+    /*eslint no-useless-computed-key: "error"*/
     ["@media (max-width:425px)"]: { width: "100%" },
   },
 }))(Button);

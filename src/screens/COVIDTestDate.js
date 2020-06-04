@@ -16,6 +16,7 @@ const CheckInButton = withStyles(() => ({
     backgroundColor: "#518DFD",
     marginBottom: "2rem",
     width: "50%",
+    /*eslint no-useless-computed-key: "error"*/
     ["@media (max-width:425px)"]: { width: "100%" },
   },
 }))(Button);

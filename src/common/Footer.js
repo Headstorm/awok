@@ -9,10 +9,10 @@ const BaseContainer = styled.div`
 `;
 
 const Footer = () => (
-    <BaseContainer>
-      All answers are completely anonymous. We do not track your phone,
-      location, or anything about you
-    </BaseContainer>
+  <BaseContainer>
+    All answers are completely anonymous. We do not track your phone, location,
+    or anything about you
+  </BaseContainer>
 );
 
 export default withRouter(Footer);
