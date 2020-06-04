@@ -13,24 +13,20 @@
       // From the sam init example, it would be "${workspaceRoot}/hello-world"
       "localRoot": "${workspaceRoot}",
       "remoteRoot": "/var/task",
-      "protocol": "inspector",
+      "protocol": "inspector"
     },
     {
       "type": "node",
       "request": "attach",
       "name": "Attach",
       "port": 9222,
-      "skipFiles": [
-        "<node_internals>/**"
-      ]
+      "skipFiles": ["<node_internals>/**"]
     },
     {
       "type": "node",
       "request": "launch",
       "name": "Launch Program",
-      "skipFiles": [
-        "<node_internals>/**"
-      ],
+      "skipFiles": ["<node_internals>/**"],
       "program": "${workspaceFolder}/src/handlers/backendFunction.js"
     }
   ]
