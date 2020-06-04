@@ -81,6 +81,10 @@ const COVIDCheck = (props) => {
           onClick={() => {
             patchCheckIn(localStorage.getItem("isPositive"));
             props.history.push("/good-day");
+            localStorage.setItem(
+              "checkInDate",
+              new Date().toISOString().slice(0, 10)
+            );
           }}
         >
           No
