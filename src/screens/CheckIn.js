@@ -6,6 +6,7 @@ import { getCheckInCounts } from "../apiCalls";
 import DonutChart from "../common/DonutChart";
 import InfoOutlinedIcon from "@material-ui/icons/InfoOutlined";
 import InfoPopUp from "../common/InfoPopUp";
+import AlreadyCheckedIn from './AlreadyCheckedIn';
 
 const StyledButton = withStyles(() => ({
   root: {
@@ -56,6 +57,8 @@ const CheckIn = (props) => {
     props.history.push(path);
   };
 
+  localStorage.clear()
+
   const [showInfoModal, setShowInfoModal] = useState(false);
   const [donutval, setDonutVal] = useState(0);
   const [immuneCount, setImmuneCount] = useState(0);
@@ -80,7 +83,13 @@ const CheckIn = (props) => {
       .catch((error) => console.log(error));
   });
 
-  return (
+  const hasCheckedInToday =
+    localStorage.getItem("checkInDate") ===
+    new Date().toISOString().slice(0, 10);
+
+  return hasCheckedInToday ? (
+    <AlreadyCheckedIn />
+  ) : (
     <BaseContainer>
       <HeaderDiv>
         <H2>Want to come into the office today?</H2>
@@ -100,7 +109,13 @@ const CheckIn = (props) => {
         <StyledButton
           size="large"
           variant="contained"
-          onClick={() => nextPath("/covid-check")}
+          onClick={() => {
+            if (localStorage.getItem("covidDate")) {
+              nextPath("/good-day");
+            } else {
+              nextPath("/covid-check");
+            }
+          }}
         >
           Check In
         </StyledButton>

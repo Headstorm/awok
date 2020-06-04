@@ -87,7 +87,7 @@ const DonutChart = (props) => {
           <label>
             <b>{spotsOpen}</b> Spots Open
           </label>
-          <SVGLabel preserveAspectRatio="xMaxYMax meet">
+          <SVGLabel>
             <circle cx={20} cy={20} r={10} fill="#DAE2E5" />
           </SVGLabel>
         </Label>
