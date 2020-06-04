@@ -11,7 +11,7 @@ import AlreadyCheckedIn from './screens/AlreadyCheckedIn';
 import Admin from './screens/Admin';
 import Header from './common/Header';
 import Footer from './common/Footer';
-import COVIDPostive from './screens/COVIDPostive';
+import COVIDPositive from './screens/COVIDPositive';
 import styled from 'styled-components';
 
 const BaseContainer = styled.div`
@@ -49,7 +49,7 @@ function App() {
             <WFHConf />
           </Route>
           <Route path="/covid-positive">
-            <COVIDPostive />
+            <COVIDPositive />
           </Route>
           <Route path="/already-checked-in">
             <AlreadyCheckedIn />
