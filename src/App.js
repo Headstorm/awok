@@ -2,17 +2,13 @@ import React from 'react';
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 import GoodDay from './screens/GoodDay';
 import CheckIn from './screens/CheckIn';
-import AlertsOptIn from './screens/AlertsOptIn';
 import COVIDCheck from './screens/COVIDCheck';
 import COVIDTestDate from './screens/COVIDTestDate';
 import SafetyRejection from './screens/SafetyRejection';
 import SymptomsScreen from './screens/SymptomsScreen';
 import WFHConf from './screens/WFHConf';
-<<<<<<< HEAD
 import AlreadyCheckedIn from './screens/AlreadyCheckedIn';
-=======
 import Admin from './screens/Admin';
->>>>>>> origin/master
 import Header from './common/Header';
 import Footer from './common/Footer';
 import COVIDPostive from './screens/COVIDPostive';
@@ -31,9 +27,6 @@ function App() {
       <BaseContainer>
       <Header/>
       <Switch>
-        <Route path="/alerts">
-          <AlertsOptIn />
-        </Route>
         <Route path="/check-in">
           <CheckIn />
         </Route>

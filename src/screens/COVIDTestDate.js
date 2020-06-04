@@ -13,8 +13,8 @@ import { patchCheckIn } from '../apiCalls';
 const CheckInButton = withStyles(() => ({
   root: {
     color: '#FFFFFF',
-    backgroundColor: '#D96239',
-    marginBottom: '2rem',
+    backgroundColor: '#518DFD',
+    margin: '1rem 0 2rem 0',
   },
 }))(Button);
 
@@ -26,7 +26,11 @@ const BaseContainer = styled.div`
   `;
 
 const HeaderDiv = styled.div`
-  margin-bottom: 2rem;
+  margin-bottom: 1rem;
+`;
+
+const DateContainer = styled.form`
+  padding-bottom: 1rem;
 `;
 
 const COVIDTestDate = (props) => {
@@ -66,13 +70,13 @@ const COVIDTestDate = (props) => {
           this office.
         </h2>
       </HeaderDiv>
-      <form noValidate>
+      <DateContainer noValidate>
         <TextField
           type='date'
           defaultValue={defaultDate}
           onChange={onDateChange}
         />
-      </form>
+      </DateContainer>
       <FormControlLabel
         control={<Checkbox onChange={onCheckboxChange} />}
         label="Remember my answer on this device"
