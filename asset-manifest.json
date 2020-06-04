@@ -1,23 +1,23 @@
 {
   "files": {
-    "main.css": "/project-reckoning/static/css/main.34de6062.chunk.css",
-    "main.js": "/project-reckoning/static/js/main.d796d3a9.chunk.js",
-    "main.js.map": "/project-reckoning/static/js/main.d796d3a9.chunk.js.map",
-    "runtime-main.js": "/project-reckoning/static/js/runtime-main.1dda87f2.js",
-    "runtime-main.js.map": "/project-reckoning/static/js/runtime-main.1dda87f2.js.map",
-    "static/js/2.bf2d039e.chunk.js": "/project-reckoning/static/js/2.bf2d039e.chunk.js",
-    "static/js/2.bf2d039e.chunk.js.map": "/project-reckoning/static/js/2.bf2d039e.chunk.js.map",
-    "index.html": "/project-reckoning/index.html",
-    "precache-manifest.0e888e5381209a27b205f7a6f733142c.js": "/project-reckoning/precache-manifest.0e888e5381209a27b205f7a6f733142c.js",
-    "service-worker.js": "/project-reckoning/service-worker.js",
-    "static/css/main.34de6062.chunk.css.map": "/project-reckoning/static/css/main.34de6062.chunk.css.map",
-    "static/js/2.bf2d039e.chunk.js.LICENSE.txt": "/project-reckoning/static/js/2.bf2d039e.chunk.js.LICENSE.txt",
-    "static/media/headstorm_logo.png": "/project-reckoning/static/media/headstorm_logo.872b2a80.png"
+    "main.css": "/awok/static/css/main.34de6062.chunk.css",
+    "main.js": "/awok/static/js/main.f1433b0a.chunk.js",
+    "main.js.map": "/awok/static/js/main.f1433b0a.chunk.js.map",
+    "runtime-main.js": "/awok/static/js/runtime-main.4977059d.js",
+    "runtime-main.js.map": "/awok/static/js/runtime-main.4977059d.js.map",
+    "static/js/2.631a2dff.chunk.js": "/awok/static/js/2.631a2dff.chunk.js",
+    "static/js/2.631a2dff.chunk.js.map": "/awok/static/js/2.631a2dff.chunk.js.map",
+    "index.html": "/awok/index.html",
+    "precache-manifest.b019925ff6a5e49a002da96158457f07.js": "/awok/precache-manifest.b019925ff6a5e49a002da96158457f07.js",
+    "service-worker.js": "/awok/service-worker.js",
+    "static/css/main.34de6062.chunk.css.map": "/awok/static/css/main.34de6062.chunk.css.map",
+    "static/js/2.631a2dff.chunk.js.LICENSE.txt": "/awok/static/js/2.631a2dff.chunk.js.LICENSE.txt",
+    "static/media/headstorm_logo.png": "/awok/static/media/headstorm_logo.872b2a80.png"
   },
   "entrypoints": [
-    "static/js/runtime-main.1dda87f2.js",
-    "static/js/2.bf2d039e.chunk.js",
+    "static/js/runtime-main.4977059d.js",
+    "static/js/2.631a2dff.chunk.js",
     "static/css/main.34de6062.chunk.css",
-    "static/js/main.d796d3a9.chunk.js"
+    "static/js/main.f1433b0a.chunk.js"
   ]
 }
