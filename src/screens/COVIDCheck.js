@@ -9,8 +9,7 @@ const YesButton = withStyles(() => ({
     borderColor: "#518DFD",
     marginBottom: "2rem",
     width: "50%",
-    /*eslint no-useless-computed-key: "error"*/
-    ["@media (max-width:425px)"]: { width: "100%" },
+    "@media (max-width:425px)": { width: "100%" },
   },
 }))(Button);
 
@@ -19,8 +18,7 @@ const NoButton = withStyles(() => ({
     color: "#FFFFFF",
     backgroundColor: "#518DFD",
     width: "50%",
-    /*eslint no-useless-computed-key: "error"*/
-    ["@media (max-width:425px)"]: { width: "100%" },
+    "@media (max-width:425px)": { width: "100%" },
   },
 }))(Button);
 
