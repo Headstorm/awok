@@ -13,7 +13,7 @@ import { patchCheckIn } from '../apiCalls';
 const CheckInButton = withStyles(() => ({
   root: {
     color: '#FFFFFF',
-    backgroundColor: '#D96239',
+    backgroundColor: '#518DFD',
     marginBottom: '2rem',
     width: '50%',
     ["@media (max-width:425px)"]: { width: '100%' }

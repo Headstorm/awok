@@ -16,7 +16,7 @@ const YesButton = withStyles(() => ({
 const NoButton = withStyles(() => ({
   root: {
     color: '#FFFFFF',
-    backgroundColor: '#D96239',
+    backgroundColor: '#518DFD',
     width: '50%',
     ["@media (max-width:425px)"]: { width: '100%' }
   },

@@ -19,7 +19,7 @@ const YesButton = withStyles(() => ({
 const NoButton = withStyles(() => ({
   root: {
     color: '#FFFFFF',
-    backgroundColor: '#D96239',
+    backgroundColor: '#518DFD',
     width: '50%',
     ["@media (max-width:425px)"]: { width: '100%' }
   },
@@ -67,23 +67,25 @@ const COVIDCheck = (props) => {
           ...{' '}
         </h2>
       </HeaderDiv>
-      <YesButton
-        size="large"
-        variant="outlined"
-        onClick={() => nextPath('/safety-rejection')}
-      >
-        Yes
-      </YesButton>
-      <NoButton
-        size="large"
-        variant="contained"
-        onClick={() => {
-          patchCheckIn(localStorage.getItem('isPositive'));
-          props.history.push('/good-day');
-        }}
-      >
-        No
-      </NoButton>
+      <ButtonsContainer>
+        <YesButton
+          size="large"
+          variant="outlined"
+          onClick={() => nextPath('/safety-rejection')}
+        >
+          Yes
+        </YesButton>
+        <NoButton
+          size="large"
+          variant="contained"
+          onClick={() => {
+            patchCheckIn(localStorage.getItem('isPositive'));
+            props.history.push('/good-day');
+          }}
+        >
+          No
+        </NoButton>
+      </ButtonsContainer>
     </BaseContainer>
   );
 };
