@@ -12,7 +12,7 @@ const YesButton = withStyles(() => ({
     "grid-row-start": 2,
     "grid-column-start": 3,
     width: "50%",
-    ["@media (max-width:425px)"]: { width: "100%" },
+    "@media (max-width:425px)": { width: "100%" },
   },
 }))(Button);
 
@@ -21,7 +21,7 @@ const NoButton = withStyles(() => ({
     color: "#FFFFFF",
     backgroundColor: "#518DFD",
     width: "50%",
-    ["@media (max-width:425px)"]: { width: "100%" },
+    "@media (max-width:425px)": { width: "100%" },
   },
 }))(Button);
 
