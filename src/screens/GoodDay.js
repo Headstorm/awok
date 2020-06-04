@@ -2,9 +2,12 @@ import React from "react";
 import styled from "styled-components";
 
 const BaseContainer = styled.div`
-  flex-direction: column;
+  display: grid;
+  grid-template-rows: auto;
+  grid-template-columns: auto;
+  grid-gap: 0.625rem;
+  padding: 0.625rem;
   align-self: center;
-  flex: 1 0 auto;
 `;
 
 const GoodDay = (props) => {

@@ -14,31 +14,37 @@ const Indicator = styled.circle`
 `;
 
 const Donut = styled.svg`
-  margin: 0 auto;
+  grid-column-start: 1;
+  margin: 0;
   border-radius: 50%;
   display: block;
+  padding: 1rem;
 `;
 
 const Label = styled.div`
   display: flex;
   flex-direction: column;
-  margin: 0;
+  margin: 0 auto;
 `;
 
 const BaseContainer = styled.div`
-  display: flex;
-  flex-direction: row;
-  padding-bottom: 2rem;
+  display: grid;
+  grid-template-columns: auto auto;
+  padding-bottom: 1rem;
+  justify-content: center;
 `;
 
 const LabelsContainer = styled.div`
+  grid-column-start: 2;
   display: flex;
   flex-direction: column;
+  padding: 1rem;
 `;
 
 const SVGLabel = styled.svg`
   height: 3rem;
   width: 3rem;
+  margin: 0 auto;
 `;
 
 const DonutChart = (props) => {

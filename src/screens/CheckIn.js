@@ -6,26 +6,27 @@ import { getCheckInCounts } from "../apiCalls";
 import DonutChart from "../common/DonutChart";
 import InfoOutlinedIcon from "@material-ui/icons/InfoOutlined";
 import InfoPopUp from "../common/InfoPopUp";
-import AlreadyCheckedIn from "./AlreadyCheckedIn";
+import AlreadyCheckedIn from './AlreadyCheckedIn';
 
 const StyledButton = withStyles(() => ({
   root: {
     color: "#FFFFFF",
     backgroundColor: "#518DFD",
     marginBottom: "2rem",
+    padding: ".5rem 1.375rem",
   },
 }))(Button);
 
 const BaseContainer = styled.div`
-  display: flex;
-  flex-direction: column;
-  margin: 2rem 2rem 0rem 2rem;
-  flex: 1 0;
+  display: grid;
+  grid-template-columns: repeat(3, auto);
+  grid-gap: 0.625rem;
+  padding: 0.625rem;
 `;
 
 const HeaderDiv = styled.div`
-  display: flex;
-  flex-direction: column;
+  grid-column-start: 2;
+  text-align: center;
   align-content: space-between;
 `;
 
@@ -41,6 +42,12 @@ const RemoteH2 = styled.h2`
   margin: 0;
 `;
 
+const RemoteDiv = styled.div`
+  grid-column-start: 2;
+  grid-row-start: 2;
+  text-align: center;
+`;
+
 const H3 = styled.h3`
   text-align: center;
 `;
@@ -49,6 +56,8 @@ const CheckIn = (props) => {
   const nextPath = (path) => {
     props.history.push(path);
   };
+
+  localStorage.clear()
 
   const [showInfoModal, setShowInfoModal] = useState(false);
   const [donutval, setDonutVal] = useState(0);
@@ -111,10 +120,16 @@ const CheckIn = (props) => {
           Check In
         </StyledButton>
       </HeaderDiv>
-      <RemoteH2>Plan on working remote?</RemoteH2>
-      <StyledButton onClick={() => nextPath("/good-day")}>
-        Working Remote
-      </StyledButton>
+      <RemoteDiv>
+        <RemoteH2>Plan on working remote?</RemoteH2>
+        <StyledButton
+          size="large"
+          variant="contained"
+          onClick={() => nextPath("/good-day")}
+        >
+          Working Remote
+        </StyledButton>
+      </RemoteDiv>
       {showInfoModal ? <InfoPopUp handleDismiss={handleDismiss} /> : null}
     </BaseContainer>
   );

@@ -13,8 +13,12 @@ const BaseContainer = styled.div`
 `;
 
 const Logo = styled.img`
-  width: 50%;
-  height: 50%;
+  width: 30%;
+  height: 30%;
+  @media (max-width: 425px) {
+    width: 50%;
+    height: 50%;
+  }
 `;
 
 const Count = styled.div`

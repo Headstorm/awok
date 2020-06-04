@@ -6,19 +6,25 @@ import { withRouter } from "react-router-dom";
 const GoingHomeButton = withStyles(() => ({
   root: {
     color: "#FFFFFF",
-    backgroundColor: "#518DFD",
+    backgroundColor: "#D96239",
+    "grid-row-start": 2,
+    "grid-column-start": 2,
   },
 }))(Button);
 
 const BaseContainer = styled.div`
-  display: flex;
-  flex-direction: column;
-  margin: 2rem 2rem 0rem 2rem;
-  flex: 1 0;
+  display: grid;
+  grid-template-rows: repeat(2, auto);
+  grid-template-columns: repeat(3, auto);
+  grid-gap: 0.625rem;
+  padding: 0.625rem;
 `;
 
 const HeaderQuestion = styled.h2`
   margin-bottom: 2rem;
+  grid-row-start: 1;
+  grid-column-start: 2;
+  text-align: center;
 `;
 
 const COVIDPositive = (props) => {
