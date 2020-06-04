@@ -1,18 +1,18 @@
-import React, { useState, useEffect } from 'react';
-import { Button, withStyles } from '@material-ui/core';
-import styled from 'styled-components';
-import { withRouter } from 'react-router-dom';
-import { getCheckInCounts } from '../apiCalls';
-import DonutChart from '../common/DonutChart';
-import InfoOutlinedIcon from '@material-ui/icons/InfoOutlined';
-import InfoPopUp from '../common/InfoPopUp';
-import AlreadyCheckedIn from './AlreadyCheckedIn';
+import React, { useState, useEffect } from "react";
+import { Button, withStyles } from "@material-ui/core";
+import styled from "styled-components";
+import { withRouter } from "react-router-dom";
+import { getCheckInCounts } from "../apiCalls";
+import DonutChart from "../common/DonutChart";
+import InfoOutlinedIcon from "@material-ui/icons/InfoOutlined";
+import InfoPopUp from "../common/InfoPopUp";
+import AlreadyCheckedIn from "./AlreadyCheckedIn";
 
 const StyledButton = withStyles(() => ({
   root: {
-    color: '#FFFFFF',
-    backgroundColor: '#518DFD',
-    marginBottom: '2rem',
+    color: "#FFFFFF",
+    backgroundColor: "#518DFD",
+    marginBottom: "2rem",
   },
 }))(Button);
 
@@ -55,10 +55,10 @@ const CheckIn = (props) => {
   const [immuneCount, setImmuneCount] = useState(0);
   const [fineCount, setFineCount] = useState(0);
   const totalOccupancy = 25;
-  
+
   const handleDismiss = () => {
     setShowInfoModal(false);
-   };
+  };
 
   useEffect(() => {
     getCheckInCounts()
@@ -66,45 +66,56 @@ const CheckIn = (props) => {
       .then((response) => {
         setImmuneCount(response.positiveCount);
         setFineCount(response.negativeCount);
-        setDonutVal((response.positiveCount + response.negativeCount) / totalOccupancy * 100);
+        setDonutVal(
+          ((response.positiveCount + response.negativeCount) / totalOccupancy) *
+            100
+        );
       })
       .catch((error) => console.log(error));
   });
 
-  const hasCheckedInToday = localStorage.getItem('checkInDate') === new Date().toISOString().slice(0,10)
+  const hasCheckedInToday =
+    localStorage.getItem("checkInDate") ===
+    new Date().toISOString().slice(0, 10);
 
-  return hasCheckedInToday ? <AlreadyCheckedIn/> : (
+  return hasCheckedInToday ? (
+    <AlreadyCheckedIn />
+  ) : (
     <BaseContainer>
       <HeaderDiv>
         <H2>Want to come into the office today?</H2>
         <H3>
           {immuneCount + fineCount} out of {totalOccupancy} spots taken
           <InfoOutlinedIcon
-            fontSize='small'
+            fontSize="small"
             onClick={() => setShowInfoModal(true)}
           />
         </H3>
         <h3>Today's checkins</h3>
-        <DonutChart value={donutval} spotsTaken={immuneCount + fineCount} totalOccupancy={totalOccupancy} />
+        <DonutChart
+          value={donutval}
+          spotsTaken={immuneCount + fineCount}
+          totalOccupancy={totalOccupancy}
+        />
         <StyledButton
           size="large"
           variant="contained"
           onClick={() => {
-            if (localStorage.getItem('covidDate')) {
-              nextPath('/good-day');
+            if (localStorage.getItem("covidDate")) {
+              nextPath("/good-day");
             } else {
-              nextPath('/covid-check');
+              nextPath("/covid-check");
             }
           }}
         >
           Check In
         </StyledButton>
       </HeaderDiv>
-      <RemoteH2>Plan on working remote?</RemoteH2>     
-      <StyledButton onClick={() => nextPath('/good-day')}>
+      <RemoteH2>Plan on working remote?</RemoteH2>
+      <StyledButton onClick={() => nextPath("/good-day")}>
         Working Remote
       </StyledButton>
-      {showInfoModal ? <InfoPopUp handleDismiss={handleDismiss}/> : null}
+      {showInfoModal ? <InfoPopUp handleDismiss={handleDismiss} /> : null}
     </BaseContainer>
   );
 };

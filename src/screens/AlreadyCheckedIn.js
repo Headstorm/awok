@@ -1,5 +1,5 @@
-import React from 'react';
-import styled from 'styled-components';
+import React from "react";
+import styled from "styled-components";
 
 const BaseContainer = styled.div`
   flex-direction: column;
@@ -12,8 +12,8 @@ const AlreadyCheckedIn = (props) => {
   return (
     <BaseContainer>
       <h2>
-        You have already checked in for the day.
-        Please come back tomorrow to check in again!
+        You have already checked in for the day. Please come back tomorrow to
+        check in again!
       </h2>
     </BaseContainer>
   );
