@@ -25,7 +25,7 @@ Resources:
     Properties:
       StageName: Prod
       Cors:
-        AllowMethods: "'GET,POST,DELETE,OPTIONS'"
+        AllowMethods: "'GET,POST,PATCH,DELETE,OPTIONS'"
         AllowHeaders: "'authorization'"
         AllowOrigin: "'*'"
       OpenApiVersion: "2.0"
