@@ -8,7 +8,11 @@ import COVIDTestDate from './screens/COVIDTestDate';
 import SafetyRejection from './screens/SafetyRejection';
 import SymptomsScreen from './screens/SymptomsScreen';
 import WFHConf from './screens/WFHConf';
+<<<<<<< HEAD
 import AlreadyCheckedIn from './screens/AlreadyCheckedIn';
+=======
+import Admin from './screens/Admin';
+>>>>>>> origin/master
 import Header from './common/Header';
 import Footer from './common/Footer';
 import COVIDPostive from './screens/COVIDPostive';
