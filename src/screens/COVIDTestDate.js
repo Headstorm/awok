@@ -34,6 +34,7 @@ const COVIDTestDate = (props) => {
     props.history.push(path);
   };
 
+  const [saveCovidDate, setSaveCovidDate] = useState(false);
   const [covidDate, setCovidDate] = useState();
   const today = new Date();
   const defaultDate = today.toISOString().slice(0,10);
@@ -46,9 +47,14 @@ const COVIDTestDate = (props) => {
     } else {
       patchCheckIn(localStorage.getItem('isPositive'));
       props.history.push('/good-day');
-      localStorage.setItem('covidDate', covidDate);
+      if (saveCovidDate) { localStorage.setItem('covidDate', covidDate); }
     }
   }
+
+  const onCheckboxChange = (e) => {
+    setSaveCovidDate(!saveCovidDate);
+  }
+
   return (
     <BaseContainer>
       <HeaderDiv>
@@ -68,7 +74,7 @@ const COVIDTestDate = (props) => {
         />
       </form>
       <FormControlLabel
-        control={<Checkbox />}
+        control={<Checkbox onChange={onCheckboxChange} />}
         label="Remember my answer on this device"
       />
       <CheckInButton
