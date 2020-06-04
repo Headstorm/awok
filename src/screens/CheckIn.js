@@ -6,7 +6,6 @@ import { getCheckInCounts } from "../apiCalls";
 import DonutChart from "../common/DonutChart";
 import InfoOutlinedIcon from "@material-ui/icons/InfoOutlined";
 import InfoPopUp from "../common/InfoPopUp";
-import AlreadyCheckedIn from "./AlreadyCheckedIn";
 
 const StyledButton = withStyles(() => ({
   root: {
@@ -57,8 +56,6 @@ const CheckIn = (props) => {
     props.history.push(path);
   };
 
-  localStorage.clear();
-
   const [showInfoModal, setShowInfoModal] = useState(false);
   const [donutval, setDonutVal] = useState(0);
   const [immuneCount, setImmuneCount] = useState(0);
@@ -87,12 +84,11 @@ const CheckIn = (props) => {
     localStorage.getItem("checkInDate") ===
     new Date().toISOString().slice(0, 10);
 
-  return hasCheckedInToday ? (
-    <AlreadyCheckedIn />
-  ) : (
+  return (
     <BaseContainer>
       <HeaderDiv>
-        <H2>Want to come into the office today?</H2>
+        {!hasCheckedInToday ? (<H2>Want to come into the office today?</H2>)
+          : (<H2>You have already checked in today!</H2>)}
         <H3>
           {immuneCount + fineCount} out of {totalOccupancy} spots taken
           <InfoOutlinedIcon
@@ -106,7 +102,7 @@ const CheckIn = (props) => {
           spotsTaken={immuneCount + fineCount}
           totalOccupancy={totalOccupancy}
         />
-        <StyledButton
+        {!hasCheckedInToday ? (<StyledButton
           size="large"
           variant="contained"
           onClick={() => {
@@ -118,9 +114,9 @@ const CheckIn = (props) => {
           }}
         >
           Check In
-        </StyledButton>
+        </StyledButton>) : null}
       </HeaderDiv>
-      <RemoteDiv>
+      {!hasCheckedInToday ? (<RemoteDiv>
         <RemoteH2>Plan on working remote?</RemoteH2>
         <StyledButton
           size="large"
@@ -129,7 +125,7 @@ const CheckIn = (props) => {
         >
           Working Remote
         </StyledButton>
-      </RemoteDiv>
+      </RemoteDiv>) : null}
       {showInfoModal ? <InfoPopUp handleDismiss={handleDismiss} /> : null}
     </BaseContainer>
   );

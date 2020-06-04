@@ -4,23 +4,12 @@ import styled from "styled-components";
 import { withRouter } from "react-router-dom";
 import { patchCheckIn } from "../apiCalls";
 
-const YesButton = withStyles(() => ({
-  root: {
-    color: "#518DFD",
-    borderColor: "#518DFD",
-    marginBottom: "2rem",
-    "grid-row-start": 2,
-    "grid-column-start": 3,
-    width: "50%",
-    "@media (max-width:425px)": { width: "100%" },
-  },
-}))(Button);
-
-const NoButton = withStyles(() => ({
+const StyledButton = withStyles(() => ({
   root: {
     color: "#FFFFFF",
     backgroundColor: "#518DFD",
     width: "50%",
+    margin: '1rem',
     "@media (max-width:425px)": { width: "100%" },
   },
 }))(Button);
@@ -68,14 +57,14 @@ const COVIDCheck = (props) => {
         </h2>
       </HeaderDiv>
       <ButtonsContainer>
-        <YesButton
+        <StyledButton
           size="large"
-          variant="outlined"
+          variant="contained"
           onClick={() => nextPath("/safety-rejection")}
         >
           Yes
-        </YesButton>
-        <NoButton
+        </StyledButton>
+        <StyledButton
           size="large"
           variant="contained"
           onClick={() => {
@@ -88,7 +77,7 @@ const COVIDCheck = (props) => {
           }}
         >
           No
-        </NoButton>
+        </StyledButton>
       </ButtonsContainer>
     </BaseContainer>
   );

@@ -3,21 +3,12 @@ import { Button, withStyles } from "@material-ui/core";
 import styled from "styled-components";
 import { withRouter } from "react-router-dom";
 
-const YesButton = withStyles(() => ({
-  root: {
-    color: "#518DFD",
-    borderColor: "#518DFD",
-    marginBottom: "2rem",
-    width: "50%",
-    "@media (max-width:425px)": { width: "100%" },
-  },
-}))(Button);
-
-const NoButton = withStyles(() => ({
+const StyledButton = withStyles(() => ({
   root: {
     color: "#FFFFFF",
     backgroundColor: "#518DFD",
     width: "50%",
+    margin: '1rem',
     "@media (max-width:425px)": { width: "100%" },
   },
 }))(Button);
@@ -57,20 +48,20 @@ const COVIDCheck = (props) => {
         Have you ever tested positive for Covid-19?
       </HeaderQuestion>
       <Buttons>
-        <YesButton
+        <StyledButton
           size="large"
-          variant="outlined"
+          variant="contained"
           onClick={() => handleClick("/covid-test-date", true)}
         >
           Yes
-        </YesButton>
-        <NoButton
+        </StyledButton>
+        <StyledButton
           size="large"
           variant="contained"
           onClick={() => handleClick("/symptoms-screen", false)}
         >
-          No
-        </NoButton>
+          No, I haven't
+        </StyledButton>
       </Buttons>
     </BaseContainer>
   );

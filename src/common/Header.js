@@ -10,11 +10,12 @@ const BaseContainer = styled.div`
   padding: 1.5rem;
   background-color: rgb(209, 224, 224, 30%);
   border-bottom: 0.2rem solid #d1e0e0;
+  max-height: 1.5rem;
 `;
 
 const Logo = styled.img`
-  width: 30%;
-  height: 30%;
+  width: 20%;
+  height: 20%;
   @media (max-width: 425px) {
     width: 50%;
     height: 50%;
