@@ -1,14 +1,14 @@
-import React from 'react';
-import { Button, withStyles } from '@material-ui/core';
-import styled from 'styled-components';
-import { withRouter } from 'react-router-dom';
+import React from "react";
+import { Button, withStyles } from "@material-ui/core";
+import styled from "styled-components";
+import { withRouter } from "react-router-dom";
 
 const GoingHomeButton = withStyles(() => ({
   root: {
-    color: '#FFFFFF',
-    backgroundColor: '#D96239',
-    'grid-row-start': 2,
-    'grid-column-start': 2,
+    color: "#FFFFFF",
+    backgroundColor: "#D96239",
+    "grid-row-start": 2,
+    "grid-column-start": 2,
   },
 }))(Button);
 
@@ -16,8 +16,8 @@ const BaseContainer = styled.div`
   display: grid;
   grid-template-rows: repeat(2, auto);
   grid-template-columns: repeat(3, auto);
-  grid-gap: .625rem;
-  padding: .625rem;
+  grid-gap: 0.625rem;
+  padding: 0.625rem;
 `;
 
 const HeaderQuestion = styled.h2`
@@ -43,7 +43,7 @@ const COVIDPositive = (props) => {
       <GoingHomeButton
         size="large"
         variant="contained"
-        onClick={() => nextPath('/wfh-conf')}
+        onClick={() => nextPath("/wfh-conf")}
       >
         Going back home
       </GoingHomeButton>

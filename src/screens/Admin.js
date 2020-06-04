@@ -1,8 +1,8 @@
-import React, { useState } from 'react';
-import { TextField, Button, Snackbar } from '@material-ui/core';
-import MuiAlert from '@material-ui/lab/Alert';
-import styled from 'styled-components';
-import { withRouter } from 'react-router-dom';
+import React, { useState } from "react";
+import { TextField, Button, Snackbar } from "@material-ui/core";
+import MuiAlert from "@material-ui/lab/Alert";
+import styled from "styled-components";
+import { withRouter } from "react-router-dom";
 
 const BaseContainer = styled.div`
   display: flex;
@@ -41,10 +41,10 @@ const StyledSnackBar = styled(Snackbar)`
 
 const Admin = (props) => {
   const [formData, setFormData] = useState({
-    companyName: '',
-    occupancyRule: '',
-    currentRules: '',
-    successMessage: '',
+    companyName: "",
+    occupancyRule: "",
+    currentRules: "",
+    successMessage: "",
   });
 
   const [open, setOpen] = useState(false);
@@ -56,7 +56,7 @@ const Admin = (props) => {
   const handleChange = (e) => {
     setFormData({
       ...formData,
-      [e.target.getAttribute('name')]: e.target.value,
+      [e.target.getAttribute("name")]: e.target.value,
     });
   };
 
@@ -65,7 +65,7 @@ const Admin = (props) => {
   };
 
   const handleClose = (event, reason) => {
-    if (reason === 'clickaway') return;
+    if (reason === "clickaway") return;
     setOpen(false);
   };
 
@@ -126,7 +126,7 @@ const Admin = (props) => {
       <FooterDiv>
         <StyledSnackBar
           autoHideDuration={3000}
-          anchorOrigin={{ vertical: 'bottom', horizontal: 'left' }}
+          anchorOrigin={{ vertical: "bottom", horizontal: "left" }}
           open={open}
           onClose={handleClose}
         >

@@ -1,26 +1,26 @@
-import React, { useState, useEffect } from 'react';
-import { Button, withStyles } from '@material-ui/core';
-import styled from 'styled-components';
-import { withRouter } from 'react-router-dom';
-import { getCheckInCounts } from '../apiCalls';
-import DonutChart from '../common/DonutChart';
-import InfoOutlinedIcon from '@material-ui/icons/InfoOutlined';
-import InfoPopUp from '../common/InfoPopUp';
+import React, { useState, useEffect } from "react";
+import { Button, withStyles } from "@material-ui/core";
+import styled from "styled-components";
+import { withRouter } from "react-router-dom";
+import { getCheckInCounts } from "../apiCalls";
+import DonutChart from "../common/DonutChart";
+import InfoOutlinedIcon from "@material-ui/icons/InfoOutlined";
+import InfoPopUp from "../common/InfoPopUp";
 
 const StyledButton = withStyles(() => ({
   root: {
-    color: '#FFFFFF',
-    backgroundColor: '#518DFD',
-    marginBottom: '2rem',
-    padding: '.5rem 1.375rem',
+    color: "#FFFFFF",
+    backgroundColor: "#518DFD",
+    marginBottom: "2rem",
+    padding: ".5rem 1.375rem",
   },
 }))(Button);
 
 const BaseContainer = styled.div`
   display: grid;
   grid-template-columns: repeat(3, auto);
-  grid-gap: .625rem;
-  padding: .625rem;
+  grid-gap: 0.625rem;
+  padding: 0.625rem;
 `;
 
 const HeaderDiv = styled.div`
@@ -61,10 +61,10 @@ const CheckIn = (props) => {
   const [immuneCount, setImmuneCount] = useState(0);
   const [fineCount, setFineCount] = useState(0);
   const totalOccupancy = 25;
-  
+
   const handleDismiss = () => {
     setShowInfoModal(false);
-   };
+  };
 
   useEffect(() => {
     getCheckInCounts()
@@ -72,7 +72,10 @@ const CheckIn = (props) => {
       .then((response) => {
         setImmuneCount(response.positiveCount);
         setFineCount(response.negativeCount);
-        setDonutVal((response.positiveCount + response.negativeCount) / totalOccupancy * 100);
+        setDonutVal(
+          ((response.positiveCount + response.negativeCount) / totalOccupancy) *
+            100
+        );
       })
       .catch((error) => console.log(error));
   });
@@ -84,31 +87,35 @@ const CheckIn = (props) => {
         <H3>
           {immuneCount + fineCount} out of {totalOccupancy} spots taken
           <InfoOutlinedIcon
-            fontSize='small'
+            fontSize="small"
             onClick={() => setShowInfoModal(true)}
           />
         </H3>
         <h3>Today's checkins</h3>
-        <DonutChart value={donutval} spotsTaken={immuneCount + fineCount} totalOccupancy={totalOccupancy} />
+        <DonutChart
+          value={donutval}
+          spotsTaken={immuneCount + fineCount}
+          totalOccupancy={totalOccupancy}
+        />
         <StyledButton
           size="large"
           variant="contained"
-          onClick={() => nextPath('/covid-check')}
+          onClick={() => nextPath("/covid-check")}
         >
           Check In
         </StyledButton>
       </HeaderDiv>
       <RemoteDiv>
-        <RemoteH2>Plan on working remote?</RemoteH2>     
+        <RemoteH2>Plan on working remote?</RemoteH2>
         <StyledButton
           size="large"
           variant="contained"
-          onClick={() => nextPath('/good-day')}
+          onClick={() => nextPath("/good-day")}
         >
           Working Remote
         </StyledButton>
       </RemoteDiv>
-      {showInfoModal ? <InfoPopUp handleDismiss={handleDismiss}/> : null}
+      {showInfoModal ? <InfoPopUp handleDismiss={handleDismiss} /> : null}
     </BaseContainer>
   );
 };

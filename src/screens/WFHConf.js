@@ -1,12 +1,12 @@
-import React from 'react';
-import styled from 'styled-components';
+import React from "react";
+import styled from "styled-components";
 
 const BaseContainer = styled.div`
   display: grid;
   grid-template-rows: repeat(3, auto);
   grid-template-columns: repeat(5, auto);
-  grid-gap: .625rem;
-  padding: .625rem;
+  grid-gap: 0.625rem;
+  padding: 0.625rem;
   align-self: center;
 `;
 

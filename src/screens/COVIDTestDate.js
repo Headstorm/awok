@@ -1,22 +1,22 @@
-import React, { useState } from 'react';
+import React, { useState } from "react";
 import {
   Button,
   withStyles,
   TextField,
   Checkbox,
   FormControlLabel,
-} from '@material-ui/core';
-import styled from 'styled-components';
-import { withRouter } from 'react-router-dom';
-import { patchCheckIn } from '../apiCalls';
+} from "@material-ui/core";
+import styled from "styled-components";
+import { withRouter } from "react-router-dom";
+import { patchCheckIn } from "../apiCalls";
 
 const CheckInButton = withStyles(() => ({
   root: {
-    color: '#FFFFFF',
-    backgroundColor: '#518DFD',
-    marginBottom: '2rem',
-    width: '50%',
-    ["@media (max-width:425px)"]: { width: '100%' }
+    color: "#FFFFFF",
+    backgroundColor: "#518DFD",
+    marginBottom: "2rem",
+    width: "50%",
+    ["@media (max-width:425px)"]: { width: "100%" },
   },
 }))(Button);
 
@@ -30,8 +30,8 @@ const BaseContainer = styled.div`
   display: grid;
   grid-template-rows: repeat(4, auto);
   grid-template-columns: repeat(3, auto);
-  grid-gap: .625rem;
-  padding: .625rem;
+  grid-gap: 0.625rem;
+  padding: 0.625rem;
 `;
 
 const HeaderDiv = styled.div`
@@ -61,18 +61,22 @@ const COVIDTestDate = (props) => {
 
   const [covidDate, setCovidDate] = useState();
   const today = new Date();
-  const defaultDate = today.toISOString().slice(0,10);
-  const twoWeeksAgoDate = new Date(today-(1000 * 60 * 60 * 24 * 14)).toISOString().slice(0,10);
+  const defaultDate = today.toISOString().slice(0, 10);
+  const twoWeeksAgoDate = new Date(today - 1000 * 60 * 60 * 24 * 14)
+    .toISOString()
+    .slice(0, 10);
 
-  const onDateChange = (e) => { setCovidDate(e.target.value) }
+  const onDateChange = (e) => {
+    setCovidDate(e.target.value);
+  };
   const onCheckInClick = () => {
-    if(covidDate >= twoWeeksAgoDate) {
-      nextPath('/covid-positive')
+    if (covidDate >= twoWeeksAgoDate) {
+      nextPath("/covid-positive");
     } else {
-      patchCheckIn(localStorage.getItem('isPositive'));
-      props.history.push('/good-day');
+      patchCheckIn(localStorage.getItem("isPositive"));
+      props.history.push("/good-day");
     }
-  }
+  };
   return (
     <BaseContainer>
       <HeaderDiv>
@@ -86,7 +90,7 @@ const COVIDTestDate = (props) => {
       </HeaderDiv>
       <Form noValidate>
         <TextField
-          type='date'
+          type="date"
           defaultValue={defaultDate}
           onChange={onDateChange}
         />
