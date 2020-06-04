@@ -64,7 +64,7 @@ const COVIDCheck = (props) => {
           props.history.push('/good-day');
         }}
       >
-        No, Check In
+        No
       </NoButton>
     </BaseContainer>
   );
