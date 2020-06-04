@@ -13,14 +13,14 @@ import { patchCheckIn } from '../apiCalls';
 const YesButton = withStyles(() => ({
   root: {
     color: '#FFFFFF',
-    backgroundColor: '#D96239',
+    backgroundColor: '#518DFD',
     marginBottom: '2rem',
   },
 }))(Button);
 
 const NoButton = withStyles(() => ({
   root: {
-    color: '#D96239',
+    color: '#518DFD',
   },
 }))(Button);
 

@@ -5,8 +5,8 @@ import { withRouter } from 'react-router-dom';
 
 const YesButton = withStyles(() => ({
   root: {
-    color: '#D96239',
-    borderColor: '#D96239',
+    color: '#518DFD',
+    borderColor: '#518DFD',
     marginBottom: '2rem',
   },
 }))(Button);
@@ -14,7 +14,7 @@ const YesButton = withStyles(() => ({
 const NoButton = withStyles(() => ({
   root: {
     color: '#FFFFFF',
-    backgroundColor: '#D96239',
+    backgroundColor: '#518DFD',
   },
 }))(Button);
 
