@@ -77,7 +77,6 @@ const CheckIn = (props) => {
       .catch((error) => console.log(error));
   });
 
-  console.log('state', showInfoModal)
   return (
     <BaseContainer>
       <HeaderDiv>
@@ -101,7 +100,11 @@ const CheckIn = (props) => {
       </HeaderDiv>
       <RemoteDiv>
         <RemoteH2>Plan on working remote?</RemoteH2>     
-        <StyledButton onClick={() => nextPath('/good-day')}>
+        <StyledButton
+          size="large"
+          variant="contained"
+          onClick={() => nextPath('/good-day')}
+        >
           Working Remote
         </StyledButton>
       </RemoteDiv>

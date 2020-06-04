@@ -8,8 +8,8 @@ const YesButton = withStyles(() => ({
     color: '#D96239',
     borderColor: '#D96239',
     marginBottom: '2rem',
-    'grid-row-start': 2,
-    'grid-column-start': 2,
+    width: '50%',
+    ["@media (max-width:425px)"]: { width: '100%' }
   },
 }))(Button);
 
@@ -17,8 +17,8 @@ const NoButton = withStyles(() => ({
   root: {
     color: '#FFFFFF',
     backgroundColor: '#D96239',
-    'grid-row-start': 3,
-    'grid-column-start': 2,
+    width: '50%',
+    ["@media (max-width:425px)"]: { width: '100%' }
   },
 }))(Button);
 
@@ -30,10 +30,19 @@ const BaseContainer = styled.div`
   padding: .625rem;
 `;
 
+const Buttons = styled.div`
+  grid-row-start: 2;
+  grid-column-start: 2;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+`;
+
 const HeaderQuestion = styled.h2`
   grid-row-start: 1;
   grid-column-start: 2;
   margin-bottom: 2rem;
+  text-align: center;
 `;
 
 const COVIDCheck = (props) => {
@@ -47,20 +56,22 @@ const COVIDCheck = (props) => {
       <HeaderQuestion>
         Have you ever tested positive for Covid-19?
       </HeaderQuestion>
-      <YesButton
-        size="large"
-        variant="outlined"
-        onClick={() => handleClick('/covid-test-date', true)}
-      >
-        Yes
-      </YesButton>
-      <NoButton
-        size="large"
-        variant="contained"
-        onClick={() => handleClick('/symptoms-screen', false)}
-      >
-        No
-      </NoButton>
+      <Buttons>
+        <YesButton
+          size="large"
+          variant="outlined"
+          onClick={() => handleClick('/covid-test-date', true)}
+        >
+          Yes
+        </YesButton>
+        <NoButton
+          size="large"
+          variant="contained"
+          onClick={() => handleClick('/symptoms-screen', false)}
+        >
+          No
+        </NoButton>
+      </Buttons>
     </BaseContainer>
   );
 };

@@ -14,10 +14,16 @@ const CheckInButton = withStyles(() => ({
     color: '#FFFFFF',
     backgroundColor: '#D96239',
     marginBottom: '2rem',
-    'grid-row-start': 4,
-    'grid-column-start': 2,
+    width: '50%',
+    ["@media (max-width:425px)"]: { width: '100%' }
   },
 }))(Button);
+
+const ButtonContainer = styled.div`
+  grid-row-start: 4;
+  grid-column-start: 2;
+  text-align: center;
+`;
 
 const BaseContainer = styled.div`
   display: grid;
@@ -89,13 +95,15 @@ const COVIDTestDate = (props) => {
           label="Remember my answer on this device"
         />
       </CheckboxContainer>
-      <CheckInButton
-        size="large"
-        variant="contained"
-        onClick={onCheckInClick}
-      >
-        Check In
-      </CheckInButton>
+      <ButtonContainer>
+        <CheckInButton
+          size="large"
+          variant="contained"
+          onClick={onCheckInClick}
+        >
+          Check In
+        </CheckInButton>
+      </ButtonContainer>
     </BaseContainer>
   );
 };
