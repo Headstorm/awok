@@ -1,0 +1,9 @@
+{
+  "path": "/employee-count",
+  "httpMethod": "POST",
+  "headers": {
+    "Accept": "*/*",
+    "content-type": "application/json; charset=UTF-8"
+  },
+  "body": "{\"companyName\":\"hop\",\"occupancyRule\":\"what\",\"currentRules\":\"will\",\"successMessage\":\"this\"}"
+}

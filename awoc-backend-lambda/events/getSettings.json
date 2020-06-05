@@ -1,0 +1,11 @@
+{
+  "path": "/employee-count",
+  "httpMethod": "GET",
+  "headers": {
+    "Accept": "*/*",
+    "content-type": "application/json; charset=UTF-8"
+  },
+  "pathParameters": {
+    "companyName": "hop"
+  }
+}
