@@ -82,10 +82,10 @@ const CheckIn = (props) => {
     getCheckInCounts()
       .then((res) => res.json())
       .then((response) => {
-        setImmuneCount(response.positiveCount);
-        setFineCount(response.negativeCount);
+        setImmuneCount(response.today.positiveCount);
+        setFineCount(response.today.negativeCount);
         setDonutVal(
-          ((response.positiveCount + response.negativeCount) / totalOccupancy) *
+          ((response.today.positiveCount + response.today.negativeCount) / totalOccupancy) *
             100
         );
       })
