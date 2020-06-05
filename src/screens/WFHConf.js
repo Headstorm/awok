@@ -37,11 +37,11 @@ const StyledButton = withStyles(() => ({
 
 const WFHConf = (props) => {
   const nextPath = (path) => {
-    props.history.push(path, { prevPath: props.location.pathname });
+    props.history.push(path, { prevPath: '/wfh-conf' });
   };
 
   let additionalMessage = null;
-  const prevPath = props.location.state.prevPath || null;
+  const prevPath = props.location.state && props.location.state.prevPath;
   switch(prevPath) {
     case '/symptoms-screen':
       additionalMessage = (<>

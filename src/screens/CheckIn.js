@@ -70,7 +70,7 @@ const RemoteButton = withStyles(() => ({
 
 const CheckIn = (props) => {
   const nextPath = (path) => {
-    props.history.push(path, { prevPath: props.location.pathname });
+    props.history.push(path, { prevPath: '/' });
   };
 
   const [showInfoModal, setShowInfoModal] = useState(false);

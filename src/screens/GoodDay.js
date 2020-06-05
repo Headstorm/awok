@@ -51,7 +51,7 @@ const StyledIcon = withStyles(() => ({
 
 const GoodDay = props => {
   const nextPath = path => {
-    props.history.push(path, { prevPath: props.location.pathname });
+    props.history.push(path, { prevPath: '/good-day' });
   };
 
   const [count, setCount] = useState(0);
@@ -65,7 +65,7 @@ const GoodDay = props => {
         setLoading(false);
       })
       .catch((error) => console.log(error));
-  });
+  }, []);
 
   const numPeopleMessage = count > 1 ? 'people checked in to go to the office today.'
     : 'person checked in to go to the office today.';

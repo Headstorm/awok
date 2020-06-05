@@ -56,7 +56,7 @@ const StyledList = withStyles(() => ({
 
 const COVIDCheck = (props) => {
   const nextPath = (path) => {
-    props.history.push(path, { prevPath: props.location.pathname });
+    props.history.push(path, { prevPath: '/symptoms-screen' });
   };
 
   return (
@@ -96,12 +96,14 @@ const COVIDCheck = (props) => {
           variant="contained"
           startIcon={<ClearIcon/>}
           onClick={() => {
-            patchCheckIn(localStorage.getItem("isPositive"));
-            props.history.push("/good-day");
-            localStorage.setItem(
-              "checkInDate",
-              new Date().toISOString().slice(0, 10)
-            );
+            patchCheckIn(localStorage.getItem("isPositive"))
+              .then(response => {
+                props.history.push("/good-day");
+                localStorage.setItem(
+                  "checkInDate",
+                  new Date().toISOString().slice(0, 10)
+                );
+              })
           }}
         >
           No

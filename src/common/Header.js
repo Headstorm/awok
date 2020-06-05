@@ -27,7 +27,7 @@ const Count = styled.div`
 `;
 
 const Header = (props) => {
-  const showCheckInCount = ['/', '/safety-rejection'].includes(
+  const showCheckInCount = ['/', '/safety-rejection', '/good-day'].includes(
     props.location.pathname
   )
     ? false
