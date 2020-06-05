@@ -1,5 +1,5 @@
 import React from 'react';
-import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
+import { HashRouter as Router, Switch, Route } from 'react-router-dom';
 import GoodDay from './screens/GoodDay';
 import CheckIn from './screens/CheckIn';
 import COVIDCheck from './screens/COVIDCheck';

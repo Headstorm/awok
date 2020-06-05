@@ -1,0 +1,239 @@
+# This is the SAM template that represents the architecture of your serverless application
+# https://docs.aws.amazon.com/serverless-application-model/latest/developerguide/serverless-sam-template-basics.html
+
+# The AWSTemplateFormatVersion identifies the capabilities of the template
+# https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/format-version-structure.html
+AWSTemplateFormatVersion: 2010-09-09
+Description: awoc-backend-lambda
+
+# Transform section specifies one or more macros that AWS CloudFormation uses to process your template
+# https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/transform-section-structure.html
+Transform:
+  - AWS::Serverless-2016-10-31
+
+Globals:
+  Function:
+    Runtime: nodejs12.x
+    MemorySize: 128
+    Timeout: 100
+
+# Resources declares the AWS resources that you want to include in the stack
+# https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/resources-section-structure.html
+Resources:
+  awocAPI:
+    Type: AWS::Serverless::Api
+    Properties:
+      StageName: Prod
+      Cors:
+        AllowMethods: "'GET,POST,PATCH,DELETE,OPTIONS'"
+        AllowHeaders: "'authorization'"
+        AllowOrigin: "'*'"
+      OpenApiVersion: "2.0"
+      Name: AWOC-API
+      Models:
+        settings:
+          type: object
+          required:
+            - companyName
+          properties:
+            companyName:
+              type: string
+            occupancyRule:
+              type: string
+            currentRules:
+              type: string
+            successMessage:
+              type: string
+
+  # Each Lambda function is defined by properties:
+  # https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#awsserverlessfunction
+
+  # # This is a Lambda function config associated with the source code: get-all-items.js
+  getAllItemsFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      Handler: src/handlers/get-all-items.getAllItemsHandler
+      Runtime: nodejs12.x
+      MemorySize: 128
+      Timeout: 100
+      Description: A simple example includes a HTTP get method to get all items from a DynamoDB table.
+      Policies:
+        # Give Create/Read/Update/Delete Permissions to the SampleTable
+        - DynamoDBCrudPolicy:
+            TableName: !Ref SampleTable
+      Environment:
+        Variables:
+          # Make table name accessible as environment variable from function code during execution
+          SAMPLE_TABLE: !Ref SampleTable
+      Events:
+        Api:
+          Type: Api
+          Properties:
+            Path: /
+            Method: GET
+            RestApiId:
+              Ref: awocAPI
+  # # Each Lambda function is defined by properties:
+  # # https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#awsserverlessfunction
+
+  # # This is a Lambda function config associated with the source code: get-by-id.js
+  # getByIdFunction:
+  #   Type: AWS::Serverless::Function
+  #   Properties:
+  #     Handler: src/handlers/get-by-id.getByIdHandler
+  #     Runtime: nodejs12.x
+  #     MemorySize: 128
+  #     Timeout: 100
+  #     Description: A simple example includes a HTTP get method to get one item by id from a DynamoDB table.
+  #     Policies:
+  #       # Give Create/Read/Update/Delete Permissions to the SampleTable
+  #       - DynamoDBCrudPolicy:
+  #           TableName: !Ref SampleTable
+  #     Environment:
+  #       Variables:
+  #         # Make table name accessible as environment variable from function code during execution
+  #         SAMPLE_TABLE: !Ref SampleTable
+  #     Events:
+  #       Api:
+  #         Type: Api
+  #         Properties:
+  #           Path: /{id}
+  #           Method: GET
+  #           RestApiId:
+  #             Ref: awocAPI
+  # # Each Lambda function is defined by properties:
+  # # https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#awsserverlessfunction
+
+  # # This is a Lambda function config associated with the source code: put-item.js
+  # putItemFunction:
+  #   Type: AWS::Serverless::Function
+  #   Properties:
+  #     Handler: src/handlers/put-item.putItemHandler
+  #     Runtime: nodejs12.x
+  #     MemorySize: 128
+  #     Timeout: 100
+  #     Description: A simple example includes a HTTP post method to add one item to a DynamoDB table.
+  #     Policies:
+  #       # Give Create/Read/Update/Delete Permissions to the SampleTable
+  #       - DynamoDBCrudPolicy:
+  #           TableName: !Ref SampleTable
+  #     Environment:
+  #       Variables:
+  #         # Make table name accessible as environment variable from function code during execution
+  #         SAMPLE_TABLE: !Ref SampleTable
+  #     Events:
+  #       Api:
+  #         Type: Api
+  #         Properties:
+  #           Path: /
+  #           Method: POST
+  #           RestApiId:
+  #             Ref: awocAPI
+
+  settingsFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      Handler: src/handlers/setttingsFn.handler
+      Runtime: nodejs12.x
+      MemorySize: 128
+      Timeout: 100
+      Description: All the functions for awoc beta
+      Policies:
+        # Give Create/Read/Update/Delete Permissions to the EmployeeCount
+        - DynamoDBCrudPolicy:
+            TableName: !Ref awocSettings
+      Environment:
+        Variables:
+          # Make table name accessible as environment variable from function code during execution
+          SETTINGS_TABLE_NAME: !Ref awocSettings
+
+      Events:
+        getApi:
+          Type: Api
+          Properties:
+            Path: /settings/{companyName}
+            Method: GET
+            RestApiId:
+              Ref: awocAPI
+        postApi:
+          Type: Api
+          Properties:
+            Path: /settings
+            Method: POST
+            RestApiId:
+              Ref: awocAPI
+
+  ewocFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      Handler: src/handlers/backendFunction.handler
+      Description: All the functions for awoc beta
+      Policies:
+        # Give Create/Read/Update/Delete Permissions to the EmployeeCount
+        - DynamoDBCrudPolicy:
+            TableName: !Ref EmployeeCount
+      Environment:
+        Variables:
+          # Make table name accessible as environment variable from function code during execution
+          EMPLOYEE_TABLE_NAME: !Ref EmployeeCount
+      Events:
+        getApi:
+          Type: Api
+          Properties:
+            Path: /employee-count
+            Method: GET
+            RestApiId:
+              Ref: awocAPI
+        patchApi:
+          Type: Api
+          Properties:
+            Path: /employee-count
+            Method: PATCH
+            RestApiId:
+              Ref: awocAPI
+        deleteApi:
+          Type: Api
+          Properties:
+            Path: /employee-count
+            Method: DELETE
+            RestApiId:
+              Ref: awocAPI
+
+  # Simple syntax to create a DynamoDB table with a single attribute primary key, more in
+  # https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#awsserverlesssimpletable
+
+  # # DynamoDB table to store item: {id: &lt;ID&gt;, name: &lt;NAME&gt;}
+  SampleTable:
+    Type: AWS::Serverless::SimpleTable
+    Properties:
+      PrimaryKey:
+        Name: id
+        Type: String
+      ProvisionedThroughput:
+        ReadCapacityUnits: 2
+        WriteCapacityUnits: 2
+
+  EmployeeCount:
+    Type: AWS::Serverless::SimpleTable
+    Properties:
+      TableName: EmployeeCount
+      PrimaryKey:
+        Name: Date
+        Type: String
+      ProvisionedThroughput:
+        ReadCapacityUnits: 1
+        WriteCapacityUnits: 1
+  awocSettings:
+    Type: AWS::Serverless::SimpleTable
+    Properties:
+      TableName: awocSettings
+      PrimaryKey:
+        Name: companyName
+        Type: String
+      ProvisionedThroughput:
+        ReadCapacityUnits: 1
+        WriteCapacityUnits: 1
+# Outputs:
+#   WebEndpoint:
+#     Description: "API Gateway endpoint URL for Prod stage"
+#     Value: !Sub "https://${ServerlessRestApi}.execute-api.${AWS::Region}.amazonaws.com/Prod/"
