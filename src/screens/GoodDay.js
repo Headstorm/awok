@@ -65,7 +65,7 @@ const GoodDay = props => {
         setLoading(false);
       })
       .catch((error) => console.log(error));
-  });
+  }, []);
 
   const numPeopleMessage = count > 1 ? 'people checked in to go to the office today.'
     : 'person checked in to go to the office today.';
