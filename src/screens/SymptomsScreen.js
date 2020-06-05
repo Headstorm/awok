@@ -56,7 +56,7 @@ const StyledList = withStyles(() => ({
 
 const COVIDCheck = (props) => {
   const nextPath = (path) => {
-    props.history.push(path, { prevPath: props.location.pathname });
+    props.history.push(path, { prevPath: '/symptoms-screen' });
   };
 
   return (
