@@ -3,14 +3,29 @@ import { Button, withStyles } from "@material-ui/core";
 import styled from "styled-components";
 import { withRouter } from "react-router-dom";
 import { patchCheckIn } from "../apiCalls";
+import CheckIcon from '@material-ui/icons/Check';
+import ClearIcon from '@material-ui/icons/Clear';
 
 const StyledButton = withStyles(() => ({
+  root: {
+    color: "#518DFD",
+    borderColor: "#518DFD",
+    width: "50%",
+    margin: '1rem',
+    "@media (max-width:425px)": { width: "100%" },
+  },
+}))(Button);
+
+const StyledButton2 = withStyles(() => ({
   root: {
     color: "#FFFFFF",
     backgroundColor: "#518DFD",
     width: "50%",
     margin: '1rem',
-    "@media (max-width:425px)": { width: "100%" },
+    "@media (max-width:425px)": {
+      width: "100%",
+      margin: '.5rem'
+    },
   },
 }))(Button);
 
@@ -34,7 +49,10 @@ const ButtonsContainer = styled.div`
   grid-column-start: 2;
   align-items: center;
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
+  @media (max-width:425px) {
+    flex-direction: column;
+  }
 `;
 
 const COVIDCheck = (props) => {
@@ -57,16 +75,18 @@ const COVIDCheck = (props) => {
         </h2>
       </HeaderDiv>
       <ButtonsContainer>
-        <StyledButton
+        <StyledButton2
           size="large"
           variant="contained"
+          startIcon={<CheckIcon/>}
           onClick={() => nextPath("/safety-rejection")}
         >
           Yes
-        </StyledButton>
-        <StyledButton
+        </StyledButton2>
+        <StyledButton2
           size="large"
           variant="contained"
+          startIcon={<ClearIcon/>}
           onClick={() => {
             patchCheckIn(localStorage.getItem("isPositive"));
             props.history.push("/good-day");
@@ -77,7 +97,7 @@ const COVIDCheck = (props) => {
           }}
         >
           No
-        </StyledButton>
+        </StyledButton2>
       </ButtonsContainer>
     </BaseContainer>
   );

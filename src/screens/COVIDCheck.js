@@ -2,6 +2,8 @@ import React from "react";
 import { Button, withStyles } from "@material-ui/core";
 import styled from "styled-components";
 import { withRouter } from "react-router-dom";
+import CheckIcon from '@material-ui/icons/Check';
+import ClearIcon from '@material-ui/icons/Clear';
 
 const StyledButton = withStyles(() => ({
   root: {
@@ -25,8 +27,11 @@ const Buttons = styled.div`
   grid-row-start: 2;
   grid-column-start: 2;
   display: flex;
-  flex-direction: column;
   align-items: center;
+  flex-direction: row;
+  @media (max-width:425px) {
+    flex-direction: column;
+  }
 `;
 
 const HeaderQuestion = styled.h2`
@@ -51,6 +56,7 @@ const COVIDCheck = (props) => {
         <StyledButton
           size="large"
           variant="contained"
+          startIcon={<CheckIcon/>}
           onClick={() => handleClick("/covid-test-date", true)}
         >
           Yes
@@ -58,9 +64,10 @@ const COVIDCheck = (props) => {
         <StyledButton
           size="large"
           variant="contained"
+          startIcon={<ClearIcon/>}
           onClick={() => handleClick("/symptoms-screen", false)}
         >
-          No, I haven't
+          No
         </StyledButton>
       </Buttons>
     </BaseContainer>
