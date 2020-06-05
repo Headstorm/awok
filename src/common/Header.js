@@ -39,7 +39,7 @@ const Header = (props) => {
     getCheckInCounts()
       .then((res) => res.json())
       .then((response) => {
-        setNumCheckedIn(response.positiveCount + response.negativeCount);
+        setNumCheckedIn(response.today.positiveCount + response.today.negativeCount);
       })
       .catch((error) => console.log(error));
   });
