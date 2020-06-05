@@ -1,8 +1,9 @@
-import React, { useState } from "react";
-import { TextField, Button, Snackbar } from "@material-ui/core";
-import MuiAlert from "@material-ui/lab/Alert";
-import styled from "styled-components";
-import { withRouter } from "react-router-dom";
+import React, { useState, useEffect } from 'react';
+import { TextField, Button, Snackbar } from '@material-ui/core';
+import MuiAlert from '@material-ui/lab/Alert';
+import styled from 'styled-components';
+import { withRouter } from 'react-router-dom';
+import { getSettings, setSettings } from '../apiCalls';
 
 const BaseContainer = styled.div`
   display: flex;
@@ -41,31 +42,49 @@ const StyledSnackBar = styled(Snackbar)`
 
 const Admin = (props) => {
   const [formData, setFormData] = useState({
-    companyName: "",
-    occupancyRule: "",
-    currentRules: "",
-    successMessage: "",
+    companyName: '',
+    occupancyRule: '',
+    currentRules: '',
+    successMessage: '',
   });
 
   const [open, setOpen] = useState(false);
 
-  //   will be set depending on api success or fail
-  // eslint-disable-next-line no-unused-vars
   const [savedSuccessfully, setSavedSuccessfully] = useState(true);
+
+  useEffect(() => {
+    getSettings()
+      .then((res) => res.json())
+      .then((response) => {
+        setFormData(response);
+      })
+      .catch((e) => {
+        console.log(e);
+      });
+  }, []);
 
   const handleChange = (e) => {
     setFormData({
       ...formData,
-      [e.target.getAttribute("name")]: e.target.value,
+      [e.target.getAttribute('name')]: e.target.value,
     });
   };
 
   const handleClick = () => {
+    setSettings(formData)
+      .then((res) => res.json())
+      .then((response) => {
+        console.log(response);
+      })
+      .catch((e) => {
+        console.log(e);
+        setSavedSuccessfully(false);
+      });
     setOpen(true);
   };
 
   const handleClose = (event, reason) => {
-    if (reason === "clickaway") return;
+    if (reason === 'clickaway') return;
     setOpen(false);
   };
 
@@ -103,7 +122,7 @@ const Admin = (props) => {
             }}
             type="text"
             name="currentRules"
-            placeholder="e.g. Rule 1: ..., Rule 2: ..., Rule 3: ..."
+            placeholder="e.g. Rule 1, Rule 2, ..."
             onChange={(e) => handleChange(e)}
             value={formData.currentRules}
             fullWidth
@@ -126,7 +145,7 @@ const Admin = (props) => {
       <FooterDiv>
         <StyledSnackBar
           autoHideDuration={3000}
-          anchorOrigin={{ vertical: "bottom", horizontal: "left" }}
+          anchorOrigin={{ vertical: 'bottom', horizontal: 'left' }}
           open={open}
           onClose={handleClose}
         >
