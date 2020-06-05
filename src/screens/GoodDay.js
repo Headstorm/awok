@@ -3,6 +3,7 @@ import styled from "styled-components";
 import { Button, withStyles } from "@material-ui/core";
 import { withRouter } from "react-router-dom";
 import { getCheckInCounts } from "../apiCalls";
+import HomeIcon from '@material-ui/icons/Home';
 
 const BaseContainer = styled.div`
   display: grid;
@@ -42,21 +43,23 @@ const GoodDay = props => {
       .catch((error) => console.log(error));
   });
 
+  const numPeopleMessage = count > 1 ? 'people checked in to go to the office today.'
+    : 'person checked in to go to the office today.';
+
   return (
     <BaseContainer>
       <H2>
-        You have checked in!
+        You have checked in.
         <br />
-        {count} haved checked in to go to the office.
-        <br />
-        Have a great day!
+        {count} {numPeopleMessage}
         <br />
         <br />
-        Lawrence says "Get to work"
+        {localStorage.getItem('successMessage')}
       </H2>
       <StyledButton
           size="large"
           variant="contained"
+          startIcon={<HomeIcon/>}
           onClick={() => nextPath('/')}
         >
           Home Page

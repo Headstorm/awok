@@ -1,5 +1,5 @@
-import React from "react";
-import styled from "styled-components";
+import React from 'react';
+import styled from 'styled-components';
 
 const Modal = styled.div`
   position: fixed;
@@ -34,7 +34,7 @@ const InfoPopUp = (props) => {
   return (
     <Modal>
       <ModalContent>
-        <p>Rules: </p>
+        <p>{`Rules: ${props.content}`} </p>
         <Text onClick={() => props.handleDismiss()}>Dismiss</Text>
       </ModalContent>
     </Modal>

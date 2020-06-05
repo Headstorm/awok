@@ -30,7 +30,9 @@ const Buttons = styled.div`
   align-items: center;
   flex-direction: row;
   @media (max-width:425px) {
-    flex-direction: column;
+    width: 100%;
+    margin: 0;
+    padding: 0;
   }
 `;
 

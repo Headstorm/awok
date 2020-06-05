@@ -8,16 +8,6 @@ import ClearIcon from '@material-ui/icons/Clear';
 
 const StyledButton = withStyles(() => ({
   root: {
-    color: "#518DFD",
-    borderColor: "#518DFD",
-    width: "50%",
-    margin: '1rem',
-    "@media (max-width:425px)": { width: "100%" },
-  },
-}))(Button);
-
-const StyledButton2 = withStyles(() => ({
-  root: {
     color: "#FFFFFF",
     backgroundColor: "#518DFD",
     width: "50%",
@@ -30,28 +20,51 @@ const StyledButton2 = withStyles(() => ({
 }))(Button);
 
 const BaseContainer = styled.div`
-  display: grid;
-  grid-template-rows: repeat(3, auto);
-  grid-template-columns: repeat(3, auto);
-  grid-gap: 0.625rem;
-  padding: 0.625rem;
+  display: flex;
+  flex-direction: column;
+  margin: 0rem 2rem 0rem 2rem;
+  flex: 1 0;
+  align-items: center;
 `;
 
 const HeaderDiv = styled.div`
-  margin-bottom: 2rem;
-  grid-row-start: 1;
-  grid-column-start: 2;
+  margin-bottom: 0.5rem;
+
+  h2 {
+    text-align: center;
+  }
+`;
+
+const MiddleDiv = styled.div`
+  display: flex;
+  justify-content: space-evenly;
+`;
+
+const ColumnDiv = styled.div`
+  display: flex;
+  flex-direction: column;
   text-align: center;
+
+  h3 {
+    margin-top: 0rem;
+  }
+
+  .left-column {
+  }
+
+  .right-column {
+  }
 `;
 
 const ButtonsContainer = styled.div`
-  grid-row-start: 3;
-  grid-column-start: 2;
-  align-items: center;
   display: flex;
+  align-items: center;
   flex-direction: row;
+  width: 60%;
+  text-align: center;
+  justify-content: center;
   @media (max-width:425px) {
-    flex-direction: column;
+    width: 100%;
   }
 `;
 
@@ -64,26 +77,39 @@ const COVIDCheck = (props) => {
     <BaseContainer>
       <HeaderDiv>
         <h2>
-          Have you experienced any of the following in the last 24 hours?
-          <br />
-          <br />
-          Loss of taste and smell <br />
-          Fever <br />
-          Dry Cough <br />
-          Sore Throat <br />
-          ...{" "}
+          Have you experienced any of the following in the last 2-14 days?
         </h2>
+        <MiddleDiv>
+          <ColumnDiv className="left-column">
+            <h3>Fever/Chills</h3>
+            <h3>Shortness of breath</h3>
+            <h3>Difficulty breathing</h3>
+            <h3>Sore throat</h3>
+            <h3>Congestion</h3>
+            <h3>Diarrhea</h3>
+            <h3>Fatigue</h3>
+          </ColumnDiv>
+          <ColumnDiv className="right-column">
+            <h3>Headache</h3>
+            <h3>New loss of taste/smell</h3>
+            <h3>Muscle/Body aches</h3>
+            <h3>Cough</h3>
+            <h3>Runny nose</h3>
+            <h3>Nausea</h3>
+            <h3>Vomiting</h3>
+          </ColumnDiv>
+        </MiddleDiv>
       </HeaderDiv>
       <ButtonsContainer>
-        <StyledButton2
+        <StyledButton
           size="large"
           variant="contained"
           startIcon={<CheckIcon/>}
           onClick={() => nextPath("/safety-rejection")}
         >
           Yes
-        </StyledButton2>
-        <StyledButton2
+        </StyledButton>
+        <StyledButton
           size="large"
           variant="contained"
           startIcon={<ClearIcon/>}
@@ -97,7 +123,7 @@ const COVIDCheck = (props) => {
           }}
         >
           No
-        </StyledButton2>
+        </StyledButton>
       </ButtonsContainer>
     </BaseContainer>
   );

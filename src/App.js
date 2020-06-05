@@ -1,17 +1,18 @@
-import React from "react";
-import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
-import GoodDay from "./screens/GoodDay";
-import CheckIn from "./screens/CheckIn";
-import COVIDCheck from "./screens/COVIDCheck";
-import COVIDTestDate from "./screens/COVIDTestDate";
-import SafetyRejection from "./screens/SafetyRejection";
-import SymptomsScreen from "./screens/SymptomsScreen";
-import WFHConf from "./screens/WFHConf";
-import AlreadyCheckedIn from "./screens/AlreadyCheckedIn";
-import Header from "./common/Header";
-import Footer from "./common/Footer";
-import COVIDPostive from "./screens/COVIDPostive";
-import styled from "styled-components";
+import React from 'react';
+import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
+import GoodDay from './screens/GoodDay';
+import CheckIn from './screens/CheckIn';
+import COVIDCheck from './screens/COVIDCheck';
+import COVIDTestDate from './screens/COVIDTestDate';
+import SafetyRejection from './screens/SafetyRejection';
+import SymptomsScreen from './screens/SymptomsScreen';
+import WFHConf from './screens/WFHConf';
+import AlreadyCheckedIn from './screens/AlreadyCheckedIn';
+import Admin from './screens/Admin';
+import Header from './common/Header';
+import Footer from './common/Footer';
+import COVIDPositive from './screens/COVIDPositive';
+import styled from 'styled-components';
 
 const BaseContainer = styled.div`
   display: flex;
@@ -48,10 +49,13 @@ function App() {
             <WFHConf />
           </Route>
           <Route path="/covid-positive">
-            <COVIDPostive />
+            <COVIDPositive />
           </Route>
           <Route path="/already-checked-in">
             <AlreadyCheckedIn />
+          </Route>
+          <Route path="/admin">
+            <Admin />
           </Route>
           <Route path="/">
             <CheckIn />

@@ -2,17 +2,17 @@ import React, { useState, useEffect } from "react";
 import { Button, withStyles } from "@material-ui/core";
 import styled from "styled-components";
 import { withRouter } from "react-router-dom";
-import { getCheckInCounts } from "../apiCalls";
+import { getCheckInCounts, getSettings } from "../apiCalls";
 import DonutChart from "../common/DonutChart";
 import InfoOutlinedIcon from "@material-ui/icons/InfoOutlined";
 import InfoPopUp from "../common/InfoPopUp";
 
 const StyledButton = withStyles(() => ({
   root: {
-    color: "#FFFFFF",
-    backgroundColor: "#518DFD",
-    marginBottom: "2rem",
-    padding: ".5rem 1.375rem",
+    color: '#FFFFFF',
+    backgroundColor: '#518DFD',
+    marginBottom: '2rem',
+    padding: '.5rem 1.375rem',
   },
 }))(Button);
 
@@ -60,13 +60,25 @@ const CheckIn = (props) => {
   const [donutval, setDonutVal] = useState(0);
   const [immuneCount, setImmuneCount] = useState(0);
   const [fineCount, setFineCount] = useState(0);
-  const totalOccupancy = 25;
+  const totalOccupancy = localStorage.getItem('occupancyRule');
 
   const handleDismiss = () => {
     setShowInfoModal(false);
   };
 
   useEffect(() => {
+    localStorage.clear();
+    getSettings()
+      .then((res) => res.json())
+      .then((response) => {
+        localStorage.setItem('successMessage', response.successMessage);
+        localStorage.setItem('occupancyRule', response.occupancyRule);
+        localStorage.setItem('currentRules', response.currentRules);
+        localStorage.setItem('companyName', response.companyName);
+      })
+      .catch((e) => {
+        console.log(e);
+      });
     getCheckInCounts()
       .then((res) => res.json())
       .then((response) => {
@@ -81,7 +93,7 @@ const CheckIn = (props) => {
   });
 
   const hasCheckedInToday =
-    localStorage.getItem("checkInDate") ===
+    localStorage.getItem('checkInDate') ===
     new Date().toISOString().slice(0, 10);
 
   return (
@@ -106,10 +118,10 @@ const CheckIn = (props) => {
           size="large"
           variant="contained"
           onClick={() => {
-            if (localStorage.getItem("covidDate")) {
-              nextPath("/good-day");
+            if (localStorage.getItem('covidDate')) {
+              nextPath('/good-day');
             } else {
-              nextPath("/covid-check");
+              nextPath('/covid-check');
             }
           }}
         >
@@ -121,12 +133,17 @@ const CheckIn = (props) => {
         <StyledButton
           size="large"
           variant="contained"
-          onClick={() => nextPath("/good-day")}
+          onClick={() => nextPath('/good-day')}
         >
           Working Remote
         </StyledButton>
       </RemoteDiv>) : null}
-      {showInfoModal ? <InfoPopUp handleDismiss={handleDismiss} /> : null}
+      {showInfoModal ? (
+        <InfoPopUp
+          handleDismiss={handleDismiss}
+          content={localStorage.getItem('currentRules')}
+        />
+      ) : null}
     </BaseContainer>
   );
 };
