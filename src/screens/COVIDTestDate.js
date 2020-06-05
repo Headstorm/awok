@@ -56,7 +56,7 @@ const CheckboxContainer = styled.div`
 
 const COVIDTestDate = (props) => {
   const nextPath = (path) => {
-    props.history.push(path, { prevPath: props.location.pathname });
+    props.history.push(path, { prevPath: '/covid-test-date' });
   };
   const today = new Date();
   const defaultDate = today.toISOString().slice(0, 10);

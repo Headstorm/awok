@@ -37,7 +37,7 @@ const StyledButton = withStyles(() => ({
 
 const WFHConf = (props) => {
   const nextPath = (path) => {
-    props.history.push(path, { prevPath: props.location.pathname });
+    props.history.push(path, { prevPath: '/wfh-conf' });
   };
 
   let additionalMessage = null;
