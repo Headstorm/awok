@@ -1,6 +1,6 @@
 export const patchCheckIn = (TestedPositive) => {
   fetch(
-    `https://crhs49zgsk.execute-api.us-east-2.amazonaws.com/default/project-reckoning/employee-count?TestedPositive=${TestedPositive}`,
+    `https://yt6g0s41t1.execute-api.us-east-1.amazonaws.com/Prod/employee-count?TestedPositive=${TestedPositive}`,
     {
       method: 'PATCH',
       mode: 'cors',
@@ -10,8 +10,24 @@ export const patchCheckIn = (TestedPositive) => {
 
 export const getCheckInCounts = async () =>
   fetch(
-    'https://crhs49zgsk.execute-api.us-east-2.amazonaws.com/default/project-reckoning/employee-count',
+    'https://yt6g0s41t1.execute-api.us-east-1.amazonaws.com/Prod/employee-count',
     {
       mode: 'cors',
+    }
+  );
+
+export const getSettings = async () =>
+  fetch(
+    'https://yt6g0s41t1.execute-api.us-east-1.amazonaws.com/Prod/settings/Headstorm',
+    { mode: 'cors' }
+  );
+
+export const setSettings = async (settings) =>
+  fetch(
+    'https://yt6g0s41t1.execute-api.us-east-1.amazonaws.com/Prod/settings',
+    {
+      mode: 'cors',
+      method: 'POST',
+      body: JSON.stringify(settings),
     }
   );

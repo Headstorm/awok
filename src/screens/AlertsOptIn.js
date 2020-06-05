@@ -1,26 +1,26 @@
-import React from 'react';
+import React from "react";
 import {
   Button,
   withStyles,
   TextField,
   Checkbox,
   FormControlLabel,
-} from '@material-ui/core';
-import styled from 'styled-components';
-import { withRouter } from 'react-router-dom';
-import { patchCheckIn } from '../apiCalls';
+} from "@material-ui/core";
+import styled from "styled-components";
+import { withRouter } from "react-router-dom";
+import { patchCheckIn } from "../apiCalls";
 
 const YesButton = withStyles(() => ({
   root: {
-    color: '#FFFFFF',
-    backgroundColor: '#518DFD',
-    marginBottom: '2rem',
+    color: "#FFFFFF",
+    backgroundColor: "#518DFD",
+    marginBottom: "2rem",
   },
 }))(Button);
 
 const NoButton = withStyles(() => ({
   root: {
-    color: '#518DFD',
+    color: "#518DFD",
   },
 }))(Button);
 
@@ -37,7 +37,7 @@ const HeaderDiv = styled.div`
 
 const AlertsOptIn = (props) => {
   const handleClick = (path) => {
-    patchCheckIn(localStorage.getItem('isPositive'));
+    patchCheckIn(localStorage.getItem("isPositive"));
     props.history.push(path);
   };
 
@@ -63,11 +63,11 @@ const AlertsOptIn = (props) => {
       <YesButton
         size="large"
         variant="contained"
-        onClick={() => handleClick('/good-day')}
+        onClick={() => handleClick("/good-day")}
       >
         Yes
       </YesButton>
-      <NoButton size="large" onClick={() => handleClick('/good-day')}>
+      <NoButton size="large" onClick={() => handleClick("/good-day")}>
         No thanks
       </NoButton>
     </BaseContainer>

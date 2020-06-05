@@ -1,8 +1,9 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { TextField, Button, Snackbar } from '@material-ui/core';
 import MuiAlert from '@material-ui/lab/Alert';
 import styled from 'styled-components';
 import { withRouter } from 'react-router-dom';
+import { getSettings, setSettings } from '../apiCalls';
 
 const BaseContainer = styled.div`
   display: flex;
@@ -49,9 +50,18 @@ const Admin = (props) => {
 
   const [open, setOpen] = useState(false);
 
-  //   will be set depending on api success or fail
-  // eslint-disable-next-line no-unused-vars
   const [savedSuccessfully, setSavedSuccessfully] = useState(true);
+
+  useEffect(() => {
+    getSettings()
+      .then((res) => res.json())
+      .then((response) => {
+        setFormData(response);
+      })
+      .catch((e) => {
+        console.log(e);
+      });
+  }, []);
 
   const handleChange = (e) => {
     setFormData({
@@ -61,6 +71,15 @@ const Admin = (props) => {
   };
 
   const handleClick = () => {
+    setSettings(formData)
+      .then((res) => res.json())
+      .then((response) => {
+        console.log(response);
+      })
+      .catch((e) => {
+        console.log(e);
+        setSavedSuccessfully(false);
+      });
     setOpen(true);
   };
 
@@ -103,7 +122,7 @@ const Admin = (props) => {
             }}
             type="text"
             name="currentRules"
-            placeholder="e.g. Rule 1: ..., Rule 2: ..., Rule 3: ..."
+            placeholder="e.g. Rule 1, Rule 2, ..."
             onChange={(e) => handleChange(e)}
             value={formData.currentRules}
             fullWidth
