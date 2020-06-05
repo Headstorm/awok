@@ -4,6 +4,7 @@ import MuiAlert from '@material-ui/lab/Alert';
 import styled from 'styled-components';
 import { withRouter } from 'react-router-dom';
 import { getSettings, setSettings } from '../apiCalls';
+import { Line } from 'react-chartjs-2';
 
 const BaseContainer = styled.div`
   display: flex;
@@ -24,6 +25,16 @@ const FooterDiv = styled.div`
   display: flex;
   justify-content: flex-end;
   align-items: flex-start;
+`;
+
+const MiddleDiv = styled.div`
+  display: flex;
+  justify-content: center;
+
+  canvas {
+    max-height: 40rem !important;
+    max-width: 40rem !important;
+  }
 `;
 
 const StyledButton = styled(Button)`
@@ -48,9 +59,54 @@ const Admin = (props) => {
     successMessage: '',
   });
 
+  const checkInData = JSON.parse(localStorage.getItem('checkInHistory'))
+    .slice(0, 7)
+    .reverse();
+
+  const daysOfTheWeek = [
+    'Sunday',
+    'Monday',
+    'Tuesday',
+    'Wednesday',
+    'Thursday',
+    'Friday',
+    'Saturday',
+  ];
+
   const [open, setOpen] = useState(false);
+  const chartData = checkInData.map(
+    (item) => item.positiveCount + item.negativeCount
+  );
 
   const [savedSuccessfully, setSavedSuccessfully] = useState(true);
+  const xAxis = checkInData.map(
+    (item) => daysOfTheWeek[new Date(item.Date).getDay()]
+  );
+  const lineChartInfo = {
+    labels: xAxis,
+    datasets: [
+      {
+        label: 'Attendance',
+        fill: false,
+        lineTension: 0.5,
+        backgroundColor: '#288bea',
+        borderColor: '#288bea',
+        borderWidth: 3,
+        data: chartData,
+      },
+    ],
+  };
+
+  const lineChartOptions = {
+    title: {
+      display: true,
+      text: 'Attendance for The Last Seven Days',
+      fontSize: 20,
+    },
+    legend: {
+      display: false,
+    },
+  };
 
   useEffect(() => {
     getSettings()
@@ -142,6 +198,9 @@ const Admin = (props) => {
           />
         </form>
       </AdminForm>
+      <MiddleDiv>
+        <Line data={lineChartInfo} options={lineChartOptions} />
+      </MiddleDiv>
       <FooterDiv>
         <StyledSnackBar
           autoHideDuration={3000}

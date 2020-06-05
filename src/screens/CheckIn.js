@@ -1,11 +1,11 @@
-import React, { useState, useEffect } from "react";
-import { Button, withStyles } from "@material-ui/core";
-import styled from "styled-components";
-import { withRouter } from "react-router-dom";
-import { getCheckInCounts, getSettings } from "../apiCalls";
-import DonutChart from "../common/DonutChart";
-import InfoOutlinedIcon from "@material-ui/icons/InfoOutlined";
-import InfoPopUp from "../common/InfoPopUp";
+import React, { useState, useEffect } from 'react';
+import { Button, withStyles } from '@material-ui/core';
+import styled from 'styled-components';
+import { withRouter } from 'react-router-dom';
+import { getCheckInCounts, getSettings } from '../apiCalls';
+import DonutChart from '../common/DonutChart';
+import InfoOutlinedIcon from '@material-ui/icons/InfoOutlined';
+import InfoPopUp from '../common/InfoPopUp';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import CheckCircleIcon from '@material-ui/icons/CheckCircle';
 
@@ -18,8 +18,8 @@ const StyledButton = withStyles(() => ({
     'grid-row-start': 2,
     'grid-column-start': 2,
     'justify-self': 'center',
-    width: "50%",
-    "@media (max-width:425px)": { width: "100%" },
+    width: '50%',
+    '@media (max-width:425px)': { width: '100%' },
   },
 }))(Button);
 
@@ -57,14 +57,14 @@ const StyledIcon = withStyles(() => ({
 
 const RemoteButton = withStyles(() => ({
   root: {
-    color: "#518DFD",
-    borderColor: "#518DFD",
-    marginBottom: "1rem",
+    color: '#518DFD',
+    borderColor: '#518DFD',
+    marginBottom: '1rem',
     'grid-row-start': 3,
     'grid-column-start': 2,
     'justify-self': 'center',
-    width: "50%",
-    "@media (max-width:425px)": { width: "100%" },
+    width: '50%',
+    '@media (max-width:425px)': { width: '100%' },
   },
 }))(Button);
 
@@ -103,7 +103,8 @@ const CheckIn = (props) => {
         setImmuneCount(response.today.positiveCount);
         setFineCount(response.today.negativeCount);
         setDonutVal(
-          ((response.today.positiveCount + response.today.negativeCount) / totalOccupancy) *
+          ((response.today.positiveCount + response.today.negativeCount) /
+            totalOccupancy) *
             100
         );
       })
@@ -119,10 +120,18 @@ const CheckIn = (props) => {
   return !loading ? (
     <BaseContainer>
       <HeaderDiv>
-        {!hasCheckedInToday ? null
-          : (<div><Icon><StyledIcon/></Icon><p>You have checked in today!</p><br/></div>)}
+        {!hasCheckedInToday ? null : (
+          <div>
+            <Icon>
+              <StyledIcon />
+            </Icon>
+            <p>You have checked in today!</p>
+            <br />
+          </div>
+        )}
         <H3>
-          <b>{immuneCount + fineCount}</b> out of <b>{totalOccupancy}</b> checked in
+          <b>{immuneCount + fineCount}</b> out of <b>{totalOccupancy}</b>{' '}
+          checked in
           <InfoOutlinedIcon
             fontSize="small"
             onClick={() => setShowInfoModal(true)}
@@ -135,33 +144,35 @@ const CheckIn = (props) => {
           totalOccupancy={totalOccupancy}
         />
       </HeaderDiv>
-      {!hasCheckedInToday ? (<>
-        <StyledButton
-          size="large"
-          variant="contained"
-          disabled={checkInDisabled}
-          onClick={() => {
-            if (localStorage.getItem('covidDate')) {
-              localStorage.setItem(
-                "checkInDate",
-                new Date().toISOString().slice(0, 10)
-              );
-              nextPath('/good-day');
-            } else {
-              nextPath('/covid-check');
-            }
-          }}
-        >
-          {!checkInDisabled ? 'Check In' : 'Sorry, capacity reached'}
-        </StyledButton>
-        <RemoteButton
-          size="large"
-          variant="outlined"
-          onClick={() => nextPath('/wfh-conf')}
-        >
-          I'm working remote today
-        </RemoteButton>
-      </>) : null}
+      {!hasCheckedInToday ? (
+        <>
+          <StyledButton
+            size="large"
+            variant="contained"
+            disabled={checkInDisabled}
+            onClick={() => {
+              if (localStorage.getItem('covidDate')) {
+                localStorage.setItem(
+                  'checkInDate',
+                  new Date().toISOString().slice(0, 10)
+                );
+                nextPath('/good-day');
+              } else {
+                nextPath('/covid-check');
+              }
+            }}
+          >
+            {!checkInDisabled ? 'Check In' : 'Sorry, capacity reached'}
+          </StyledButton>
+          <RemoteButton
+            size="large"
+            variant="outlined"
+            onClick={() => nextPath('/wfh-conf')}
+          >
+            I'm working remote today
+          </RemoteButton>
+        </>
+      ) : null}
       {showInfoModal ? (
         <InfoPopUp
           handleDismiss={handleDismiss}
@@ -169,10 +180,11 @@ const CheckIn = (props) => {
         />
       ) : null}
     </BaseContainer>
-  )
-  : (<Loading>
-        <CircularProgress/>
-    </Loading>);
+  ) : (
+    <Loading>
+      <CircularProgress />
+    </Loading>
+  );
 };
 
 export default withRouter(CheckIn);
