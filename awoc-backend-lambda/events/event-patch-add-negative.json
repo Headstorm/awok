@@ -1,0 +1,12 @@
+{
+  "path": "/employee-count",
+  "httpMethod": "PATCH",
+  "headers": {
+    "Accept": "*/*",
+    "content-type": "application/json; charset=UTF-8"
+  },
+  "queryStringParameters": {
+    "TestedPositive": false
+  },
+  "pathParameters": null
+}
