@@ -1,12 +1,11 @@
-import React, { useState, useEffect } from 'react';
-import { Button, withStyles } from '@material-ui/core';
-import styled from 'styled-components';
-import { withRouter } from 'react-router-dom';
-import { getCheckInCounts, getSettings } from '../apiCalls';
-import DonutChart from '../common/DonutChart';
-import InfoOutlinedIcon from '@material-ui/icons/InfoOutlined';
-import InfoPopUp from '../common/InfoPopUp';
-import AlreadyCheckedIn from './AlreadyCheckedIn';
+import React, { useState, useEffect } from "react";
+import { Button, withStyles } from "@material-ui/core";
+import styled from "styled-components";
+import { withRouter } from "react-router-dom";
+import { getCheckInCounts, getSettings } from "../apiCalls";
+import DonutChart from "../common/DonutChart";
+import InfoOutlinedIcon from "@material-ui/icons/InfoOutlined";
+import InfoPopUp from "../common/InfoPopUp";
 
 const StyledButton = withStyles(() => ({
   root: {
@@ -97,12 +96,11 @@ const CheckIn = (props) => {
     localStorage.getItem('checkInDate') ===
     new Date().toISOString().slice(0, 10);
 
-  return hasCheckedInToday ? (
-    <AlreadyCheckedIn />
-  ) : (
+  return (
     <BaseContainer>
       <HeaderDiv>
-        <H2>Want to come into the office today?</H2>
+        {!hasCheckedInToday ? (<H2>Want to come into the office today?</H2>)
+          : (<H2>You have already checked in today!</H2>)}
         <H3>
           {immuneCount + fineCount} out of {totalOccupancy} spots taken
           <InfoOutlinedIcon
@@ -116,7 +114,7 @@ const CheckIn = (props) => {
           spotsTaken={immuneCount + fineCount}
           totalOccupancy={totalOccupancy}
         />
-        <StyledButton
+        {!hasCheckedInToday ? (<StyledButton
           size="large"
           variant="contained"
           onClick={() => {
@@ -128,9 +126,9 @@ const CheckIn = (props) => {
           }}
         >
           Check In
-        </StyledButton>
+        </StyledButton>) : null}
       </HeaderDiv>
-      <RemoteDiv>
+      {!hasCheckedInToday ? (<RemoteDiv>
         <RemoteH2>Plan on working remote?</RemoteH2>
         <StyledButton
           size="large"
@@ -139,7 +137,7 @@ const CheckIn = (props) => {
         >
           Working Remote
         </StyledButton>
-      </RemoteDiv>
+      </RemoteDiv>) : null}
       {showInfoModal ? (
         <InfoPopUp
           handleDismiss={handleDismiss}

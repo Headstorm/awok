@@ -1,22 +1,21 @@
-import React from 'react';
-import { Button, withStyles } from '@material-ui/core';
-import styled from 'styled-components';
-import { withRouter } from 'react-router-dom';
-import { patchCheckIn } from '../apiCalls';
+import React from "react";
+import { Button, withStyles } from "@material-ui/core";
+import styled from "styled-components";
+import { withRouter } from "react-router-dom";
+import { patchCheckIn } from "../apiCalls";
+import CheckIcon from '@material-ui/icons/Check';
+import ClearIcon from '@material-ui/icons/Clear';
 
-const YesButton = withStyles(() => ({
+const StyledButton = withStyles(() => ({
   root: {
-    marginBottom: '1rem',
-    color: '#518DFD',
-    borderColor: '#518DFD',
-  },
-}))(Button);
-
-const NoButton = withStyles(() => ({
-  root: {
-    marginBottom: '1rem',
-    color: '#FFFFFF',
-    backgroundColor: '#518DFD',
+    color: "#FFFFFF",
+    backgroundColor: "#518DFD",
+    width: "50%",
+    margin: '1rem',
+    "@media (max-width:425px)": {
+      width: "100%",
+      margin: '.5rem'
+    },
   },
 }))(Button);
 
@@ -25,6 +24,7 @@ const BaseContainer = styled.div`
   flex-direction: column;
   margin: 0rem 2rem 0rem 2rem;
   flex: 1 0;
+  align-items: center;
 `;
 
 const HeaderDiv = styled.div`
@@ -53,6 +53,18 @@ const ColumnDiv = styled.div`
   }
 
   .right-column {
+  }
+`;
+
+const ButtonsContainer = styled.div`
+  display: flex;
+  align-items: center;
+  flex-direction: row;
+  width: 60%;
+  text-align: center;
+  justify-content: center;
+  @media (max-width:425px) {
+    width: 100%;
   }
 `;
 
@@ -88,23 +100,31 @@ const COVIDCheck = (props) => {
           </ColumnDiv>
         </MiddleDiv>
       </HeaderDiv>
-      <YesButton
-        size="large"
-        variant="outlined"
-        onClick={() => nextPath('/safety-rejection')}
-      >
-        Yes
-      </YesButton>
-      <NoButton
-        size="large"
-        variant="contained"
-        onClick={() => {
-          patchCheckIn(localStorage.getItem('isPositive'));
-          props.history.push('/good-day');
-        }}
-      >
-        No
-      </NoButton>
+      <ButtonsContainer>
+        <StyledButton
+          size="large"
+          variant="contained"
+          startIcon={<CheckIcon/>}
+          onClick={() => nextPath("/safety-rejection")}
+        >
+          Yes
+        </StyledButton>
+        <StyledButton
+          size="large"
+          variant="contained"
+          startIcon={<ClearIcon/>}
+          onClick={() => {
+            patchCheckIn(localStorage.getItem("isPositive"));
+            props.history.push("/good-day");
+            localStorage.setItem(
+              "checkInDate",
+              new Date().toISOString().slice(0, 10)
+            );
+          }}
+        >
+          No
+        </StyledButton>
+      </ButtonsContainer>
     </BaseContainer>
   );
 };

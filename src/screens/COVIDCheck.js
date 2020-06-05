@@ -2,22 +2,15 @@ import React from "react";
 import { Button, withStyles } from "@material-ui/core";
 import styled from "styled-components";
 import { withRouter } from "react-router-dom";
+import CheckIcon from '@material-ui/icons/Check';
+import ClearIcon from '@material-ui/icons/Clear';
 
-const YesButton = withStyles(() => ({
-  root: {
-    color: "#518DFD",
-    borderColor: "#518DFD",
-    marginBottom: "2rem",
-    width: "50%",
-    "@media (max-width:425px)": { width: "100%" },
-  },
-}))(Button);
-
-const NoButton = withStyles(() => ({
+const StyledButton = withStyles(() => ({
   root: {
     color: "#FFFFFF",
     backgroundColor: "#518DFD",
     width: "50%",
+    margin: '1rem',
     "@media (max-width:425px)": { width: "100%" },
   },
 }))(Button);
@@ -34,8 +27,11 @@ const Buttons = styled.div`
   grid-row-start: 2;
   grid-column-start: 2;
   display: flex;
-  flex-direction: column;
   align-items: center;
+  flex-direction: row;
+  @media (max-width:425px) {
+    width: 100%;
+  }
 `;
 
 const HeaderQuestion = styled.h2`
@@ -57,20 +53,22 @@ const COVIDCheck = (props) => {
         Have you ever tested positive for Covid-19?
       </HeaderQuestion>
       <Buttons>
-        <YesButton
+        <StyledButton
           size="large"
-          variant="outlined"
+          variant="contained"
+          startIcon={<CheckIcon/>}
           onClick={() => handleClick("/covid-test-date", true)}
         >
           Yes
-        </YesButton>
-        <NoButton
+        </StyledButton>
+        <StyledButton
           size="large"
           variant="contained"
+          startIcon={<ClearIcon/>}
           onClick={() => handleClick("/symptoms-screen", false)}
         >
           No
-        </NoButton>
+        </StyledButton>
       </Buttons>
     </BaseContainer>
   );
