@@ -1,16 +1,13 @@
 import React, { Suspense, lazy } from 'react';
-import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
+import { HashRouter as Router, Switch, Route } from 'react-router-dom';
 import GoodDay from './screens/GoodDay';
 import CheckIn from './screens/CheckIn';
 import COVIDCheck from './screens/COVIDCheck';
 import COVIDTestDate from './screens/COVIDTestDate';
-import SafetyRejection from './screens/SafetyRejection';
 import SymptomsScreen from './screens/SymptomsScreen';
 import WFHConf from './screens/WFHConf';
-import AlreadyCheckedIn from './screens/AlreadyCheckedIn';
 import Header from './common/Header';
 import Footer from './common/Footer';
-import COVIDPositive from './screens/COVIDPositive';
 import styled from 'styled-components';
 
 const BaseContainer = styled.div`
@@ -40,23 +37,14 @@ function App() {
           <Route path="/good-day">
             <GoodDay />
           </Route>
-          <Route path="/safety-rejection">
-            <SafetyRejection />
-          </Route>
           <Route path="/symptoms-screen">
             <SymptomsScreen />
           </Route>
           <Route path="/wfh-conf">
             <WFHConf />
           </Route>
-          <Route path="/covid-positive">
-            <COVIDPositive />
-          </Route>
-          <Route path="/already-checked-in">
-            <AlreadyCheckedIn />
-          </Route>
           <Route path="/admin">
-            <Suspense fallback={<div>Loading...</div>}>
+            <Suspense fallback={<div>Loading</div>}>
               <Admin />
             </Suspense>
           </Route>

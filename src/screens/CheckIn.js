@@ -6,13 +6,20 @@ import { getCheckInCounts, getSettings } from '../apiCalls';
 import DonutChart from '../common/DonutChart';
 import InfoOutlinedIcon from '@material-ui/icons/InfoOutlined';
 import InfoPopUp from '../common/InfoPopUp';
+import CircularProgress from '@material-ui/core/CircularProgress';
+import CheckCircleIcon from '@material-ui/icons/CheckCircle';
 
 const StyledButton = withStyles(() => ({
   root: {
     color: '#FFFFFF',
     backgroundColor: '#518DFD',
-    marginBottom: '2rem',
+    marginBottom: '1rem',
     padding: '.5rem 1.375rem',
+    'grid-row-start': 2,
+    'grid-column-start': 2,
+    'justify-self': 'center',
+    width: '50%',
+    '@media (max-width:425px)': { width: '100%' },
   },
 }))(Button);
 
@@ -29,31 +36,41 @@ const HeaderDiv = styled.div`
   align-content: space-between;
 `;
 
-const H2 = styled.h2`
-  text-align: center;
-  padding: 0rem;
-  margin: 0;
-`;
-
-const RemoteH2 = styled.h2`
-  text-align: center;
-  padding-bottom: 2rem;
-  margin: 0;
-`;
-
-const RemoteDiv = styled.div`
-  grid-column-start: 2;
-  grid-row-start: 2;
+const H3 = styled.p`
   text-align: center;
 `;
 
-const H3 = styled.h3`
+const Loading = styled.div`
   text-align: center;
 `;
+
+const Icon = styled.div`
+  text-align: center;
+  color: #25db47;
+`;
+
+const StyledIcon = withStyles(() => ({
+  root: {
+    fontSize: 50,
+  },
+}))(CheckCircleIcon);
+
+const RemoteButton = withStyles(() => ({
+  root: {
+    color: '#518DFD',
+    borderColor: '#518DFD',
+    marginBottom: '1rem',
+    'grid-row-start': 3,
+    'grid-column-start': 2,
+    'justify-self': 'center',
+    width: '50%',
+    '@media (max-width:425px)': { width: '100%' },
+  },
+}))(Button);
 
 const CheckIn = (props) => {
   const nextPath = (path) => {
-    props.history.push(path);
+    props.history.push(path, { prevPath: props.location.pathname });
   };
 
   const [showInfoModal, setShowInfoModal] = useState(false);
@@ -61,13 +78,13 @@ const CheckIn = (props) => {
   const [immuneCount, setImmuneCount] = useState(0);
   const [fineCount, setFineCount] = useState(0);
   const totalOccupancy = localStorage.getItem('occupancyRule');
+  const [loading, setLoading] = useState(true);
 
   const handleDismiss = () => {
     setShowInfoModal(false);
   };
 
   useEffect(() => {
-    localStorage.clear();
     getSettings()
       .then((res) => res.json())
       .then((response) => {
@@ -75,6 +92,7 @@ const CheckIn = (props) => {
         localStorage.setItem('occupancyRule', response.occupancyRule);
         localStorage.setItem('currentRules', response.currentRules);
         localStorage.setItem('companyName', response.companyName);
+        setLoading(false);
       })
       .catch((e) => {
         console.log(e);
@@ -91,22 +109,29 @@ const CheckIn = (props) => {
         );
       })
       .catch((error) => console.log(error));
-  });
+  }, [totalOccupancy]);
 
   const hasCheckedInToday =
     localStorage.getItem('checkInDate') ===
     new Date().toISOString().slice(0, 10);
 
-  return (
+  const checkInDisabled = immuneCount + fineCount === totalOccupancy;
+
+  return !loading ? (
     <BaseContainer>
       <HeaderDiv>
-        {!hasCheckedInToday ? (
-          <H2>Want to come into the office today?</H2>
-        ) : (
-          <H2>You have already checked in today!</H2>
+        {!hasCheckedInToday ? null : (
+          <div>
+            <Icon>
+              <StyledIcon />
+            </Icon>
+            <p>You have checked in today!</p>
+            <br />
+          </div>
         )}
         <H3>
-          {immuneCount + fineCount} out of {totalOccupancy} spots taken
+          <b>{immuneCount + fineCount}</b> out of <b>{totalOccupancy}</b>{' '}
+          checked in
           <InfoOutlinedIcon
             fontSize="small"
             onClick={() => setShowInfoModal(true)}
@@ -118,33 +143,35 @@ const CheckIn = (props) => {
           spotsTaken={immuneCount + fineCount}
           totalOccupancy={totalOccupancy}
         />
-        {!hasCheckedInToday ? (
+      </HeaderDiv>
+      {!hasCheckedInToday ? (
+        <>
           <StyledButton
             size="large"
             variant="contained"
+            disabled={checkInDisabled}
             onClick={() => {
               if (localStorage.getItem('covidDate')) {
+                localStorage.setItem(
+                  'checkInDate',
+                  new Date().toISOString().slice(0, 10)
+                );
                 nextPath('/good-day');
               } else {
                 nextPath('/covid-check');
               }
             }}
           >
-            Check In
+            {!checkInDisabled ? 'Check In' : 'Sorry, capacity reached'}
           </StyledButton>
-        ) : null}
-      </HeaderDiv>
-      {!hasCheckedInToday ? (
-        <RemoteDiv>
-          <RemoteH2>Plan on working remote?</RemoteH2>
-          <StyledButton
+          <RemoteButton
             size="large"
-            variant="contained"
-            onClick={() => nextPath('/good-day')}
+            variant="outlined"
+            onClick={() => nextPath('/wfh-conf')}
           >
-            Working Remote
-          </StyledButton>
-        </RemoteDiv>
+            I'm working remote today
+          </RemoteButton>
+        </>
       ) : null}
       {showInfoModal ? (
         <InfoPopUp
@@ -153,6 +180,10 @@ const CheckIn = (props) => {
         />
       ) : null}
     </BaseContainer>
+  ) : (
+    <Loading>
+      <CircularProgress />
+    </Loading>
   );
 };
 
