@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Suspense, lazy } from 'react';
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 import GoodDay from './screens/GoodDay';
 import CheckIn from './screens/CheckIn';
@@ -8,7 +8,6 @@ import SafetyRejection from './screens/SafetyRejection';
 import SymptomsScreen from './screens/SymptomsScreen';
 import WFHConf from './screens/WFHConf';
 import AlreadyCheckedIn from './screens/AlreadyCheckedIn';
-import Admin from './screens/Admin';
 import Header from './common/Header';
 import Footer from './common/Footer';
 import COVIDPositive from './screens/COVIDPositive';
@@ -20,6 +19,8 @@ const BaseContainer = styled.div`
   justify-content: space-between;
   min-height: 100vh;
 `;
+
+const Admin = lazy(() => import('./screens/Admin'));
 
 function App() {
   return (
@@ -55,7 +56,9 @@ function App() {
             <AlreadyCheckedIn />
           </Route>
           <Route path="/admin">
-            <Admin />
+            <Suspense fallback={<div>Loading...</div>}>
+              <Admin />
+            </Suspense>
           </Route>
           <Route path="/">
             <CheckIn />
