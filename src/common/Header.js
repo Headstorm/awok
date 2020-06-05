@@ -34,12 +34,17 @@ const Header = (props) => {
     : true;
   const [numCheckedIn, setNumCheckedIn] = useState(0);
   const totalOccupancy = localStorage.getItem('occupancyRule');
-
   useEffect(() => {
     getCheckInCounts()
       .then((res) => res.json())
       .then((response) => {
-        setNumCheckedIn(response.today.positiveCount + response.today.negativeCount);
+        setNumCheckedIn(
+          response.today.positiveCount + response.today.negativeCount
+        );
+        localStorage.setItem(
+          'checkInHistory',
+          JSON.stringify(response.history)
+        );
       })
       .catch((error) => console.log(error));
   });

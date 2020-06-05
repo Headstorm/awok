@@ -59,13 +59,31 @@ const Admin = (props) => {
     successMessage: '',
   });
 
-  const [open, setOpen] = useState(false);
-  // eslint-disable-next-line no-unused-vars
-  const [chartData, setChartData] = useState([0, 5, 16, 6, 8, 25, 0, 0]);
-  const [savedSuccessfully, setSavedSuccessfully] = useState(true);
+  const checkInData = JSON.parse(localStorage.getItem('checkInHistory'))
+    .slice(0, 7)
+    .reverse();
 
+  const daysOfTheWeek = [
+    'Sunday',
+    'Monday',
+    'Tuesday',
+    'Wednesday',
+    'Thursday',
+    'Friday',
+    'Saturday',
+  ];
+
+  const [open, setOpen] = useState(false);
+  const chartData = checkInData.map(
+    (item) => item.positiveCount + item.negativeCount
+  );
+
+  const [savedSuccessfully, setSavedSuccessfully] = useState(true);
+  const xAxis = checkInData.map(
+    (item) => daysOfTheWeek[new Date(item.Date).getDay()]
+  );
   const lineChartInfo = {
-    labels: ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'],
+    labels: xAxis,
     datasets: [
       {
         label: 'Attendance',
@@ -82,7 +100,7 @@ const Admin = (props) => {
   const lineChartOptions = {
     title: {
       display: true,
-      text: 'Attendance for Date - Date',
+      text: 'Attendance for The Last Seven Days',
       fontSize: 20,
     },
     legend: {
