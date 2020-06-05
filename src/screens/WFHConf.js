@@ -41,7 +41,7 @@ const WFHConf = (props) => {
   };
 
   let additionalMessage = null;
-  const prevPath = props.location.state.prevPath || null;
+  const prevPath = props.location.state && props.location.state.prevPath;
   switch(prevPath) {
     case '/symptoms-screen':
       additionalMessage = (<>
