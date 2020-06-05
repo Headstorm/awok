@@ -35,7 +35,7 @@ const BaseContainer = styled.div`
 `;
 
 const HeaderDiv = styled.div`
-  margin-bottom: 2rem;
+  margin-bottom: 1rem;
   grid-row-start: 1;
   grid-column-start: 2;
   text-align: center;
@@ -56,29 +56,33 @@ const CheckboxContainer = styled.div`
 
 const COVIDTestDate = (props) => {
   const nextPath = (path) => {
-    props.history.push(path);
+    props.history.push(path, { prevPath: props.location.pathname });
   };
-
-  const [saveCovidDate, setSaveCovidDate] = useState(false);
-  const [covidDate, setCovidDate] = useState();
   const today = new Date();
   const defaultDate = today.toISOString().slice(0, 10);
   const twoWeeksAgoDate = new Date(today - 1000 * 60 * 60 * 24 * 14)
     .toISOString()
     .slice(0, 10);
+  
+  const [saveCovidDate, setSaveCovidDate] = useState(false);
+  const [covidDate, setCovidDate] = useState(defaultDate);
 
   const onDateChange = (e) => {
     setCovidDate(e.target.value);
   };
   const onCheckInClick = () => {
     if (covidDate >= twoWeeksAgoDate) {
-      nextPath("/covid-positive");
+      nextPath("/wfh-conf");
     } else {
       patchCheckIn(localStorage.getItem("isPositive"));
-      props.history.push("/good-day");
+      nextPath("/good-day");
       if (saveCovidDate) {
         localStorage.setItem("covidDate", covidDate);
       }
+      localStorage.setItem(
+        "checkInDate",
+        new Date().toISOString().slice(0, 10)
+      );
     }
   };
 
@@ -91,10 +95,6 @@ const COVIDTestDate = (props) => {
       <HeaderDiv>
         <h2>
           When did you test positive?
-          <br />
-          <br />
-          We will use this information to alert other people who have visited
-          this office.
         </h2>
       </HeaderDiv>
       <Form noValidate>

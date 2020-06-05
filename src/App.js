@@ -4,14 +4,11 @@ import GoodDay from './screens/GoodDay';
 import CheckIn from './screens/CheckIn';
 import COVIDCheck from './screens/COVIDCheck';
 import COVIDTestDate from './screens/COVIDTestDate';
-import SafetyRejection from './screens/SafetyRejection';
 import SymptomsScreen from './screens/SymptomsScreen';
 import WFHConf from './screens/WFHConf';
-import AlreadyCheckedIn from './screens/AlreadyCheckedIn';
 import Admin from './screens/Admin';
 import Header from './common/Header';
 import Footer from './common/Footer';
-import COVIDPositive from './screens/COVIDPositive';
 import styled from 'styled-components';
 
 const BaseContainer = styled.div`
@@ -39,20 +36,11 @@ function App() {
           <Route path="/good-day">
             <GoodDay />
           </Route>
-          <Route path="/safety-rejection">
-            <SafetyRejection />
-          </Route>
           <Route path="/symptoms-screen">
             <SymptomsScreen />
           </Route>
           <Route path="/wfh-conf">
             <WFHConf />
-          </Route>
-          <Route path="/covid-positive">
-            <COVIDPositive />
-          </Route>
-          <Route path="/already-checked-in">
-            <AlreadyCheckedIn />
           </Route>
           <Route path="/admin">
             <Admin />
