@@ -80,7 +80,6 @@ const CheckIn = (props) => {
   const totalOccupancy = localStorage.getItem('occupancyRule');
   const [loading, setLoading] = useState(true);
 
-  console.log(immuneCount, fineCount)
   const handleDismiss = () => {
     setShowInfoModal(false);
   };
