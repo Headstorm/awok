@@ -1,5 +1,5 @@
-import React from "react";
-import styled from "styled-components";
+import React from 'react';
+import styled from 'styled-components';
 
 const BaseContainer = styled.div`
   display: grid;
@@ -13,14 +13,7 @@ const BaseContainer = styled.div`
 const GoodDay = (props) => {
   return (
     <BaseContainer>
-      <h2>
-        Have a great day!
-        <br />
-        <br />
-        Lawrence says
-        <br />
-        "Get to work"
-      </h2>
+      <h2>{localStorage.getItem('successMessage')}</h2>
     </BaseContainer>
   );
 };
