@@ -1,11 +1,11 @@
-import React, { useState, useEffect } from "react";
-import { Button, withStyles } from "@material-ui/core";
-import styled from "styled-components";
-import { withRouter } from "react-router-dom";
-import { getCheckInCounts, getSettings } from "../apiCalls";
-import DonutChart from "../common/DonutChart";
-import InfoOutlinedIcon from "@material-ui/icons/InfoOutlined";
-import InfoPopUp from "../common/InfoPopUp";
+import React, { useState, useEffect } from 'react';
+import { Button, withStyles } from '@material-ui/core';
+import styled from 'styled-components';
+import { withRouter } from 'react-router-dom';
+import { getCheckInCounts, getSettings } from '../apiCalls';
+import DonutChart from '../common/DonutChart';
+import InfoOutlinedIcon from '@material-ui/icons/InfoOutlined';
+import InfoPopUp from '../common/InfoPopUp';
 
 const StyledButton = withStyles(() => ({
   root: {
@@ -82,10 +82,11 @@ const CheckIn = (props) => {
     getCheckInCounts()
       .then((res) => res.json())
       .then((response) => {
-        setImmuneCount(response.positiveCount);
-        setFineCount(response.negativeCount);
+        setImmuneCount(response.today.positiveCount);
+        setFineCount(response.today.negativeCount);
         setDonutVal(
-          ((response.positiveCount + response.negativeCount) / totalOccupancy) *
+          ((response.today.positiveCount + response.today.negativeCount) /
+            totalOccupancy) *
             100
         );
       })
@@ -99,8 +100,11 @@ const CheckIn = (props) => {
   return (
     <BaseContainer>
       <HeaderDiv>
-        {!hasCheckedInToday ? (<H2>Want to come into the office today?</H2>)
-          : (<H2>You have already checked in today!</H2>)}
+        {!hasCheckedInToday ? (
+          <H2>Want to come into the office today?</H2>
+        ) : (
+          <H2>You have already checked in today!</H2>
+        )}
         <H3>
           {immuneCount + fineCount} out of {totalOccupancy} spots taken
           <InfoOutlinedIcon
@@ -114,30 +118,34 @@ const CheckIn = (props) => {
           spotsTaken={immuneCount + fineCount}
           totalOccupancy={totalOccupancy}
         />
-        {!hasCheckedInToday ? (<StyledButton
-          size="large"
-          variant="contained"
-          onClick={() => {
-            if (localStorage.getItem('covidDate')) {
-              nextPath('/good-day');
-            } else {
-              nextPath('/covid-check');
-            }
-          }}
-        >
-          Check In
-        </StyledButton>) : null}
+        {!hasCheckedInToday ? (
+          <StyledButton
+            size="large"
+            variant="contained"
+            onClick={() => {
+              if (localStorage.getItem('covidDate')) {
+                nextPath('/good-day');
+              } else {
+                nextPath('/covid-check');
+              }
+            }}
+          >
+            Check In
+          </StyledButton>
+        ) : null}
       </HeaderDiv>
-      {!hasCheckedInToday ? (<RemoteDiv>
-        <RemoteH2>Plan on working remote?</RemoteH2>
-        <StyledButton
-          size="large"
-          variant="contained"
-          onClick={() => nextPath('/good-day')}
-        >
-          Working Remote
-        </StyledButton>
-      </RemoteDiv>) : null}
+      {!hasCheckedInToday ? (
+        <RemoteDiv>
+          <RemoteH2>Plan on working remote?</RemoteH2>
+          <StyledButton
+            size="large"
+            variant="contained"
+            onClick={() => nextPath('/good-day')}
+          >
+            Working Remote
+          </StyledButton>
+        </RemoteDiv>
+      ) : null}
       {showInfoModal ? (
         <InfoPopUp
           handleDismiss={handleDismiss}
