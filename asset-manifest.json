@@ -1,14 +1,14 @@
 {
   "files": {
     "main.css": "/awok/static/css/main.34de6062.chunk.css",
-    "main.js": "/awok/static/js/main.6443ba1a.chunk.js",
-    "main.js.map": "/awok/static/js/main.6443ba1a.chunk.js.map",
+    "main.js": "/awok/static/js/main.da439f54.chunk.js",
+    "main.js.map": "/awok/static/js/main.da439f54.chunk.js.map",
     "runtime-main.js": "/awok/static/js/runtime-main.4977059d.js",
     "runtime-main.js.map": "/awok/static/js/runtime-main.4977059d.js.map",
     "static/js/2.400e0b21.chunk.js": "/awok/static/js/2.400e0b21.chunk.js",
     "static/js/2.400e0b21.chunk.js.map": "/awok/static/js/2.400e0b21.chunk.js.map",
     "index.html": "/awok/index.html",
-    "precache-manifest.1292bde08478771916f21d4f4767ef9f.js": "/awok/precache-manifest.1292bde08478771916f21d4f4767ef9f.js",
+    "precache-manifest.20d80a189f60891a330018548d819e04.js": "/awok/precache-manifest.20d80a189f60891a330018548d819e04.js",
     "service-worker.js": "/awok/service-worker.js",
     "static/css/main.34de6062.chunk.css.map": "/awok/static/css/main.34de6062.chunk.css.map",
     "static/js/2.400e0b21.chunk.js.LICENSE.txt": "/awok/static/js/2.400e0b21.chunk.js.LICENSE.txt",
@@ -18,6 +18,6 @@
     "static/js/runtime-main.4977059d.js",
     "static/js/2.400e0b21.chunk.js",
     "static/css/main.34de6062.chunk.css",
-    "static/js/main.6443ba1a.chunk.js"
+    "static/js/main.da439f54.chunk.js"
   ]
 }
