@@ -54,6 +54,12 @@ const CheckboxContainer = styled.div`
   text-align: center;
 `;
 
+const ColoredCheckBox = withStyles(() => ({
+  root: {
+    color: "#518DFD",
+  },
+}))(Checkbox);
+
 const COVIDTestDate = (props) => {
   const nextPath = (path) => {
     props.history.push(path);
@@ -106,7 +112,7 @@ const COVIDTestDate = (props) => {
       </Form>
       <CheckboxContainer>
         <FormControlLabel
-          control={<Checkbox onChange={onCheckboxChange} />}
+          control={<ColoredCheckBox color='#518DFD' onChange={onCheckboxChange} />}
           label="Remember my answer on this device"
         />
       </CheckboxContainer>
