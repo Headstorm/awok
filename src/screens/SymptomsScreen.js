@@ -56,7 +56,7 @@ const StyledList = withStyles(() => ({
 
 const COVIDCheck = (props) => {
   const nextPath = (path) => {
-    props.history.push(path, { prevPath: '/symptoms-screen' });
+    props.history.push(path);
   };
 
   return (
@@ -87,7 +87,7 @@ const COVIDCheck = (props) => {
           size="large"
           variant="contained"
           startIcon={<CheckIcon/>}
-          onClick={() => nextPath("/wfh-conf")}
+          onClick={() => nextPath("/safety-rejection")}
         >
           Yes
         </StyledButton>

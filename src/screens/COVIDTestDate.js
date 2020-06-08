@@ -56,7 +56,7 @@ const CheckboxContainer = styled.div`
 
 const COVIDTestDate = (props) => {
   const nextPath = (path) => {
-    props.history.push(path, { prevPath: '/covid-test-date' });
+    props.history.push(path);
   };
   const today = new Date();
   const defaultDate = today.toISOString().slice(0, 10);
@@ -72,7 +72,7 @@ const COVIDTestDate = (props) => {
   };
   const onCheckInClick = () => {
     if (covidDate >= twoWeeksAgoDate) {
-      nextPath("/wfh-conf");
+      nextPath("/covid-positive");
     } else {
       patchCheckIn(localStorage.getItem("isPositive"));
       nextPath("/good-day");
