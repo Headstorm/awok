@@ -51,7 +51,7 @@ const StyledIcon = withStyles(() => ({
 
 const GoodDay = props => {
   const nextPath = path => {
-    props.history.push(path, { prevPath: '/good-day' });
+    props.history.push(path);
   };
 
   const [count, setCount] = useState(0);

@@ -40,6 +40,12 @@ function App() {
           <Route path="/symptoms-screen">
             <SymptomsScreen />
           </Route>
+          <Route path="/safety-rejection">
+            <WFHConf />
+          </Route>
+          <Route path="/covid-positive">
+            <WFHConf />
+          </Route>
           <Route path="/wfh-conf">
             <WFHConf />
           </Route>

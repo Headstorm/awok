@@ -54,9 +54,15 @@ const CheckboxContainer = styled.div`
   text-align: center;
 `;
 
+const ColoredCheckBox = withStyles(() => ({
+  root: {
+    color: "#518DFD",
+  },
+}))(Checkbox);
+
 const COVIDTestDate = (props) => {
   const nextPath = (path) => {
-    props.history.push(path, { prevPath: '/covid-test-date' });
+    props.history.push(path);
   };
   const today = new Date();
   const defaultDate = today.toISOString().slice(0, 10);
@@ -72,7 +78,7 @@ const COVIDTestDate = (props) => {
   };
   const onCheckInClick = () => {
     if (covidDate >= twoWeeksAgoDate) {
-      nextPath("/wfh-conf");
+      nextPath("/covid-positive");
     } else {
       patchCheckIn(localStorage.getItem("isPositive"));
       nextPath("/good-day");
@@ -106,7 +112,7 @@ const COVIDTestDate = (props) => {
       </Form>
       <CheckboxContainer>
         <FormControlLabel
-          control={<Checkbox onChange={onCheckboxChange} />}
+          control={<ColoredCheckBox color='#518DFD' onChange={onCheckboxChange} />}
           label="Remember my answer on this device"
         />
       </CheckboxContainer>

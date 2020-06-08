@@ -37,13 +37,13 @@ const StyledButton = withStyles(() => ({
 
 const WFHConf = (props) => {
   const nextPath = (path) => {
-    props.history.push(path, { prevPath: '/wfh-conf' });
+    props.history.push(path);
   };
 
   let additionalMessage = null;
-  const prevPath = props.location.state && props.location.state.prevPath;
+  const prevPath = props.location.pathname;
   switch(prevPath) {
-    case '/symptoms-screen':
+    case '/safety-rejection':
       additionalMessage = (<>
         Going to work with these symptoms puts the rest of your office at risk.
         <br />
@@ -53,7 +53,7 @@ const WFHConf = (props) => {
         <br />
       </>);
       break;
-    case '/covid-test-date':
+    case '/covid-positive':
       additionalMessage = (<>
         CDC Guidelines state "Stay home until 14 days after your last exposure."
         <br />
