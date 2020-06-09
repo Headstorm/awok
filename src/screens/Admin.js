@@ -57,21 +57,14 @@ const Admin = (props) => {
     occupancyRule: '',
     currentRules: '',
     successMessage: '',
+    reservationClearOut: '00:00',
   });
 
   const checkInData = JSON.parse(localStorage.getItem('checkInHistory'))
     .slice(0, 7)
     .reverse();
 
-  const daysOfTheWeek = [
-    'Sunday',
-    'Monday',
-    'Tuesday',
-    'Wednesday',
-    'Thursday',
-    'Friday',
-    'Saturday',
-  ];
+  const daysOfTheWeek = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
 
   const [open, setOpen] = useState(false);
   const chartData = checkInData.map(
@@ -80,7 +73,10 @@ const Admin = (props) => {
 
   const [savedSuccessfully, setSavedSuccessfully] = useState(true);
   const xAxis = checkInData.map(
-    (item) => daysOfTheWeek[new Date(item.Date).getDay()]
+    (item) =>
+      `${daysOfTheWeek[new Date(item.Date).getDay()]} ${new Date(
+        item.Date
+      ).getMonth()}/${new Date(item.Date).getDate()}`
   );
   const lineChartInfo = {
     labels: xAxis,
@@ -195,6 +191,16 @@ const Admin = (props) => {
             name="successMessage"
             value={formData.successMessage}
             label="Success Message"
+          />
+          <StyledTextField
+            InputLabelProps={{
+              shrink: true,
+            }}
+            type="time"
+            fullWidth
+            label="Reservation Clear Out Time"
+            name="reservationClearOut"
+            value={formData.reservationClearOut}
           />
         </form>
       </AdminForm>
