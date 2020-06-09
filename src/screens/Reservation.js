@@ -20,14 +20,14 @@ const DaySelectionContainer = styled.div`
 `;
 
 const ReserveButton = withStyles(() => ({
-		root: {
-			color: '#FFFFFF',
-			backgroundColor: '#518DFD',
-			width: '30%',
-			margin: '1rem',
-			"@media (max-width:425px)": { width: "75%" },
-		},
-	}))(Button);
+	root: {
+		color: '#FFFFFF',
+		backgroundColor: '#518DFD',
+		width: '30%',
+		margin: '1rem',
+		"@media (max-width:425px)": { width: "75%" },
+	},
+}))(Button);
 
 const StyledButtonGroup = withStyles(() => ({
 	root: {
@@ -50,12 +50,12 @@ const StyledTextField = withStyles(() => ({
 }))(TextField)
 
 const StyledDivider = withStyles(() => ({
-		root: {
-			width: '35%',
-			margin: 0,
-			"@media (max-width:425px)": { width: "80%" },
-		}
-	}))(Divider)
+	root: {
+		width: '35%',
+		margin: 0,
+		"@media (max-width:425px)": { width: "80%" },
+	}
+}))(Divider)
 
 const SelectedDays = styled.p`
 	margin: .5rem;
