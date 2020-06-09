@@ -8,6 +8,7 @@ import InfoOutlinedIcon from '@material-ui/icons/InfoOutlined';
 import InfoPopUp from '../common/InfoPopUp';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import CheckCircleIcon from '@material-ui/icons/CheckCircle';
+import EventIcon from '@material-ui/icons/Event';
 
 const StyledButton = withStyles(() => ({
   root: {
@@ -137,6 +138,9 @@ const CheckIn = (props) => {
             onClick={() => setShowInfoModal(true)}
           />
         </H3>
+        <Button onClick={() => nextPath('/reservation')} endIcon={<EventIcon />}>
+          Reserve
+        </Button>
         <h3>Today's checkins</h3>
         <DonutChart
           value={donutval}
