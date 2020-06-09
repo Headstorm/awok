@@ -105,11 +105,8 @@ const Reservation = props => {
 				<Button
 					key={storeValue}
 					onClick={() => {
-						if (storedDays.includes(storeValue)) {
-							setStoredDays(storedDays.filter(day => day !== storeValue))
-						} else {
-							setStoredDays([...storedDays, storeValue])
-						}
+						storedDays.includes(storeValue) ? setStoredDays(storedDays.filter(day => day !== storeValue))
+						: setStoredDays([...storedDays, storeValue])
 					}}
 					variant={storedDays.includes(storeValue) ? 'contained' : ''}
 					disabled={storeValue < today}
@@ -137,12 +134,12 @@ const Reservation = props => {
 			<StyledDivider variant="middle" />
 			<SelectedDays>{storedDays.sort().map(d => getReadableDay(d)).join(', ')}</SelectedDays>
 			<Form noValidate>
-					<StyledTextField
-						id="outlined-basic"
-						label="Reservation Retrival Code"
-						variant="outlined"
-						onChange={(e) => setReservationCode(e.target.value)}
-					/>
+				<StyledTextField
+					id="outlined-basic"
+					label="Reservation Retrival Code"
+					variant="outlined"
+					onChange={(e) => setReservationCode(e.target.value)}
+				/>
 			</Form>
 			<ReserveButton
 				disabled={!(storedDays.length && reservationCode.length)}
