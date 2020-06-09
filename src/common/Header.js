@@ -15,10 +15,8 @@ const BaseContainer = styled.div`
 
 const Logo = styled.img`
   width: 20%;
-  height: 20%;
   @media (max-width: 425px) {
     width: 50%;
-    height: 50%;
   }
 `;
 
