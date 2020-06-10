@@ -8,7 +8,6 @@ import InfoOutlinedIcon from '@material-ui/icons/InfoOutlined';
 import InfoPopUp from '../common/InfoPopUp';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import CheckCircleIcon from '@material-ui/icons/CheckCircle';
-import EventIcon from '@material-ui/icons/Event';
 
 const StyledButton = withStyles(() => ({
   root: {
@@ -60,7 +59,18 @@ const RemoteButton = withStyles(() => ({
   root: {
     color: '#518DFD',
     borderColor: '#518DFD',
-    marginBottom: '1rem',
+    'grid-row-start': 4,
+    'grid-column-start': 2,
+    'justify-self': 'center',
+    width: '50%',
+    '@media (max-width:425px)': { width: '100%' },
+  },
+}))(Button);
+
+const ReserveButton = withStyles(() => ({
+  root: {
+    color: '#518DFD',
+    borderColor: '#518DFD',
     'grid-row-start': 3,
     'grid-column-start': 2,
     'justify-self': 'center',
@@ -153,9 +163,6 @@ const CheckIn = (props) => {
             onClick={() => setShowInfoModal(true)}
           />
         </H3>
-        <Button onClick={() => nextPath('/reservation')} endIcon={<EventIcon />}>
-          Reserve
-        </Button>
         <h3>Today's checkins</h3>
         <h4>Reservations expire at {clearOutTime}</h4>
         <DonutChart
@@ -185,11 +192,14 @@ const CheckIn = (props) => {
           >
             {!checkInDisabled ? 'Check In' : 'Sorry, capacity reached'}
           </StyledButton>
-          <RemoteButton
+          <ReserveButton
             size="large"
             variant="outlined"
-            onClick={() => nextPath('/wfh-conf')}
+            onClick={() => nextPath('/reservation')}
           >
+            Reserve
+          </ReserveButton>
+          <RemoteButton size="large" onClick={() => nextPath('/wfh-conf')}>
             I'm working remote today
           </RemoteButton>
         </>
