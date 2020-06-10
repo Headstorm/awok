@@ -8,7 +8,6 @@ import InfoOutlinedIcon from '@material-ui/icons/InfoOutlined';
 import InfoPopUp from '../common/InfoPopUp';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import CheckCircleIcon from '@material-ui/icons/CheckCircle';
-import EventIcon from '@material-ui/icons/Event';
 
 const StyledButton = withStyles(() => ({
   root: {
@@ -60,7 +59,18 @@ const RemoteButton = withStyles(() => ({
   root: {
     color: '#518DFD',
     borderColor: '#518DFD',
-    marginBottom: '1rem',
+    'grid-row-start': 4,
+    'grid-column-start': 2,
+    'justify-self': 'center',
+    width: '50%',
+    '@media (max-width:425px)': { width: '100%' },
+  },
+}))(Button);
+
+const ReserveButton = withStyles(() => ({
+  root: {
+    color: '#518DFD',
+    borderColor: '#518DFD',
     'grid-row-start': 3,
     'grid-column-start': 2,
     'justify-self': 'center',
@@ -75,10 +85,22 @@ const CheckIn = (props) => {
   };
 
   const [showInfoModal, setShowInfoModal] = useState(false);
-  const [donutval, setDonutVal] = useState(0);
+  const [donutval, setDonutVal] = useState([0, 0]);
   const [immuneCount, setImmuneCount] = useState(0);
   const [fineCount, setFineCount] = useState(0);
+  // eslint-disable-next-line no-unused-vars
+  const [reserveCount, setReserveCount] = useState(0);
   const totalOccupancy = localStorage.getItem('occupancyRule');
+  // pull the time from local storage when that gets set localStorage.getItem('reservationClearOut')
+  const clearOutTime = new Date(`1970-01-01T${'10:00'}Z`).toLocaleString(
+    'en-US',
+    {
+      hour: 'numeric',
+      minute: 'numeric',
+      hour12: true,
+      timeZone: 'UTC',
+    }
+  );
   const [loading, setLoading] = useState(true);
 
   const handleDismiss = () => {
@@ -93,6 +115,7 @@ const CheckIn = (props) => {
         localStorage.setItem('occupancyRule', response.occupancyRule);
         localStorage.setItem('currentRules', response.currentRules);
         localStorage.setItem('companyName', response.companyName);
+        // localStorage.setItem('reservationClearOut', response.reservationClearOut);
         setLoading(false);
       })
       .catch((e) => {
@@ -103,10 +126,12 @@ const CheckIn = (props) => {
       .then((response) => {
         setImmuneCount(response.today.positiveCount);
         setFineCount(response.today.negativeCount);
+        // setReserveCount(response.today.reserveCount) un-comment when this is set up in api
         setDonutVal(
-          ((response.today.positiveCount + response.today.negativeCount) /
-            totalOccupancy) *
-            100
+          // Add reserve count below when that api call becomes available
+          [response.today.positiveCount + response.today.negativeCount, 0].map(
+            (val) => (val / totalOccupancy) * 100
+          )
         );
       })
       .catch((error) => console.log(error));
@@ -138,13 +163,12 @@ const CheckIn = (props) => {
             onClick={() => setShowInfoModal(true)}
           />
         </H3>
-        <Button onClick={() => nextPath('/reservation')} endIcon={<EventIcon />}>
-          Reserve
-        </Button>
         <h3>Today's checkins</h3>
+        <h4>Reservations expire at {clearOutTime}</h4>
         <DonutChart
-          value={donutval}
+          values={donutval}
           spotsTaken={immuneCount + fineCount}
+          spotsReserved={reserveCount}
           totalOccupancy={totalOccupancy}
         />
       </HeaderDiv>
@@ -168,11 +192,14 @@ const CheckIn = (props) => {
           >
             {!checkInDisabled ? 'Check In' : 'Sorry, capacity reached'}
           </StyledButton>
-          <RemoteButton
+          <ReserveButton
             size="large"
             variant="outlined"
-            onClick={() => nextPath('/wfh-conf')}
+            onClick={() => nextPath('/reservation')}
           >
+            Reserve
+          </ReserveButton>
+          <RemoteButton size="large" onClick={() => nextPath('/wfh-conf')}>
             I'm working remote today
           </RemoteButton>
         </>
