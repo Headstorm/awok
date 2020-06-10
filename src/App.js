@@ -6,6 +6,7 @@ import COVIDCheck from './screens/COVIDCheck';
 import COVIDTestDate from './screens/COVIDTestDate';
 import SymptomsScreen from './screens/SymptomsScreen';
 import WFHConf from './screens/WFHConf';
+import Reservation from './screens/Reservation';
 import Header from './common/Header';
 import Footer from './common/Footer';
 import styled from 'styled-components';
@@ -14,7 +15,7 @@ const BaseContainer = styled.div`
   display: flex;
   flex-flow: column;
   justify-content: space-between;
-  min-height: 100vh;
+  min-height: ${window.innerHeight}px;
 `;
 
 const Admin = lazy(() => import('./screens/Admin'));
@@ -48,6 +49,9 @@ function App() {
           </Route>
           <Route path="/wfh-conf">
             <WFHConf />
+          </Route>
+          <Route path="/reservation">
+            <Reservation />
           </Route>
           <Route path="/admin">
             <Suspense fallback={<div>Loading</div>}>
