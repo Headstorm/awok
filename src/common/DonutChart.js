@@ -1,5 +1,5 @@
-import React from "react";
-import styled from "styled-components";
+import React from 'react';
+import styled from 'styled-components';
 
 const DonutTrack = styled.circle`
   fill: transparent;
@@ -9,7 +9,13 @@ const DonutTrack = styled.circle`
 
 const Indicator = styled.circle`
   fill: transparent;
-  stroke: #518dfd;
+  stroke: #80e27e;
+  stroke-width: 26;
+`;
+
+const Indicator2 = styled.circle`
+  fill: transparent;
+  stroke: #8cbdff;
   stroke-width: 26;
 `;
 
@@ -49,36 +55,56 @@ const SVGLabel = styled.svg`
 
 const DonutChart = (props) => {
   const size = 115;
+  const halfSize = size * 0.5;
   const strokewidth = 26;
-  const value = props.value;
-  const halfsize = size * 0.5;
-  const radius = halfsize - strokewidth * 0.5;
+  const radius = halfSize - strokewidth * 0.5;
   const circumference = 2 * Math.PI * radius;
-  const strokeval = (value * circumference) / 100;
-  const dashval = strokeval + " " + circumference;
-  const spotsOpen = props.totalOccupancy - props.spotsTaken;
 
-  const trackstyle = { strokeWidth: strokewidth };
-  const indicatorstyle = { strokeWidth: strokewidth, strokeDasharray: dashval };
-  const rotateval = "rotate(-90 " + halfsize + "," + halfsize + ")";
+  const values = props.values;
 
+  const spotsOpen =
+    props.totalOccupancy - props.spotsTaken - props.spotsReserved;
+
+  const strokeValues = values.map((val) => (val * circumference) / 100);
+
+  const dashValue = strokeValues[0] + ' ' + circumference;
+  const dashValue2 = strokeValues[1] + strokeValues[0] + ' ' + circumference;
+
+  const trackStyle = { strokeWidth: strokewidth };
+  const indicatorStyle = {
+    strokeWidth: strokewidth,
+    strokeDasharray: dashValue,
+  };
+  const indicatorStyle2 = {
+    strokeWidth: strokewidth,
+    strokeDasharray: dashValue2,
+  };
+  const rotateValue = 'rotate(-90 ' + halfSize + ',' + halfSize + ')';
   return (
     <BaseContainer>
       <Donut width={size} height={size} className="donutchart">
         <DonutTrack
           r={radius}
-          cx={halfsize}
-          cy={halfsize}
-          transform={rotateval}
-          style={trackstyle}
+          cx={halfSize}
+          cy={halfSize}
+          transform={rotateValue}
+          style={trackStyle}
           className="donutchart-track"
+        />
+        <Indicator2
+          r={radius}
+          cx={halfSize}
+          cy={halfSize}
+          transform={rotateValue}
+          style={indicatorStyle2}
+          className="donutchart-indicator"
         />
         <Indicator
           r={radius}
-          cx={halfsize}
-          cy={halfsize}
-          transform={rotateval}
-          style={indicatorstyle}
+          cx={halfSize}
+          cy={halfSize}
+          transform={rotateValue}
+          style={indicatorStyle}
           className="donutchart-indicator"
         />
       </Donut>
@@ -96,7 +122,15 @@ const DonutChart = (props) => {
             <b>{props.spotsTaken}</b> Checked In
           </label>
           <SVGLabel>
-            <circle cx={20} cy={20} r={10} fill="#518DFD" />
+            <circle cx={20} cy={20} r={10} fill="#80e27e" />
+          </SVGLabel>
+        </Label>
+        <Label>
+          <label>
+            <b>{props.spotsReserved}</b> Reserved
+          </label>
+          <SVGLabel>
+            <circle cx={20} cy={20} r={10} fill="#8cbdff" />
           </SVGLabel>
         </Label>
       </LabelsContainer>

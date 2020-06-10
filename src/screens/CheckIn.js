@@ -74,10 +74,22 @@ const CheckIn = (props) => {
   };
 
   const [showInfoModal, setShowInfoModal] = useState(false);
-  const [donutval, setDonutVal] = useState(0);
+  const [donutval, setDonutVal] = useState([0, 0]);
   const [immuneCount, setImmuneCount] = useState(0);
   const [fineCount, setFineCount] = useState(0);
+  // eslint-disable-next-line no-unused-vars
+  const [reserveCount, setReserveCount] = useState(0);
   const totalOccupancy = localStorage.getItem('occupancyRule');
+  // pull the time from local storage when that gets set localStorage.getItem('reservationClearOut')
+  const clearOutTime = new Date(`1970-01-01T${'10:00'}Z`).toLocaleString(
+    'en-US',
+    {
+      hour: 'numeric',
+      minute: 'numeric',
+      hour12: true,
+      timeZone: 'UTC',
+    }
+  );
   const [loading, setLoading] = useState(true);
 
   const handleDismiss = () => {
@@ -92,6 +104,7 @@ const CheckIn = (props) => {
         localStorage.setItem('occupancyRule', response.occupancyRule);
         localStorage.setItem('currentRules', response.currentRules);
         localStorage.setItem('companyName', response.companyName);
+        // localStorage.setItem('reservationClearOut', response.reservationClearOut);
         setLoading(false);
       })
       .catch((e) => {
@@ -102,10 +115,12 @@ const CheckIn = (props) => {
       .then((response) => {
         setImmuneCount(response.today.positiveCount);
         setFineCount(response.today.negativeCount);
+        // setReserveCount(response.today.reserveCount) un-comment when this is set up in api
         setDonutVal(
-          ((response.today.positiveCount + response.today.negativeCount) /
-            totalOccupancy) *
-            100
+          // Add reserve count below when that api call becomes available
+          [response.today.positiveCount + response.today.negativeCount, 0].map(
+            (val) => (val / totalOccupancy) * 100
+          )
         );
       })
       .catch((error) => console.log(error));
@@ -138,9 +153,11 @@ const CheckIn = (props) => {
           />
         </H3>
         <h3>Today's checkins</h3>
+        <h4>Reservations expire at {clearOutTime}</h4>
         <DonutChart
-          value={donutval}
+          values={donutval}
           spotsTaken={immuneCount + fineCount}
+          spotsReserved={reserveCount}
           totalOccupancy={totalOccupancy}
         />
       </HeaderDiv>
