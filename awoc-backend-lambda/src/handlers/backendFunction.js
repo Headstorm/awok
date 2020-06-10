@@ -2,6 +2,8 @@
 
 // Create a DocumentClient that represents the query to add an item
 const dynamodb = require("aws-sdk/clients/dynamodb");
+const moment = require("moment-timezone");
+
 const docClient = new dynamodb.DocumentClient();
 
 // Get the DynamoDB table name from environment variables
@@ -24,9 +26,13 @@ exports.handler = async (event, context) => {
     "Content-Type": "application/json",
   };
 
-  const key = new Date().toDateString();
+  const today = moment.tz("America/Chicago").startOf('day');
+  const Key = {
+    Date: today.format(),
+  }
+
   let dbItem = await docClient
-    .get({ TableName: tableName, Key: { Date: key } })
+    .get({ TableName: tableName, Key })
     .promise();
   const isItemNull = Object.keys(dbItem).length === 0;
 
@@ -34,29 +40,55 @@ exports.handler = async (event, context) => {
     return await docClient
       .put({
         TableName: tableName,
-        Item: { Date: key, positiveCount: 0, negativeCount: 0 },
+        Item: { ...Key, positiveCount: 0, negativeCount: 0 },
       })
       .promise();
   };
 
   if (isItemNull) {
     createTodaysCount();
-    dbItem = { Date: key, positiveCount: 0, negativeCount: 0 };
+    dbItem = { ...Key, positiveCount: 0, negativeCount: 0 };
   } else {
     dbItem = dbItem.Item;
   }
+
+  // inserts a bunch o random data
+  // const last30Keys = Array(30).fill(null).map((_, i) => i).map(offset => ({ Date: moment.tz("America/Chicago").startOf('day').subtract(offset, 'd').format() }));
+  // await Promise.all(last30Keys.map(async key => {
+  //   const count = Math.floor((Math.random() * (25 - 1) + 1));
+  //   const positiveCount = Math.floor((Math.random() * (count - 1) + 1));
+  //   const negativeCount = count - positiveCount;
+  //   const Item = { ...key, positiveCount, negativeCount };
+  //   await docClient
+  //     .put({
+  //       TableName: tableName,
+  //       Item,
+  //     })
+  //     .promise();
+  // }))
+
 
   headers["Access-Control-Allow-Origin"] = "*";
   try {
     switch (event.httpMethod) {
       case "DELETE":
         body = await docClient
-          .delete({ TableName: tableName, Key: { Date: key } })
+          .delete({ TableName: tableName, Key })
           .promise();
         createTodaysCount();
         break;
       case "GET":
-        body = dbItem;
+        await docClient.get({ TableName: tableName, Key }).promise();
+        const range = Array(30).fill(null).map((_, i) => i);
+        const last30Keys = range.map(offset => ({ Date: moment.tz("America/Chicago").startOf('day').subtract(offset, 'd').format() }));
+        body = {
+          today: dbItem,
+          history: (await docClient.batchGet({
+            RequestItems: {
+              [tableName]: { Keys: last30Keys }
+            }
+          }).promise()).Responses[tableName].sort((a, b) => new Date(b.Date) - new Date(a.Date))
+        };
         break;
       case "PATCH":
         const positiveDelta =
@@ -65,7 +97,7 @@ exports.handler = async (event, context) => {
             : 0;
         const positiveCount = dbItem.positiveCount + positiveDelta;
         const negativeCount = dbItem.negativeCount + (1 - positiveDelta);
-        const Item = { Date: key, positiveCount, negativeCount };
+        const Item = { ...Key, positiveCount, negativeCount };
         await docClient
           .put({
             TableName: tableName,

@@ -28,7 +28,11 @@ function App() {
         <Header />
         <Switch>
           <Route path="/check-in">
+<<<<<<< Updated upstream
             <CheckIn />
+=======
+            {React.lazy(() => import('./CheckIn')}
+>>>>>>> Stashed changes
           </Route>
           <Route path="/covid-check">
             <COVIDCheck />
@@ -49,6 +53,7 @@ function App() {
             <WFHConf />
           </Route>
           <Route path="/covid-positive">
+<<<<<<< Updated upstream
             <COVIDPositive />
           </Route>
           <Route path="/already-checked-in">
@@ -56,6 +61,9 @@ function App() {
           </Route>
           <Route path="/admin">
             <Admin />
+=======
+            <COVIDPostive />
+>>>>>>> Stashed changes
           </Route>
           <Route path="/">
             <CheckIn />
