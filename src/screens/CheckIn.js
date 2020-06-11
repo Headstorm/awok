@@ -67,17 +67,17 @@ const RemoteButton = withStyles(() => ({
   },
 }))(Button);
 
-const ReserveButton = withStyles(() => ({
-  root: {
-    color: '#518DFD',
-    borderColor: '#518DFD',
-    'grid-row-start': 3,
-    'grid-column-start': 2,
-    'justify-self': 'center',
-    width: '50%',
-    '@media (max-width:425px)': { width: '100%' },
-  },
-}))(Button);
+// const ReserveButton = withStyles(() => ({
+//   root: {
+//     color: '#518DFD',
+//     borderColor: '#518DFD',
+//     'grid-row-start': 3,
+//     'grid-column-start': 2,
+//     'justify-self': 'center',
+//     width: '50%',
+//     '@media (max-width:425px)': { width: '100%' },
+//   },
+// }))(Button);
 
 const CheckIn = (props) => {
   const nextPath = (path) => {
@@ -193,13 +193,13 @@ const CheckIn = (props) => {
           >
             {!checkInDisabled ? 'Check In' : 'Sorry, capacity reached'}
           </StyledButton>
-          <ReserveButton
+          {/* <ReserveButton
             size="large"
             variant="outlined"
             onClick={() => nextPath('/reservation')}
           >
             Reserve
-          </ReserveButton>
+          </ReserveButton> */}
           <RemoteButton size="large" onClick={() => nextPath('/wfh-conf')}>
             I'm working remote today
           </RemoteButton>
