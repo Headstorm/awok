@@ -24,11 +24,11 @@ function Copyright() {
 
 const Footer = () => (
   <BaseContainer>
-    <Container maxWidth="sm">
-      <Typography variant="body1">
+    <Container>
+      <Typography>
         All answers are completely anonymous. We do not track your phone, location,
         or anything about you.
-    </Typography>
+      </Typography>
       <Copyright />
     </Container>
   </BaseContainer>
