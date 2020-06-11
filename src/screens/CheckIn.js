@@ -92,15 +92,15 @@ const CheckIn = (props) => {
   const [reserveCount, setReserveCount] = useState(0);
   const totalOccupancy = localStorage.getItem('occupancyRule');
   // pull the time from local storage when that gets set localStorage.getItem('reservationClearOut')
-  const clearOutTime = new Date(`1970-01-01T${'10:00'}Z`).toLocaleString(
-    'en-US',
-    {
-      hour: 'numeric',
-      minute: 'numeric',
-      hour12: true,
-      timeZone: 'UTC',
-    }
-  );
+  // const clearOutTime = new Date(`1970-01-01T${'10:00'}Z`).toLocaleString(
+  //   'en-US',
+  //   {
+  //     hour: 'numeric',
+  //     minute: 'numeric',
+  //     hour12: true,
+  //     timeZone: 'UTC',
+  //   }
+  // );
   const [loading, setLoading] = useState(true);
 
   const handleDismiss = () => {
@@ -164,7 +164,8 @@ const CheckIn = (props) => {
           />
         </H3>
         <h3>Today's checkins</h3>
-        <h4>Reservations expire at {clearOutTime}</h4>
+        {/* uncomment below when we have reservations connected */}
+        {/* <h4>Reservations expire at {clearOutTime}</h4> */}
         <DonutChart
           values={donutval}
           spotsTaken={immuneCount + fineCount}
