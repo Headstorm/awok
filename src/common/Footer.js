@@ -25,7 +25,7 @@ function Copyright() {
 const Footer = () => (
   <BaseContainer>
     <Container>
-      <Typography>
+      <Typography variant="body2">
         All answers are completely anonymous. We do not track your phone, location,
         or anything about you.
       </Typography>
