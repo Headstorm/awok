@@ -122,6 +122,22 @@ const Admin = (props) => {
     });
   };
 
+  const handleTimeChange = (e) => {
+    // we expect api to return a UTC formatted date time, so we convert to current timezone for display purposes
+    // here we switch back to UTC because that is also how we save it in state
+    const currentTime = new Date();
+    const year = currentTime.getFullYear();
+    const month = ('0' + (currentTime.getMonth() + 1)).slice(-2);
+    const day = currentTime.getDate();
+    const convertedTimeObject = new Date(
+      `${year}-${month}-${day}T${e.target.value}`
+    ).toUTCString();
+    setFormData({
+      ...formData,
+      [e.target.getAttribute('name')]: convertedTimeObject,
+    });
+  };
+
   const handleClick = () => {
     setSettings(formData)
       .then((res) => res.json())
@@ -198,9 +214,17 @@ const Admin = (props) => {
             }}
             type="time"
             fullWidth
+            onChange={(e) => handleTimeChange(e)}
             label="Reservation Clear Out Time"
             name="reservationClearOut"
-            value={formData.reservationClearOut}
+            value={new Date(formData.reservationClearOut).toLocaleString(
+              'en-US',
+              {
+                hour: 'numeric',
+                minute: 'numeric',
+                hour12: false,
+              }
+            )}
           />
         </form>
       </AdminForm>
