@@ -1,8 +1,9 @@
 import React, { useState } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import { getReservation } from '../services/apiCalls';
-import { TextField, ListItemSecondaryAction, ListItemText, Typography, List, Button, Container, ListItem } from '@material-ui/core';
+import { TextField, withStyles, Icon, ListItemSecondaryAction, ListItemText, Typography, List, Button, Container, ListItem } from '@material-ui/core';
 import { withRouter } from 'react-router-dom';
+import CheckCircleIcon from '@material-ui/icons/CheckCircle';
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -17,10 +18,13 @@ const useStyles = makeStyles((theme) => ({
     },
     textField: {
         marginBottom: '1rem',
-        width: '50%',
-
+        width: '100%',
     },
-
+    icon: {
+        textAlign: 'center',
+        color: '#25db47',
+        fontSize: '1rem'
+    },
     reservationButton: {
         color: '#FFFFFF',
         backgroundColor: '#518DFD',
@@ -33,6 +37,13 @@ const useStyles = makeStyles((theme) => ({
         '@media (max-width:425px)': { width: '100%' },
     }
 }));
+
+const StyledIcon = withStyles(() => ({
+    root: {
+      fontSize: '1rem',
+    },
+  }))(CheckCircleIcon);
+
 
 const ViewReservations = (props) => {
     const [reservedDays, setReservedDays] = useState([]);
@@ -82,7 +93,12 @@ const ViewReservations = (props) => {
                         <ListItem key={value} role={undefined} dense>
                             <ListItemSecondaryAction>
                                 {isToday(value) && !hasCheckedInToday &&
-                                    <Button color="primary" onClick={()=>{checkInTodaysReservation(value)}} >Check In</Button>
+                                    <Button color="primary" onClick={() => { checkInTodaysReservation(value) }} >Check In</Button>
+                                }
+                                {isToday(value) && hasCheckedInToday &&
+                                    <Icon className={classes.icon}>
+                                       Checked In <StyledIcon />
+                                    </Icon>
                                 }
                             </ListItemSecondaryAction>
                             <ListItemText id={labelId} primary={`${value}`} />
