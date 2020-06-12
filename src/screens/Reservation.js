@@ -146,7 +146,7 @@ const Reservation = props => {
 				disabled={!(storedDays.length && reservationCode.length)}
 				size="large"
 				variant="contained"
-				onClick={() => setReservation({ storedDays, reservationCode })}
+				onClick={() => setReservation({ dates: storedDays, reservationCode })}
 			>
 				Reserve
 			</ReserveButton>
