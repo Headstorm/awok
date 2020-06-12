@@ -3,7 +3,7 @@ import Button from '@material-ui/core/Button';
 import ButtonGroup from '@material-ui/core/ButtonGroup';
 import { TextField, Divider, withStyles } from '@material-ui/core';
 import styled from "styled-components";
-import { setReservation } from '../apiCalls';
+import { setReservation } from '../services/apiCalls';
 
 const MONTHS = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']
 
