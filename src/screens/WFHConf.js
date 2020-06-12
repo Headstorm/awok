@@ -3,6 +3,7 @@ import styled from "styled-components";
 import { withRouter } from "react-router-dom";
 import { Button, withStyles } from "@material-ui/core";
 import HomeIcon from '@material-ui/icons/Home';
+import { PATHS } from '../common/constants';
 
 const BaseContainer = styled.div`
   display: grid;
@@ -43,7 +44,7 @@ const WFHConf = (props) => {
   let additionalMessage = null;
   const prevPath = props.location.pathname;
   switch(prevPath) {
-    case '/safety-rejection':
+    case PATHS.SAFETY_REJECTION:
       additionalMessage = (<>
         Going to work with these symptoms puts the rest of your office at risk.
         <br />
@@ -53,7 +54,7 @@ const WFHConf = (props) => {
         <br />
       </>);
       break;
-    case '/covid-positive':
+    case PATHS.COVID_POSITIVE:
       additionalMessage = (<>
         CDC Guidelines state "Stay home until 14 days after your last exposure."
         <br />
@@ -80,7 +81,7 @@ const WFHConf = (props) => {
           size="large"
           variant="contained"
           startIcon={<HomeIcon/>}
-          onClick={() => nextPath('/')}
+          onClick={() => nextPath(PATHS.ROOT)}
         >
           Home Page
       </StyledButton>

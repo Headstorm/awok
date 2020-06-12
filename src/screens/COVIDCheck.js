@@ -4,6 +4,7 @@ import styled from "styled-components";
 import { withRouter } from "react-router-dom";
 import CheckIcon from '@material-ui/icons/Check';
 import ClearIcon from '@material-ui/icons/Clear';
+import { STORAGE, PATHS } from '../common/constants';
 
 const StyledButton = withStyles(() => ({
   root: {
@@ -43,7 +44,7 @@ const HeaderQuestion = styled.h2`
 
 const COVIDCheck = (props) => {
   const handleClick = (path, isPositive) => {
-    localStorage.setItem("isPositive", isPositive);
+    localStorage.setItem(STORAGE.IS_POSITIVE, isPositive);
     props.history.push(path);
   };
 
@@ -57,7 +58,7 @@ const COVIDCheck = (props) => {
           size="large"
           variant="contained"
           startIcon={<CheckIcon/>}
-          onClick={() => handleClick("/covid-test-date", true)}
+          onClick={() => handleClick(PATHS.COVID_TEST_DATE, true)}
         >
           Yes
         </StyledButton>
@@ -65,7 +66,7 @@ const COVIDCheck = (props) => {
           size="large"
           variant="contained"
           startIcon={<ClearIcon/>}
-          onClick={() => handleClick("/symptoms-screen", false)}
+          onClick={() => handleClick(PATHS.SYMPTOMS_SCREEN, false)}
         >
           No
         </StyledButton>

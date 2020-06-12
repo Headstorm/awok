@@ -9,6 +9,7 @@ import {
 import styled from "styled-components";
 import { withRouter } from "react-router-dom";
 import { patchCheckIn } from '../services/apiCalls';
+import { STORAGE, PATHS } from '../common/constants';
 
 const CheckInButton = withStyles(() => ({
   root: {
@@ -78,15 +79,15 @@ const COVIDTestDate = (props) => {
   };
   const onCheckInClick = () => {
     if (covidDate >= twoWeeksAgoDate) {
-      nextPath("/covid-positive");
+      nextPath(PATHS.COVID_POSITIVE);
     } else {
-      patchCheckIn(localStorage.getItem("isPositive"));
-      nextPath("/good-day");
+      patchCheckIn(localStorage.getItem(STORAGE.IS_POSITIVE));
+      nextPath(PATHS.GOOD_DAY);
       if (saveCovidDate) {
-        localStorage.setItem("covidDate", covidDate);
+        localStorage.setItem(STORAGE.COVID_DATE, covidDate);
       }
       localStorage.setItem(
-        "checkInDate",
+        STORAGE.CHECK_IN_DATE,
         new Date().toISOString().slice(0, 10)
       );
     }

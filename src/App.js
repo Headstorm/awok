@@ -11,6 +11,8 @@ import Header from './common/Header';
 import Footer from './common/Footer';
 import styled from 'styled-components';
 import ViewReservation from './screens/ViewReservations';
+import { PATHS } from './common/constants';
+
 
 const BaseContainer = styled.div`
   display: flex;
@@ -30,37 +32,37 @@ function App() {
       <BaseContainer>
         <Header />
         <Switch>
-          <Route path="/check-in">
+          <Route path={PATHS.CHECK_IN}>
             <CheckIn />
           </Route>
-          <Route path="/covid-check">
+          <Route path={PATHS.COVID_CHECK}>
             <COVIDCheck />
           </Route>
-          <Route path="/covid-test-date">
+          <Route path={PATHS.COVID_TEST_DATE}>
             <COVIDTestDate />
           </Route>
-          <Route path="/good-day">
+          <Route path={PATHS.GOOD_DAY}>
             <GoodDay />
           </Route>
-          <Route path="/symptoms-screen">
+          <Route path={PATHS.SYMPTOMS_SCREEN}>
             <SymptomsScreen />
           </Route>
-          <Route path="/safety-rejection">
+          <Route path={PATHS.SAFETY_REJECTION}>
             <WFHConf />
           </Route>
-          <Route path="/covid-positive">
+          <Route path={PATHS.COVID_POSITIVE}>
             <WFHConf />
           </Route>
-          <Route path="/wfh-conf">
+          <Route path={PATHS.WFH_CONFIRM}>
             <WFHConf />
           </Route>
-          <Route path="/reservation">
+          <Route path={PATHS.RESERVATION}>
             <Reservation />
           </Route>
-          <Route path="/viewReservations">
+          <Route path={PATHS.VIEW_RESERVATIONS}>
             <ViewReservation/>
           </Route>
-          <Route path="/admin">
+          <Route path={PATHS.ADMIN}>
             <Suspense fallback={<div>Loading</div>}>
               <Admin />
             </Suspense>

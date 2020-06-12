@@ -4,6 +4,7 @@ import { getReservation } from '../services/apiCalls';
 import { TextField, Icon, ListItemSecondaryAction, ListItemText, Typography, List, Button, Container, ListItem } from '@material-ui/core';
 import { withRouter } from 'react-router-dom';
 import CheckCircleIcon from '@material-ui/icons/CheckCircle';
+import { STORAGE, PATHS } from '../common/constants';
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -60,12 +61,12 @@ const ViewReservations = (props) => {
 
     const checkInTodaysReservation = (date) => {
         console.log("checking in" + date);
-        localStorage.setItem('reservationCode', reservationCode);
-        nextPath('/covid-check');
+        localStorage.setItem(STORAGE.RESERVATION_CODE, reservationCode);
+        nextPath(PATHS.COVID_CHECK);
     }
 
     const hasCheckedInToday =
-        localStorage.getItem('checkInDate') ===
+        localStorage.getItem(STORAGE.CHECK_IN_DATE) ===
         new Date().toISOString().slice(0, 10);
 
     const classes = useStyles();
