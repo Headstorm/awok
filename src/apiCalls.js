@@ -41,3 +41,9 @@ export const setReservation = async (reservation) =>
       body: JSON.stringify(reservation)
     }
   )
+
+export const getReservation = async (reservationCode) =>
+  fetch(
+    `https://yt6g0s41t1.execute-api.us-east-1.amazonaws.com/Prod/reservations/${reservationCode}`,
+    { mode: 'cors' }
+  )
