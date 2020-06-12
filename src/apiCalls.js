@@ -38,12 +38,18 @@ export const setReservation = async (reservation) =>
     {
       mode: 'cors',
       method: 'POST',
-      body: JSON.stringify(reservation)
+      body: JSON.stringify(reservation),
     }
-  )
+  );
 
 export const getReservation = async (reservationCode) =>
   fetch(
-    `https://yt6g0s41t1.execute-api.us-east-1.amazonaws.com/Prod/reservations/${reservationCode}`,
+    `https://yt6g0s41t1.execute-api.us-east-1.amazonaws.com/Prod/reservations/?Code=${reservationCode}`,
     { mode: 'cors' }
-  )
+  );
+
+export const getAllReservations = async () =>
+  fetch(
+    `https://yt6g0s41t1.execute-api.us-east-1.amazonaws.com/Prod/reservations`,
+    { mode: 'cors' }
+  );

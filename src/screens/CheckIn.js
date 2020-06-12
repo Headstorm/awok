@@ -67,17 +67,17 @@ const RemoteButton = withStyles(() => ({
   },
 }))(Button);
 
-// const ReserveButton = withStyles(() => ({
-//   root: {
-//     color: '#518DFD',
-//     borderColor: '#518DFD',
-//     'grid-row-start': 3,
-//     'grid-column-start': 2,
-//     'justify-self': 'center',
-//     width: '50%',
-//     '@media (max-width:425px)': { width: '100%' },
-//   },
-// }))(Button);
+const ReserveButton = withStyles(() => ({
+  root: {
+    color: '#518DFD',
+    borderColor: '#518DFD',
+    'grid-row-start': 3,
+    'grid-column-start': 2,
+    'justify-self': 'center',
+    width: '50%',
+    '@media (max-width:425px)': { width: '100%' },
+  },
+}))(Button);
 
 const CheckIn = (props) => {
   const nextPath = (path) => {
@@ -85,22 +85,18 @@ const CheckIn = (props) => {
   };
 
   const [showInfoModal, setShowInfoModal] = useState(false);
-  const [donutval, setDonutVal] = useState([0, 0]);
+  const [donutValue, setDonutVal] = useState([0, 0]);
   const [immuneCount, setImmuneCount] = useState(0);
   const [fineCount, setFineCount] = useState(0);
-  // eslint-disable-next-line no-unused-vars
   const [reserveCount, setReserveCount] = useState(0);
   const totalOccupancy = localStorage.getItem('occupancyRule');
-  // pull the time from local storage when that gets set localStorage.getItem('reservationClearOut')
-  // const clearOutTime = new Date(`1970-01-01T${'10:00'}Z`).toLocaleString(
-  //   'en-US',
-  //   {
-  //     hour: 'numeric',
-  //     minute: 'numeric',
-  //     hour12: true,
-  //     timeZone: 'UTC',
-  //   }
-  // );
+  const clearOutTime = new Date(
+    localStorage.getItem('reservationClearOut')
+  ).toLocaleString('en-US', {
+    hour: 'numeric',
+    minute: 'numeric',
+    hour12: true,
+  });
   const [loading, setLoading] = useState(true);
 
   const handleDismiss = () => {
@@ -115,7 +111,10 @@ const CheckIn = (props) => {
         localStorage.setItem('occupancyRule', response.occupancyRule);
         localStorage.setItem('currentRules', response.currentRules);
         localStorage.setItem('companyName', response.companyName);
-        // localStorage.setItem('reservationClearOut', response.reservationClearOut);
+        localStorage.setItem(
+          'reservationClearOut',
+          response.reservationClearOut
+        );
         setLoading(false);
       })
       .catch((e) => {
@@ -126,12 +125,12 @@ const CheckIn = (props) => {
       .then((response) => {
         setImmuneCount(response.today.positiveCount);
         setFineCount(response.today.negativeCount);
-        // setReserveCount(response.today.reserveCount) un-comment when this is set up in api
+        setReserveCount(response.today.reservationsToday);
         setDonutVal(
-          // Add reserve count below when that api call becomes available
-          [response.today.positiveCount + response.today.negativeCount, 0].map(
-            (val) => (val / totalOccupancy) * 100
-          )
+          [
+            response.today.positiveCount + response.today.negativeCount,
+            response.today.reservationsToday,
+          ].map((val) => (val / totalOccupancy) * 100)
         );
       })
       .catch((error) => console.log(error));
@@ -164,10 +163,9 @@ const CheckIn = (props) => {
           />
         </H3>
         <h3>Today's checkins</h3>
-        {/* uncomment below when we have reservations connected */}
-        {/* <h4>Reservations expire at {clearOutTime}</h4> */}
+        <h4>Reservations expire at {clearOutTime}</h4>
         <DonutChart
-          values={donutval}
+          values={donutValue}
           spotsTaken={immuneCount + fineCount}
           spotsReserved={reserveCount}
           totalOccupancy={totalOccupancy}
@@ -193,13 +191,13 @@ const CheckIn = (props) => {
           >
             {!checkInDisabled ? 'Check In' : 'Sorry, capacity reached'}
           </StyledButton>
-          {/* <ReserveButton
+          <ReserveButton
             size="large"
             variant="outlined"
             onClick={() => nextPath('/reservation')}
           >
             Reserve
-          </ReserveButton> */}
+          </ReserveButton>
           <RemoteButton size="large" onClick={() => nextPath('/wfh-conf')}>
             I'm working remote today
           </RemoteButton>
