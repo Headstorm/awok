@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 import { Button, withStyles } from "@material-ui/core";
 import { withRouter } from "react-router-dom";
-import { getCheckInCounts } from "../apiCalls";
+import { getCheckInCounts } from '../services/apiCalls'
 import HomeIcon from '@material-ui/icons/Home';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import CheckCircleIcon from '@material-ui/icons/CheckCircle';

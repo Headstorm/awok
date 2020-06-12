@@ -11,7 +11,7 @@ import moment from 'moment';
 import MuiAlert from '@material-ui/lab/Alert';
 import styled from 'styled-components';
 import { withRouter } from 'react-router-dom';
-import { getSettings, setSettings } from '../apiCalls';
+import { getSettings, setSettings } from '../services/apiCalls';
 import { Line } from 'react-chartjs-2';
 
 const BaseContainer = styled.div`

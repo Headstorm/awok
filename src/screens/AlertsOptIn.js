@@ -8,7 +8,7 @@ import {
 } from "@material-ui/core";
 import styled from "styled-components";
 import { withRouter } from "react-router-dom";
-import { patchCheckIn } from "../apiCalls";
+import { patchCheckIn } from '../services/apiCalls';
 
 const YesButton = withStyles(() => ({
   root: {
