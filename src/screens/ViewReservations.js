@@ -7,7 +7,6 @@ import CheckCircleIcon from '@material-ui/icons/CheckCircle';
 import { STORAGE, PATHS } from '../common/constants';
 import { changeDateFormat } from '../common/dateFormat';
 import EventBusyOutlinedIcon from '@material-ui/icons/EventBusyOutlined';
-import EventAvailableOutlinedIcon from '@material-ui/icons/EventAvailableOutlined';
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -54,14 +53,28 @@ const ViewReservations = (props) => {
     const [reservedDays, setReservedDays] = useState([]);
     const [reservationCode, setReservationCode] = useState();
 
+    const compare = (a, b) => {
+        if (a.resDate > b.resDate) return 1;
+        if (b.resDate > a.resDate) return -1;
+
+        return 0;
+    }
+
     const getReservedDays = (reservationRetrievalCode) => {
         getReservation(reservationRetrievalCode)
             .then((res) => res.json())
             .then((response) => {
-                const resps = response.map(res => res);
+                const resps = response.map((res) => {
+                    return {
+                        ...res,
+                        resDate: changeDateFormat(res.resDate)
+                    }
+                });
+                resps.sort(compare);
                 setReservedDays(resps);
             })
     };
+
 
     const nextPath = (path) => {
         props.history.push(path);
@@ -80,7 +93,7 @@ const ViewReservations = (props) => {
 
     const isToday = (date) => {
         const today = new Date();
-        const value = new Date(changeDateFormat(date));
+        const value = new Date(date);
 
         return value.getDate() === today.getDate() &&
             value.getMonth() === today.getMonth() &&
@@ -108,7 +121,7 @@ const ViewReservations = (props) => {
                                         Expired <EventBusyOutlinedIcon className={classes.styledIcon}></EventBusyOutlinedIcon>
                                     </Icon>
                                 }
-                                
+
                             </ListItemSecondaryAction>
                             <ListItemText id={labelId} primary={`${reservation.resDate}`} />
                         </ListItem>
