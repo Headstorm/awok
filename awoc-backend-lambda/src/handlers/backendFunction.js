@@ -52,6 +52,21 @@ exports.handler = async (event, context) => {
     dbItem = dbItem.Item;
   }
 
+  const { resClearTime } = await docClient
+  .get({
+    TableName: tableName,
+    Key: { companyName: 'Chloe' },
+  })
+  .promise();
+
+  const currentTime = new Date().toString().substring(16, 18)
+
+  // if(resClearTime.substring(11,13) >= currentTime) {
+    // get all records with date of today
+    // change expired to true
+    // put those back in the db
+  // }
+
   // inserts a bunch o random data
   // const last30Keys = Array(30).fill(null).map((_, i) => i).map(offset => ({ Date: moment.tz("America/Chicago").startOf('day').subtract(offset, 'd').format() }));
   // await Promise.all(last30Keys.map(async key => {
@@ -79,10 +94,19 @@ exports.handler = async (event, context) => {
         break;
       case "GET":
         await docClient.get({ TableName: tableName, Key }).promise();
+
+        var searchRes = {
+          TableName : 'Reservation',
+          FilterExpression : 'resDate = :date',
+          ExpressionAttributeValues : {':date' : new Date().toISOString().substring(0,10)}
+        };
+                
+        const reservationsToday = await docClient.scan(searchRes).promise();
+
         const range = Array(30).fill(null).map((_, i) => i);
         const last30Keys = range.map(offset => ({ Date: moment.tz("America/Chicago").startOf('day').subtract(offset, 'd').format() }));
         body = {
-          today: dbItem,
+          today: { ...dbItem, reservationsToday: reservationsToday.Items.length },
           history: (await docClient.batchGet({
             RequestItems: {
               [tableName]: { Keys: last30Keys }
@@ -97,6 +121,10 @@ exports.handler = async (event, context) => {
             : 0;
         const positiveCount = dbItem.positiveCount + positiveDelta;
         const negativeCount = dbItem.negativeCount + (1 - positiveDelta);
+        const resCode = event.queryStringParameters.code ? event.queryStringParameters.code : null;
+        if(resCode) {
+          await docClient.delete({ TableName: 'Reservation', Key: { Code: resCode, resDate: new Date().toISOString().substring(0,10) }})
+        }
         const Item = { ...Key, positiveCount, negativeCount };
         await docClient
           .put({
@@ -104,6 +132,12 @@ exports.handler = async (event, context) => {
             Item,
           })
           .promise();
+        // await docClient
+        //   .delete({
+        //     TableName: 'Reservations',
+        //     Code: event.pathParameters.reservationCode
+        //   })
+        //   .promise()
         body = Item;
         break;
       // headers['Access-Control-Allow-Origin'] =
