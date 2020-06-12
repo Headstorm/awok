@@ -8,6 +8,8 @@ import InfoOutlinedIcon from '@material-ui/icons/InfoOutlined';
 import InfoPopUp from '../common/InfoPopUp';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import CheckCircleIcon from '@material-ui/icons/CheckCircle';
+import { PATHS, STORAGE } from '../common/constants';
+
 
 const StyledButton = withStyles(() => ({
   root: {
@@ -89,9 +91,9 @@ const CheckIn = (props) => {
   const [immuneCount, setImmuneCount] = useState(0);
   const [fineCount, setFineCount] = useState(0);
   const [reserveCount, setReserveCount] = useState(0);
-  const totalOccupancy = localStorage.getItem('occupancyRule');
+  const totalOccupancy = localStorage.getItem(STORAGE.OCCUPANCY_RULE);
   const clearOutTime = new Date(
-    localStorage.getItem('reservationClearOut')
+    localStorage.getItem(STORAGE.RESERVATION_CLEAR_OUT)
   ).toLocaleString('en-US', {
     hour: 'numeric',
     minute: 'numeric',
@@ -107,12 +109,11 @@ const CheckIn = (props) => {
     getSettings()
       .then((res) => res.json())
       .then((response) => {
-        localStorage.setItem('successMessage', response.successMessage);
-        localStorage.setItem('occupancyRule', response.occupancyRule);
-        localStorage.setItem('currentRules', response.currentRules);
-        localStorage.setItem('companyName', response.companyName);
-        localStorage.setItem(
-          'reservationClearOut',
+        localStorage.setItem(STORAGE.SUCCESS_MESSAGE, response.successMessage);
+        localStorage.setItem(STORAGE.OCCUPANCY_RULE, response.occupancyRule);
+        localStorage.setItem(STORAGE.CURRENT_RULES, response.currentRules);
+        localStorage.setItem(STORAGE.COMPANY_NAME, response.companyName);
+        localStorage.setItem(STORAGE.RESERVATION_CLEAR_OUT,
           response.reservationClearOut
         );
         setLoading(false);
@@ -137,7 +138,7 @@ const CheckIn = (props) => {
   }, [totalOccupancy]);
 
   const hasCheckedInToday =
-    localStorage.getItem('checkInDate') ===
+    localStorage.getItem(STORAGE.CHECK_IN_DATE) ===
     new Date().toISOString().slice(0, 10);
 
   const checkInDisabled = immuneCount + fineCount === totalOccupancy;
@@ -178,14 +179,14 @@ const CheckIn = (props) => {
             variant="contained"
             disabled={checkInDisabled}
             onClick={() => {
-              if (localStorage.getItem('covidDate')) {
+              if (localStorage.getItem(STORAGE.COVID_DATE)) {
                 localStorage.setItem(
-                  'checkInDate',
+                  STORAGE.CHECK_IN_DATE,
                   new Date().toISOString().slice(0, 10)
                 );
-                nextPath('/good-day');
+                nextPath(PATHS.GOOD_DAY);
               } else {
-                nextPath('/covid-check');
+                nextPath(PATHS.COVID_CHECK);
               }
             }}
           >
@@ -194,11 +195,11 @@ const CheckIn = (props) => {
           <ReserveButton
             size="large"
             variant="outlined"
-            onClick={() => nextPath('/reservation')}
+            onClick={() => nextPath(PATHS.RESERVATION)}
           >
             Reserve
           </ReserveButton>
-          <RemoteButton size="large" onClick={() => nextPath('/wfh-conf')}>
+          <RemoteButton size="large" onClick={() => nextPath(PATHS.WFH_CONFIRM)}>
             I'm working remote today
           </RemoteButton>
         </>
@@ -206,7 +207,7 @@ const CheckIn = (props) => {
       {showInfoModal ? (
         <InfoPopUp
           handleDismiss={handleDismiss}
-          content={localStorage.getItem('currentRules')}
+          content={localStorage.getItem(STORAGE.CURRENT_RULES)}
         />
       ) : null}
     </BaseContainer>

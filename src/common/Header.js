@@ -3,6 +3,7 @@ import styled from 'styled-components';
 import { getCheckInCounts } from '../services/apiCalls';
 import HeadstormLogo from '../headstorm_logo.png';
 import { withRouter } from 'react-router-dom';
+import { PATHS } from '../common/constants';
 
 const BaseContainer = styled.div`
   display: flex;
@@ -25,7 +26,7 @@ const Count = styled.div`
 `;
 
 const Header = (props) => {
-  const showCheckInCount = ['/', '/safety-rejection', '/good-day', '/admin'].includes(
+  const showCheckInCount = [PATHS.ROOT, PATHS.SAFETY_REJECTION, PATHS.GOOD_DAY, PATHS.ADMIN].includes(
     props.location.pathname
   )
     ? false
