@@ -32,7 +32,7 @@ export const setSettings = async (settings) =>
     }
   );
 
-  export const setReservation = async (reservation) =>
+export const setReservation = async (reservation) =>
   fetch(
     'https://yt6g0s41t1.execute-api.us-east-1.amazonaws.com/Prod/reservations',
     {

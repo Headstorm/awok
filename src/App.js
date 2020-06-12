@@ -23,7 +23,6 @@ const Admin = lazy(() => import('./screens/Admin'));
 
 function App() {
   return (
-    <ThemeProvider theme={theme}>
     <Router>
       <BaseContainer>
         <Header />

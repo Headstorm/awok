@@ -3,6 +3,7 @@ import Button from '@material-ui/core/Button';
 import ButtonGroup from '@material-ui/core/ButtonGroup';
 import { TextField, Divider, withStyles } from '@material-ui/core';
 import styled from "styled-components";
+import { setReservation } from '../apiCalls';
 
 const MONTHS = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']
 
@@ -145,7 +146,7 @@ const Reservation = props => {
 				disabled={!(storedDays.length && reservationCode.length)}
 				size="large"
 				variant="contained"
-				onClick={() => console.log(storedDays, reservationCode)}
+				onClick={() => setReservation({ dates: storedDays, reservationCode })}
 			>
 				Reserve
 			</ReserveButton>
