@@ -15,7 +15,7 @@ const BaseContainer = styled.div`
   display: flex;
   flex-flow: column;
   justify-content: space-between;
-  min-height: ${window.innerHeight}px;
+  min-height: 100vh;
 `;
 
 const Admin = lazy(() => import('./screens/Admin'));
