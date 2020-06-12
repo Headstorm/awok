@@ -6,6 +6,8 @@ import { withRouter } from 'react-router-dom';
 import CheckCircleIcon from '@material-ui/icons/CheckCircle';
 import { STORAGE, PATHS } from '../common/constants';
 import { changeDateFormat } from '../common/dateFormat';
+import EventBusyOutlinedIcon from '@material-ui/icons/EventBusyOutlined';
+import EventAvailableOutlinedIcon from '@material-ui/icons/EventAvailableOutlined';
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -25,6 +27,11 @@ const useStyles = makeStyles((theme) => ({
     icon: {
         textAlign: 'center',
         color: '#25db47',
+        fontSize: '1rem'
+    },
+    expiredIcon: {
+        textAlign: 'center',
+        color: '#ff3d00',
         fontSize: '1rem'
     },
     reservationButton: {
@@ -96,13 +103,19 @@ const ViewReservations = (props) => {
                                         Checked In <CheckCircleIcon className={classes.styledIcon} />
                                     </Icon>
                                 }
+                                {isToday(reservation.resDate) && reservation.expired &&
+                                    < Icon className={classes.expiredIcon}>
+                                        Expired <EventBusyOutlinedIcon className={classes.styledIcon}></EventBusyOutlinedIcon>
+                                    </Icon>
+                                }
+                                
                             </ListItemSecondaryAction>
                             <ListItemText id={labelId} primary={`${reservation.resDate}`} />
                         </ListItem>
                     );
                 })
             }
-        </List>
+        </List >
     );
 
     return (
