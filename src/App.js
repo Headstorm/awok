@@ -17,6 +17,9 @@ const BaseContainer = styled.div`
   flex-flow: column;
   justify-content: space-between;
   min-height: 100vh;
+  @media (max-width: 425px) {	
+    min-height: ${window.innerHeight}px;	
+  }
 `;
 
 const Admin = lazy(() => import('./screens/Admin'));
