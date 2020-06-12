@@ -1,12 +1,5 @@
-export const changeDateFormat = date => {
-    const splitDate = date.split('-');
-    if (splitDate.count === 0) {
-        return null;
-    }
-    
-    const year = splitDate[0];
-    const month = splitDate[1];
-    const day = splitDate[2];
+import moment from 'moment'
 
-    return month + '-' + day + '-' + year;
+export const changeDateFormat = date => {
+    return moment(date, 'YYYY-MM-DD').format('MM-DD-YYYY')
 }
