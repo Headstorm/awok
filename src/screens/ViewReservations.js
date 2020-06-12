@@ -13,12 +13,13 @@ const useStyles = makeStyles((theme) => ({
         alignItems: "center",
     },
     reservationList: {
-        width: '100%',
-        maxWidth: 360,
+        width: '50%',
+        '@media (max-width:425px)': { width: '100%' },
     },
     textField: {
         marginBottom: '1rem',
-        width: '100%',
+        width: '50%',
+        '@media (max-width:425px)': { width: '100%' },
     },
     icon: {
         textAlign: 'center',
