@@ -1,5 +1,13 @@
 import React, { useState, useEffect } from 'react';
-import { TextField, Button, Snackbar } from '@material-ui/core';
+import {
+  TextField,
+  Button,
+  Snackbar,
+  Radio,
+  FormControlLabel,
+  RadioGroup,
+} from '@material-ui/core';
+import moment from 'moment';
 import MuiAlert from '@material-ui/lab/Alert';
 import styled from 'styled-components';
 import { withRouter } from 'react-router-dom';
@@ -19,6 +27,15 @@ const AdminForm = styled.div`
 
 const StyledTextField = styled(TextField)`
   margin-bottom: 1rem !important;
+`;
+
+const StyledNumberField = styled(TextField)`
+  width: 45% !important;
+  margin-right: 1rem !important;
+`;
+
+const StyledRadio = styled(Radio)`
+  color: #1380e2 !important;
 `;
 
 const FooterDiv = styled.div`
@@ -51,20 +68,46 @@ const StyledSnackBar = styled(Snackbar)`
   margin-left: 2rem;
 `;
 
+const StyledRadioGroup = styled(RadioGroup)`
+  display: inline !important;
+`;
+
+const daysOfTheWeek = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
+
+// this assumes a full datetime string
+const convertTo12Hour = (time) => {
+  return moment(new Date(time), 'HH:mm').format('h a').split(' ');
+};
+
+// this assumes a string such as "1 am"
+const convertToMilitary = (time, amPm) => {
+  return moment(`${time} ${amPm}`, 'h a').format('HH:mm');
+};
+
+const convertHourToIsoDate = (time, amPm) => {
+  const currentMilitaryTime = convertToMilitary(time, amPm);
+  const momentDate = moment(new Date()).format('L');
+  const momentDateTime = moment(
+    `${momentDate} ${currentMilitaryTime}`,
+    'MM/DD/YYYY HH:mm'
+  ).format();
+  return moment(momentDateTime).toDate().toISOString();
+};
+
 const Admin = (props) => {
   const [formData, setFormData] = useState({
     companyName: '',
     occupancyRule: '',
     currentRules: '',
     successMessage: '',
-    reservationClearOut: '00:00',
+    reservationClearOut: '12',
   });
+  const [radioValue, setRadioValue] = useState('am');
+  const [isTimeError, setTimeError] = useState(false);
 
   const checkInData = JSON.parse(localStorage.getItem('checkInHistory'))
     .slice(0, 7)
     .reverse();
-
-  const daysOfTheWeek = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
 
   const [open, setOpen] = useState(false);
   const chartData = checkInData.map(
@@ -96,7 +139,7 @@ const Admin = (props) => {
   const lineChartOptions = {
     title: {
       display: true,
-      text: 'Attendance for The Last Seven Days',
+      text: 'Attendance for Past Seven Days',
       fontSize: 20,
     },
     legend: {
@@ -108,46 +151,42 @@ const Admin = (props) => {
     getSettings()
       .then((res) => res.json())
       .then((response) => {
-        setFormData(response);
+        setFormData({
+          ...response,
+          reservationClearOut: convertTo12Hour(response.reservationClearOut)[0],
+        });
+        setRadioValue(convertTo12Hour(response.reservationClearOut)[1]);
       })
       .catch((e) => {
         console.log(e);
       });
   }, []);
 
-  const handleChange = (e) => {
+  const handleTextFieldChange = (e) => {
     setFormData({
       ...formData,
       [e.target.getAttribute('name')]: e.target.value,
     });
   };
 
-  const handleTimeChange = (e) => {
-    // we expect api to return a UTC formatted date time, so we convert to current timezone for display purposes
-    // here we switch back to UTC because that is also how we save it in state
-    const currentTime = new Date();
-    const year = currentTime.getFullYear();
-    const month = ('0' + (currentTime.getMonth() + 1)).slice(-2);
-    const day = currentTime.getDate();
-    const convertedTimeObject = new Date(
-      `${year}-${month}-${day}T${e.target.value}`
-    ).toUTCString();
-    setFormData({
-      ...formData,
-      [e.target.getAttribute('name')]: convertedTimeObject,
-    });
+  const handleRadioChange = (e) => {
+    setRadioValue(e.target.value);
+  };
+
+  const handleTimeBlur = (e) => {
+    setTimeError(e.target.value <= 1 || e.target.value >= 12);
   };
 
   const handleClick = () => {
-    setSettings(formData)
-      .then((res) => res.json())
-      .then((response) => {
-        console.log(response);
-      })
-      .catch((e) => {
-        console.log(e);
-        setSavedSuccessfully(false);
-      });
+    setSettings({
+      ...formData,
+      reservationClearOut: new Date(
+        convertHourToIsoDate(formData.reservationClearOut, radioValue)
+      ),
+    }).catch((e) => {
+      console.log(e);
+      setSavedSuccessfully(false);
+    });
     setOpen(true);
   };
 
@@ -169,7 +208,7 @@ const Admin = (props) => {
             placeholder="e.g. Headstorm"
             name="companyName"
             value={formData.companyName}
-            onChange={(e) => handleChange(e)}
+            onChange={(e) => handleTextFieldChange(e)}
             label="Company Name"
           />
           <StyledTextField
@@ -179,7 +218,7 @@ const Admin = (props) => {
             type="number"
             name="occupancyRule"
             placeholder="e.g. 25"
-            onChange={(e) => handleChange(e)}
+            onChange={(e) => handleTextFieldChange(e)}
             value={formData.occupancyRule}
             fullWidth
             label="Occupancy Rule"
@@ -191,7 +230,7 @@ const Admin = (props) => {
             type="text"
             name="currentRules"
             placeholder="e.g. Rule 1, Rule 2, ..."
-            onChange={(e) => handleChange(e)}
+            onChange={(e) => handleTextFieldChange(e)}
             value={formData.currentRules}
             fullWidth
             label="Current Rules"
@@ -203,29 +242,34 @@ const Admin = (props) => {
             type="text"
             fullWidth
             placeholder="e.g. Have a good day!"
-            onChange={(e) => handleChange(e)}
+            onChange={(e) => handleTextFieldChange(e)}
             name="successMessage"
             value={formData.successMessage}
             label="Success Message"
           />
-          <StyledTextField
+          <StyledNumberField
+            type="number"
+            name="reservationClearOut"
+            label="Reservation Reset"
+            onChange={(e) => handleTextFieldChange(e)}
+            onBlur={(e) => handleTimeBlur(e)}
+            error={isTimeError}
+            helperText={!isTimeError || 'must be 1-12'}
+            value={formData.reservationClearOut}
+            InputProps={{ inputProps: { min: 0, max: 12 } }}
             InputLabelProps={{
               shrink: true,
             }}
-            type="time"
-            fullWidth
-            onChange={(e) => handleTimeChange(e)}
-            label="Reservation Clear Out Time"
-            name="reservationClearOut"
-            value={new Date(formData.reservationClearOut).toLocaleString(
-              'en-US',
-              {
-                hour: 'numeric',
-                minute: 'numeric',
-                hour12: false,
-              }
-            )}
           />
+          <StyledRadioGroup
+            name="amPm"
+            row
+            value={radioValue}
+            onChange={(e) => handleRadioChange(e)}
+          >
+            <FormControlLabel value="am" control={<StyledRadio />} label="AM" />
+            <FormControlLabel value="pm" control={<StyledRadio />} label="PM" />
+          </StyledRadioGroup>
         </form>
       </AdminForm>
       <MiddleDiv>
