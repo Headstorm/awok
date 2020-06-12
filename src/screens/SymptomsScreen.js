@@ -2,7 +2,7 @@ import React from "react";
 import { Button, withStyles } from "@material-ui/core";
 import styled from "styled-components";
 import { withRouter } from "react-router-dom";
-import { patchCheckIn } from "../apiCalls";
+import { patchCheckIn } from '../services/apiCalls';
 import CheckIcon from '@material-ui/icons/Check';
 import ClearIcon from '@material-ui/icons/Clear';
 

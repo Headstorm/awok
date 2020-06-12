@@ -10,6 +10,7 @@ import Reservation from './screens/Reservation';
 import Header from './common/Header';
 import Footer from './common/Footer';
 import styled from 'styled-components';
+import ViewReservation from './screens/ViewReservations';
 
 const BaseContainer = styled.div`
   display: flex;
@@ -52,6 +53,9 @@ function App() {
           </Route>
           <Route path="/reservation">
             <Reservation />
+          </Route>
+          <Route path="/viewReservations">
+            <ViewReservation/>
           </Route>
           <Route path="/admin">
             <Suspense fallback={<div>Loading</div>}>

@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
-import { getCheckInCounts } from '../apiCalls';
+import { getCheckInCounts } from '../services/apiCalls';
 import HeadstormLogo from '../headstorm_logo.png';
 import { withRouter } from 'react-router-dom';
 

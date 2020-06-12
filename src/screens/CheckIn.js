@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Button, withStyles } from '@material-ui/core';
 import styled from 'styled-components';
 import { withRouter } from 'react-router-dom';
-import { getCheckInCounts, getSettings } from '../apiCalls';
+import { getCheckInCounts, getSettings } from '../services/apiCalls';
 import DonutChart from '../common/DonutChart';
 import InfoOutlinedIcon from '@material-ui/icons/InfoOutlined';
 import InfoPopUp from '../common/InfoPopUp';
