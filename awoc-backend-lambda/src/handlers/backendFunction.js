@@ -52,21 +52,6 @@ exports.handler = async (event, context) => {
     dbItem = dbItem.Item;
   }
 
-  const { resClearTime } = await docClient
-  .get({
-    TableName: tableName,
-    Key: { companyName: 'Chloe' },
-  })
-  .promise();
-
-  const currentTime = new Date().toString().substring(16, 18)
-
-  // if(resClearTime.substring(11,13) >= currentTime) {
-    // get all records with date of today
-    // change expired to true
-    // put those back in the db
-  // }
-
   // inserts a bunch o random data
   // const last30Keys = Array(30).fill(null).map((_, i) => i).map(offset => ({ Date: moment.tz("America/Chicago").startOf('day').subtract(offset, 'd').format() }));
   // await Promise.all(last30Keys.map(async key => {
@@ -103,6 +88,38 @@ exports.handler = async (event, context) => {
                 
         const reservationsToday = await docClient.scan(searchRes).promise();
 
+        const settings = await docClient
+        .get({
+          TableName: 'awocSettings',
+          Key: { companyName: 'Headstorm' }
+        })
+        .promise();
+      
+        const currentTime = new Date().toString().substring(16, 18)
+      
+        if(settings.Item.reservationClearOut.substring(11,13) >= currentTime) {
+          // get all records with date of today
+          // change expired to true
+          // put those back in the db
+          const deleteRes = reservationsToday.map(res => {
+            return {
+                DeleteRequest: {
+                  Key: { Code: res.Code, resDate: new Date().toISOString().substring(0,10) }
+                }
+              }
+          })
+
+          const deleteItems = {
+            RequestItems: {
+              'Reservation': deleteRes
+            }
+          }
+
+          await docClient
+                .batchWrite(deleteItems)
+                .promise()
+        }
+
         const range = Array(30).fill(null).map((_, i) => i);
         const last30Keys = range.map(offset => ({ Date: moment.tz("America/Chicago").startOf('day').subtract(offset, 'd').format() }));
         body = {
@@ -123,7 +140,9 @@ exports.handler = async (event, context) => {
         const negativeCount = dbItem.negativeCount + (1 - positiveDelta);
         const resCode = event.queryStringParameters.code ? event.queryStringParameters.code : null;
         if(resCode) {
-          await docClient.delete({ TableName: 'Reservation', Key: { Code: resCode, resDate: new Date().toISOString().substring(0,10) }})
+          await docClient
+          .delete({ TableName: 'Reservation', Key: { Code: event.queryStringParameters.code, resDate: new Date().toISOString().substring(0,10) }})
+          .promise()
         }
         const Item = { ...Key, positiveCount, negativeCount };
         await docClient

@@ -1,18 +1,25 @@
-import React, { useState, useEffect } from "react";
-import { Button, withStyles } from "@material-ui/core";
-import styled from "styled-components";
-import { withRouter } from "react-router-dom";
-import { getCheckInCounts, getSettings } from "../apiCalls";
-import DonutChart from "../common/DonutChart";
-import InfoOutlinedIcon from "@material-ui/icons/InfoOutlined";
-import InfoPopUp from "../common/InfoPopUp";
+import React, { useState, useEffect } from 'react';
+import { Button, withStyles } from '@material-ui/core';
+import styled from 'styled-components';
+import { withRouter } from 'react-router-dom';
+import { getCheckInCounts, getSettings } from '../apiCalls';
+import DonutChart from '../common/DonutChart';
+import InfoOutlinedIcon from '@material-ui/icons/InfoOutlined';
+import InfoPopUp from '../common/InfoPopUp';
+import CircularProgress from '@material-ui/core/CircularProgress';
+import CheckCircleIcon from '@material-ui/icons/CheckCircle';
 
 const StyledButton = withStyles(() => ({
   root: {
     color: '#FFFFFF',
     backgroundColor: '#518DFD',
-    marginBottom: '2rem',
+    marginBottom: '1rem',
     padding: '.5rem 1.375rem',
+    'grid-row-start': 2,
+    'grid-column-start': 2,
+    'justify-self': 'center',
+    width: '50%',
+    '@media (max-width:425px)': { width: '100%' },
   },
 }))(Button);
 
@@ -29,27 +36,48 @@ const HeaderDiv = styled.div`
   align-content: space-between;
 `;
 
-const H2 = styled.h2`
-  text-align: center;
-  padding: 0rem;
-  margin: 0;
-`;
-
-const RemoteH2 = styled.h2`
-  text-align: center;
-  padding-bottom: 2rem;
-  margin: 0;
-`;
-
-const RemoteDiv = styled.div`
-  grid-column-start: 2;
-  grid-row-start: 2;
+const H3 = styled.p`
   text-align: center;
 `;
 
-const H3 = styled.h3`
+const Loading = styled.div`
   text-align: center;
 `;
+
+const Icon = styled.div`
+  text-align: center;
+  color: #25db47;
+`;
+
+const StyledIcon = withStyles(() => ({
+  root: {
+    fontSize: 50,
+  },
+}))(CheckCircleIcon);
+
+const RemoteButton = withStyles(() => ({
+  root: {
+    color: '#518DFD',
+    borderColor: '#518DFD',
+    'grid-row-start': 4,
+    'grid-column-start': 2,
+    'justify-self': 'center',
+    width: '50%',
+    '@media (max-width:425px)': { width: '100%' },
+  },
+}))(Button);
+
+// const ReserveButton = withStyles(() => ({
+//   root: {
+//     color: '#518DFD',
+//     borderColor: '#518DFD',
+//     'grid-row-start': 3,
+//     'grid-column-start': 2,
+//     'justify-self': 'center',
+//     width: '50%',
+//     '@media (max-width:425px)': { width: '100%' },
+//   },
+// }))(Button);
 
 const CheckIn = (props) => {
   const nextPath = (path) => {
@@ -57,17 +85,29 @@ const CheckIn = (props) => {
   };
 
   const [showInfoModal, setShowInfoModal] = useState(false);
-  const [donutval, setDonutVal] = useState(0);
+  const [donutval, setDonutVal] = useState([0, 0]);
   const [immuneCount, setImmuneCount] = useState(0);
   const [fineCount, setFineCount] = useState(0);
+  // eslint-disable-next-line no-unused-vars
+  const [reserveCount, setReserveCount] = useState(0);
   const totalOccupancy = localStorage.getItem('occupancyRule');
+  // pull the time from local storage when that gets set localStorage.getItem('reservationClearOut')
+  // const clearOutTime = new Date(`1970-01-01T${'10:00'}Z`).toLocaleString(
+  //   'en-US',
+  //   {
+  //     hour: 'numeric',
+  //     minute: 'numeric',
+  //     hour12: true,
+  //     timeZone: 'UTC',
+  //   }
+  // );
+  const [loading, setLoading] = useState(true);
 
   const handleDismiss = () => {
     setShowInfoModal(false);
   };
 
   useEffect(() => {
-    localStorage.clear();
     getSettings()
       .then((res) => res.json())
       .then((response) => {
@@ -75,6 +115,8 @@ const CheckIn = (props) => {
         localStorage.setItem('occupancyRule', response.occupancyRule);
         localStorage.setItem('currentRules', response.currentRules);
         localStorage.setItem('companyName', response.companyName);
+        // localStorage.setItem('reservationClearOut', response.reservationClearOut);
+        setLoading(false);
       })
       .catch((e) => {
         console.log(e);
@@ -82,62 +124,87 @@ const CheckIn = (props) => {
     getCheckInCounts()
       .then((res) => res.json())
       .then((response) => {
-        setImmuneCount(response.positiveCount);
-        setFineCount(response.negativeCount);
+        setImmuneCount(response.today.positiveCount);
+        setFineCount(response.today.negativeCount);
+        // setReserveCount(response.today.reserveCount) un-comment when this is set up in api
         setDonutVal(
-          ((response.positiveCount + response.negativeCount) / totalOccupancy) *
-            100
+          // Add reserve count below when that api call becomes available
+          [response.today.positiveCount + response.today.negativeCount, 0].map(
+            (val) => (val / totalOccupancy) * 100
+          )
         );
       })
       .catch((error) => console.log(error));
-  });
+  }, [totalOccupancy]);
 
   const hasCheckedInToday =
     localStorage.getItem('checkInDate') ===
     new Date().toISOString().slice(0, 10);
 
-  return (
+  const checkInDisabled = immuneCount + fineCount === totalOccupancy;
+
+  return !loading ? (
     <BaseContainer>
       <HeaderDiv>
-        {!hasCheckedInToday ? (<H2>Want to come into the office today?</H2>)
-          : (<H2>You have already checked in today!</H2>)}
+        {!hasCheckedInToday ? null : (
+          <div>
+            <Icon>
+              <StyledIcon />
+            </Icon>
+            <p>You have checked in today!</p>
+            <br />
+          </div>
+        )}
         <H3>
-          {immuneCount + fineCount} out of {totalOccupancy} spots taken
+          <b>{immuneCount + fineCount}</b> out of <b>{totalOccupancy}</b>{' '}
+          checked in
           <InfoOutlinedIcon
             fontSize="small"
             onClick={() => setShowInfoModal(true)}
           />
         </H3>
         <h3>Today's checkins</h3>
+        {/* uncomment below when we have reservations connected */}
+        {/* <h4>Reservations expire at {clearOutTime}</h4> */}
         <DonutChart
-          value={donutval}
+          values={donutval}
           spotsTaken={immuneCount + fineCount}
+          spotsReserved={reserveCount}
           totalOccupancy={totalOccupancy}
         />
-        {!hasCheckedInToday ? (<StyledButton
-          size="large"
-          variant="contained"
-          onClick={() => {
-            if (localStorage.getItem('covidDate')) {
-              nextPath('/good-day');
-            } else {
-              nextPath('/covid-check');
-            }
-          }}
-        >
-          Check In
-        </StyledButton>) : null}
       </HeaderDiv>
-      {!hasCheckedInToday ? (<RemoteDiv>
-        <RemoteH2>Plan on working remote?</RemoteH2>
-        <StyledButton
-          size="large"
-          variant="contained"
-          onClick={() => nextPath('/good-day')}
-        >
-          Working Remote
-        </StyledButton>
-      </RemoteDiv>) : null}
+      {!hasCheckedInToday ? (
+        <>
+          <StyledButton
+            size="large"
+            variant="contained"
+            disabled={checkInDisabled}
+            onClick={() => {
+              if (localStorage.getItem('covidDate')) {
+                localStorage.setItem(
+                  'checkInDate',
+                  new Date().toISOString().slice(0, 10)
+                );
+                nextPath('/good-day');
+              } else {
+                nextPath('/covid-check');
+              }
+            }}
+          >
+            {!checkInDisabled ? 'Check In' : 'Sorry, capacity reached'}
+          </StyledButton>
+          {/* <ReserveButton
+            size="large"
+            variant="outlined"
+            onClick={() => nextPath('/reservation')}
+          >
+            Reserve
+          </ReserveButton> */}
+          <RemoteButton size="large" onClick={() => nextPath('/wfh-conf')}>
+            I'm working remote today
+          </RemoteButton>
+        </>
+      ) : null}
       {showInfoModal ? (
         <InfoPopUp
           handleDismiss={handleDismiss}
@@ -145,6 +212,10 @@ const CheckIn = (props) => {
         />
       ) : null}
     </BaseContainer>
+  ) : (
+    <Loading>
+      <CircularProgress />
+    </Loading>
   );
 };
 

@@ -34,7 +34,11 @@ const InfoPopUp = (props) => {
   return (
     <Modal>
       <ModalContent>
-        <p>{`Rules: ${props.content}`} </p>
+        <p>
+          <b>Rules:</b>
+          <br/>
+          {props.content}
+        </p>
         <Text onClick={() => props.handleDismiss()}>Dismiss</Text>
       </ModalContent>
     </Modal>

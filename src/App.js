@@ -1,17 +1,14 @@
-import React from 'react';
-import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
+import React, { Suspense, lazy } from 'react';
+import { HashRouter as Router, Switch, Route } from 'react-router-dom';
 import GoodDay from './screens/GoodDay';
 import CheckIn from './screens/CheckIn';
 import COVIDCheck from './screens/COVIDCheck';
 import COVIDTestDate from './screens/COVIDTestDate';
-import SafetyRejection from './screens/SafetyRejection';
 import SymptomsScreen from './screens/SymptomsScreen';
 import WFHConf from './screens/WFHConf';
-import AlreadyCheckedIn from './screens/AlreadyCheckedIn';
-import Admin from './screens/Admin';
+import Reservation from './screens/Reservation';
 import Header from './common/Header';
 import Footer from './common/Footer';
-import COVIDPositive from './screens/COVIDPositive';
 import styled from 'styled-components';
 
 const BaseContainer = styled.div`
@@ -20,6 +17,8 @@ const BaseContainer = styled.div`
   justify-content: space-between;
   min-height: 100vh;
 `;
+
+const Admin = lazy(() => import('./screens/Admin'));
 
 function App() {
   return (
@@ -43,27 +42,37 @@ function App() {
           <Route path="/good-day">
             <GoodDay />
           </Route>
-          <Route path="/safety-rejection">
-            <SafetyRejection />
-          </Route>
           <Route path="/symptoms-screen">
             <SymptomsScreen />
           </Route>
-          <Route path="/wfh-conf">
+          <Route path="/safety-rejection">
             <WFHConf />
           </Route>
           <Route path="/covid-positive">
+<<<<<<< HEAD
 <<<<<<< Updated upstream
             <COVIDPositive />
+=======
+            <WFHConf />
           </Route>
-          <Route path="/already-checked-in">
-            <AlreadyCheckedIn />
+          <Route path="/wfh-conf">
+            <WFHConf />
+>>>>>>> origin/master
+          </Route>
+          <Route path="/reservation">
+            <Reservation />
           </Route>
           <Route path="/admin">
+<<<<<<< HEAD
             <Admin />
 =======
             <COVIDPostive />
 >>>>>>> Stashed changes
+=======
+            <Suspense fallback={<div>Loading</div>}>
+              <Admin />
+            </Suspense>
+>>>>>>> origin/master
           </Route>
           <Route path="/">
             <CheckIn />

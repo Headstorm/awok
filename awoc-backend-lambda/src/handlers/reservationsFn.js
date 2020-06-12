@@ -28,9 +28,10 @@ exports.handler = async (event, context) => {
   try {
     switch (event.httpMethod) {
       case "DELETE":
-				body = await docClient
-				  .delete({ TableName: 'Reservation', Key: { Code: event.queryStringParameters.code, resDate: new Date().toISOString().substring(0,10) }})
-					.promise()
+				const deleteRes = await docClient
+				.delete({ TableName: tableName, Key: { Code: event.queryStringParameters.code, resDate: new Date().toISOString().substring(0,10) }})
+				.promise()
+				body = { ...deleteRes, params: event.queryStringParameters }
         break;
       case "POST":
         // Get id and name from the body of the request

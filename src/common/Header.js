@@ -15,10 +15,8 @@ const BaseContainer = styled.div`
 
 const Logo = styled.img`
   width: 20%;
-  height: 20%;
   @media (max-width: 425px) {
     width: 50%;
-    height: 50%;
   }
 `;
 
@@ -27,19 +25,24 @@ const Count = styled.div`
 `;
 
 const Header = (props) => {
-  const showCheckInCount = ['/', '/safety-rejection'].includes(
+  const showCheckInCount = ['/', '/safety-rejection', '/good-day', '/admin'].includes(
     props.location.pathname
   )
     ? false
     : true;
   const [numCheckedIn, setNumCheckedIn] = useState(0);
   const totalOccupancy = localStorage.getItem('occupancyRule');
-
   useEffect(() => {
     getCheckInCounts()
       .then((res) => res.json())
       .then((response) => {
-        setNumCheckedIn(response.positiveCount + response.negativeCount);
+        setNumCheckedIn(
+          response.today.positiveCount + response.today.negativeCount
+        );
+        localStorage.setItem(
+          'checkInHistory',
+          JSON.stringify(response.history)
+        );
       })
       .catch((error) => console.log(error));
   });

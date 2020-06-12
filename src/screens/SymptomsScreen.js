@@ -29,30 +29,9 @@ const BaseContainer = styled.div`
 
 const HeaderDiv = styled.div`
   margin-bottom: 0.5rem;
-
+  text-align: center;
   h2 {
     text-align: center;
-  }
-`;
-
-const MiddleDiv = styled.div`
-  display: flex;
-  justify-content: space-evenly;
-`;
-
-const ColumnDiv = styled.div`
-  display: flex;
-  flex-direction: column;
-  text-align: center;
-
-  h3 {
-    margin-top: 0rem;
-  }
-
-  .left-column {
-  }
-
-  .right-column {
   }
 `;
 
@@ -68,6 +47,13 @@ const ButtonsContainer = styled.div`
   }
 `;
 
+const StyledList = withStyles(() => ({
+  root: {
+    display: 'inline-block',
+    'text-align': 'left',
+  },
+}))(Button);
+
 const COVIDCheck = (props) => {
   const nextPath = (path) => {
     props.history.push(path);
@@ -79,26 +65,22 @@ const COVIDCheck = (props) => {
         <h2>
           Have you experienced any of the following in the last 2-14 days?
         </h2>
-        <MiddleDiv>
-          <ColumnDiv className="left-column">
-            <h3>Fever/Chills</h3>
-            <h3>Shortness of breath</h3>
-            <h3>Difficulty breathing</h3>
-            <h3>Sore throat</h3>
-            <h3>Congestion</h3>
-            <h3>Diarrhea</h3>
-            <h3>Fatigue</h3>
-          </ColumnDiv>
-          <ColumnDiv className="right-column">
-            <h3>Headache</h3>
-            <h3>New loss of taste/smell</h3>
-            <h3>Muscle/Body aches</h3>
-            <h3>Cough</h3>
-            <h3>Runny nose</h3>
-            <h3>Nausea</h3>
-            <h3>Vomiting</h3>
-          </ColumnDiv>
-        </MiddleDiv>
+          <StyledList>
+            <li>Fever/Chills</li>
+            <li>Shortness of breath</li>
+            <li>Difficulty breathing</li>
+            <li>Sore throat</li>
+            <li>Congestion</li>
+            <li>Diarrhea</li>
+            <li>Fatigue</li>
+            <li>Headache</li>
+            <li>New loss of taste/smell</li>
+            <li>Muscle/Body aches</li>
+            <li>Cough</li>
+            <li>Runny nose</li>
+            <li>Nausea</li>
+            <li>Vomiting</li>
+          </StyledList>
       </HeaderDiv>
       <ButtonsContainer>
         <StyledButton
@@ -114,12 +96,14 @@ const COVIDCheck = (props) => {
           variant="contained"
           startIcon={<ClearIcon/>}
           onClick={() => {
-            patchCheckIn(localStorage.getItem("isPositive"));
-            props.history.push("/good-day");
-            localStorage.setItem(
-              "checkInDate",
-              new Date().toISOString().slice(0, 10)
-            );
+            patchCheckIn(localStorage.getItem("isPositive"))
+              .then(response => {
+                props.history.push("/good-day");
+                localStorage.setItem(
+                  "checkInDate",
+                  new Date().toISOString().slice(0, 10)
+                );
+              })
           }}
         >
           No

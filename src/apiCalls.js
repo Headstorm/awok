@@ -1,4 +1,4 @@
-export const patchCheckIn = (TestedPositive) => {
+export const patchCheckIn = async (TestedPositive) => {
   fetch(
     `https://yt6g0s41t1.execute-api.us-east-1.amazonaws.com/Prod/employee-count?TestedPositive=${TestedPositive}`,
     {

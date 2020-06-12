@@ -1,5 +1,8 @@
 import React from "react";
 import styled from "styled-components";
+import { withRouter } from "react-router-dom";
+import { Button, withStyles } from "@material-ui/core";
+import HomeIcon from '@material-ui/icons/Home';
 
 const BaseContainer = styled.div`
   display: grid;
@@ -10,24 +13,79 @@ const BaseContainer = styled.div`
   align-self: center;
 `;
 
-const H2 = styled.h2`
+const H2 = styled.p`
   grid-row-start: 1;
   grid-column-start: 3;
   text-align: center;
 `;
 
+const StyledButton = withStyles(() => ({
+  root: {
+    color: "#FFFFFF",
+    backgroundColor: "#518DFD",
+    marginBottom: "2rem",
+    padding: ".5rem 1.375rem",
+    'grid-row-start': 2,
+    'grid-column-start': 3,
+    width: '50%',
+    'justify-self': 'center',
+    "@media (max-width:425px)": {
+      width: "100%",
+    }
+  },
+}))(Button);
+
 const WFHConf = (props) => {
+  const nextPath = (path) => {
+    props.history.push(path);
+  };
+
+  let additionalMessage = null;
+  const prevPath = props.location.pathname;
+  switch(prevPath) {
+    case '/safety-rejection':
+      additionalMessage = (<>
+        Going to work with these symptoms puts the rest of your office at risk.
+        <br />
+        <br />
+        Please work from home today.
+        <br />
+        <br />
+      </>);
+      break;
+    case '/covid-positive':
+      additionalMessage = (<>
+        CDC Guidelines state "Stay home until 14 days after your last exposure."
+        <br />
+        <br />
+        Please work from home today.
+        <br />
+        <br />
+      </>);
+      break;
+    default:
+      break;
+  }
   return (
     <BaseContainer>
       <H2>
+        {additionalMessage}
         Thank you for helping to keep the office safe and healthy.
         <br />
         <br />
         Please remember to reach out to your Project Lead via Slack or email if
         you need to take some time off
       </H2>
+      <StyledButton
+          size="large"
+          variant="contained"
+          startIcon={<HomeIcon/>}
+          onClick={() => nextPath('/')}
+        >
+          Home Page
+      </StyledButton>
     </BaseContainer>
   );
 };
 
-export default WFHConf;
+export default withRouter(WFHConf);
