@@ -1,13 +1,12 @@
 import React, { useState } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import { getReservation } from '../services/apiCalls';
-import { TextField, withStyles, Icon, ListItemSecondaryAction, ListItemText, Typography, List, Button, Container, ListItem } from '@material-ui/core';
+import { TextField, Icon, ListItemSecondaryAction, ListItemText, Typography, List, Button, Container, ListItem } from '@material-ui/core';
 import { withRouter } from 'react-router-dom';
 import CheckCircleIcon from '@material-ui/icons/CheckCircle';
 
 const useStyles = makeStyles((theme) => ({
     root: {
-        // margin: theme.spacing(6, 0, 3),
         display: "flex",
         flexDirection: "column",
         alignItems: "center",
@@ -36,15 +35,11 @@ const useStyles = makeStyles((theme) => ({
         'justify-self': 'center',
         width: '50%',
         '@media (max-width:425px)': { width: '100%' },
+    },
+    styledIcon: {
+        fontSize: '1rem'
     }
 }));
-
-const StyledIcon = withStyles(() => ({
-    root: {
-      fontSize: '1rem',
-    },
-  }))(CheckCircleIcon);
-
 
 const ViewReservations = (props) => {
     const [reservedDays, setReservedDays] = useState([]);
@@ -98,7 +93,7 @@ const ViewReservations = (props) => {
                                 }
                                 {isToday(value) && hasCheckedInToday &&
                                     <Icon className={classes.icon}>
-                                       Checked In <StyledIcon />
+                                       Checked In <CheckCircleIcon className={classes.styledIcon}/>
                                     </Icon>
                                 }
                             </ListItemSecondaryAction>
