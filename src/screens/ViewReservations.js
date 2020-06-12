@@ -5,6 +5,7 @@ import { TextField, Icon, ListItemSecondaryAction, ListItemText, Typography, Lis
 import { withRouter } from 'react-router-dom';
 import CheckCircleIcon from '@material-ui/icons/CheckCircle';
 import { STORAGE, PATHS } from '../common/constants';
+import { changeDateFormat } from '../common/dateFormat';
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -50,7 +51,7 @@ const ViewReservations = (props) => {
         getReservation(reservationRetrievalCode)
             .then((res) => res.json())
             .then((response) => {
-                const resps = response.map(res => res.resDate);
+                const resps = response.map(res => res);
                 setReservedDays(resps);
             })
     };
@@ -60,7 +61,6 @@ const ViewReservations = (props) => {
     };
 
     const checkInTodaysReservation = (date) => {
-        console.log("checking in" + date);
         localStorage.setItem(STORAGE.RESERVATION_CODE, reservationCode);
         nextPath(PATHS.COVID_CHECK);
     }
@@ -73,7 +73,7 @@ const ViewReservations = (props) => {
 
     const isToday = (date) => {
         const today = new Date();
-        const value = new Date(date);
+        const value = new Date(changeDateFormat(date));
 
         return value.getDate() === today.getDate() &&
             value.getMonth() === today.getMonth() &&
@@ -83,22 +83,21 @@ const ViewReservations = (props) => {
     const ReservationList = () => (
         <List className={classes.reservationList}>
             {
-                Object.values(reservedDays).map((value) => {
-                    const labelId = `reservation-list-label-${value}`;
-
+                Object.values(reservedDays).map((reservation) => {
+                    const labelId = `reservation-list-label-${reservation.resDate}`;
                     return (
-                        <ListItem key={value} role={undefined} dense>
+                        <ListItem key={reservation.resDate} dense>
                             <ListItemSecondaryAction>
-                                {isToday(value) && !hasCheckedInToday &&
-                                    <Button color="primary" onClick={() => { checkInTodaysReservation(value) }} >Check In</Button>
+                                {isToday(reservation.resDate) && !hasCheckedInToday && !reservation.checkedIn && !reservation.expired &&
+                                    <Button color="primary" onClick={() => { checkInTodaysReservation(reservation.resDate) }} >Check In</Button>
                                 }
-                                {isToday(value) && hasCheckedInToday &&
+                                {isToday(reservation.resDate) && hasCheckedInToday && reservation.checkedIn &&
                                     <Icon className={classes.icon}>
-                                       Checked In <CheckCircleIcon className={classes.styledIcon}/>
+                                        Checked In <CheckCircleIcon className={classes.styledIcon} />
                                     </Icon>
                                 }
                             </ListItemSecondaryAction>
-                            <ListItemText id={labelId} primary={`${value}`} />
+                            <ListItemText id={labelId} primary={`${reservation.resDate}`} />
                         </ListItem>
                     );
                 })
