@@ -1,6 +1,7 @@
-export const patchCheckIn = async (TestedPositive) => {
+export const patchCheckIn = async (TestedPositive, resCode = null) => {
+  const resCodeQuery = resCode ? `&code=${resCode}` : ''
   fetch(
-    `https://yt6g0s41t1.execute-api.us-east-1.amazonaws.com/Prod/employee-count?TestedPositive=${TestedPositive}`,
+    `https://yt6g0s41t1.execute-api.us-east-1.amazonaws.com/Prod/employee-count?TestedPositive=${TestedPositive}${resCodeQuery}`,
     {
       method: 'PATCH',
       mode: 'cors',

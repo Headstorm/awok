@@ -17,6 +17,7 @@ import {
   getAllReservations,
 } from '../services/apiCalls';
 import { Line } from 'react-chartjs-2';
+import { STORAGE } from '../common/constants';
 
 const BaseContainer = styled.div`
   display: flex;
@@ -116,7 +117,7 @@ const Admin = (props) => {
   const [radioValue, setRadioValue] = useState('am');
   const [isTimeError, setTimeError] = useState(false);
 
-  const checkInData = JSON.parse(localStorage.getItem('checkInHistory'))
+  const checkInData = JSON.parse(localStorage.getItem(STORAGE.CHECK_IN_HISTORY))
     .slice(0, 7)
     .reverse();
 

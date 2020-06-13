@@ -5,6 +5,7 @@ import { withRouter } from "react-router-dom";
 import { patchCheckIn } from '../services/apiCalls';
 import CheckIcon from '@material-ui/icons/Check';
 import ClearIcon from '@material-ui/icons/Clear';
+import { STORAGE, PATHS } from '../common/constants';
 
 const StyledButton = withStyles(() => ({
   root: {
@@ -59,51 +60,71 @@ const COVIDCheck = (props) => {
     props.history.push(path);
   };
 
+  const goodDay = () => {
+    nextPath(PATHS.GOOD_DAY);
+    localStorage.setItem(
+      STORAGE.CHECK_IN_DATE,
+      new Date().toISOString().slice(0, 10)
+    );
+
+  }
+
+  const checkin = () => {
+    const isPositive = localStorage.getItem(STORAGE.IS_POSITIVE);
+    const reservationCode = localStorage.getItem(STORAGE.RESERVATION_CODE);
+
+    if (reservationCode) {
+      patchCheckIn(isPositive, reservationCode)
+        .then(response => {
+          goodDay();
+        });
+    }
+    else {
+      patchCheckIn(isPositive)
+        .then(response => {
+          goodDay();
+        });
+    }
+  }
+
   return (
     <BaseContainer>
       <HeaderDiv>
         <h2>
           Have you experienced any of the following in the last 2-14 days?
         </h2>
-          <StyledList>
-            <li>Fever/Chills</li>
-            <li>Shortness of breath</li>
-            <li>Difficulty breathing</li>
-            <li>Sore throat</li>
-            <li>Congestion</li>
-            <li>Diarrhea</li>
-            <li>Fatigue</li>
-            <li>Headache</li>
-            <li>New loss of taste/smell</li>
-            <li>Muscle/Body aches</li>
-            <li>Cough</li>
-            <li>Runny nose</li>
-            <li>Nausea</li>
-            <li>Vomiting</li>
-          </StyledList>
+        <StyledList>
+          <li>Fever/Chills</li>
+          <li>Shortness of breath</li>
+          <li>Difficulty breathing</li>
+          <li>Sore throat</li>
+          <li>Congestion</li>
+          <li>Diarrhea</li>
+          <li>Fatigue</li>
+          <li>Headache</li>
+          <li>New loss of taste/smell</li>
+          <li>Muscle/Body aches</li>
+          <li>Cough</li>
+          <li>Runny nose</li>
+          <li>Nausea</li>
+          <li>Vomiting</li>
+        </StyledList>
       </HeaderDiv>
       <ButtonsContainer>
         <StyledButton
           size="large"
           variant="contained"
-          startIcon={<CheckIcon/>}
-          onClick={() => nextPath("/safety-rejection")}
+          startIcon={<CheckIcon />}
+          onClick={() => nextPath(PATHS.SAFETY_REJECTION)}
         >
           Yes
         </StyledButton>
         <StyledButton
           size="large"
           variant="contained"
-          startIcon={<ClearIcon/>}
+          startIcon={<ClearIcon />}
           onClick={() => {
-            patchCheckIn(localStorage.getItem("isPositive"))
-              .then(response => {
-                props.history.push("/good-day");
-                localStorage.setItem(
-                  "checkInDate",
-                  new Date().toISOString().slice(0, 10)
-                );
-              })
+            checkin()
           }}
         >
           No
