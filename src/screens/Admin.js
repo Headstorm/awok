@@ -11,7 +11,11 @@ import moment from 'moment';
 import MuiAlert from '@material-ui/lab/Alert';
 import styled from 'styled-components';
 import { withRouter } from 'react-router-dom';
-import { getSettings, setSettings } from '../services/apiCalls';
+import {
+  getSettings,
+  setSettings,
+  getAllReservations,
+} from '../services/apiCalls';
 import { Line } from 'react-chartjs-2';
 
 const BaseContainer = styled.div`
@@ -102,6 +106,13 @@ const Admin = (props) => {
     successMessage: '',
     reservationClearOut: '12',
   });
+  const [reservationMetrics, setReservationMetrics] = useState([
+    {
+      reservationsExpired: 0,
+      reservationsCheckedIn: 0,
+      day: '2020-06-12',
+    },
+  ]);
   const [radioValue, setRadioValue] = useState('am');
   const [isTimeError, setTimeError] = useState(false);
 
@@ -110,7 +121,7 @@ const Admin = (props) => {
     .reverse();
 
   const [open, setOpen] = useState(false);
-  const chartData = checkInData.map(
+  const attendanceData = checkInData.map(
     (item) => item.positiveCount + item.negativeCount
   );
 
@@ -125,13 +136,31 @@ const Admin = (props) => {
     labels: xAxis,
     datasets: [
       {
-        label: 'Attendance',
+        label: 'Regular Check ins',
         fill: false,
         lineTension: 0.5,
         backgroundColor: '#288bea',
         borderColor: '#288bea',
         borderWidth: 3,
-        data: chartData,
+        data: attendanceData,
+      },
+      {
+        label: 'Fulfilled Reservations',
+        fill: false,
+        lineTension: 0.5,
+        backgroundColor: '#53928b',
+        borderColor: '#53928b',
+        borderWidth: 3,
+        data: reservationMetrics.map((item) => item.reservationsCheckedIn),
+      },
+      {
+        label: 'Expired Reservations',
+        fill: false,
+        lineTension: 0.5,
+        backgroundColor: '#bb251a',
+        borderColor: '#bb251a',
+        borderWidth: 3,
+        data: reservationMetrics.map((item) => item.reservationsExpired),
       },
     ],
   };
@@ -139,11 +168,12 @@ const Admin = (props) => {
   const lineChartOptions = {
     title: {
       display: true,
-      text: 'Attendance for Past Seven Days',
+      text: 'Metrics for Past Seven Days',
       fontSize: 20,
     },
     legend: {
-      display: false,
+      display: true,
+      position: 'right',
     },
   };
 
@@ -156,6 +186,15 @@ const Admin = (props) => {
           reservationClearOut: convertTo12Hour(response.reservationClearOut)[0],
         });
         setRadioValue(convertTo12Hour(response.reservationClearOut)[1]);
+      })
+      .catch((e) => {
+        console.log(e);
+      });
+
+    getAllReservations()
+      .then((res) => res.json())
+      .then((response) => {
+        setReservationMetrics(response.reservationHistory.reverse());
       })
       .catch((e) => {
         console.log(e);
@@ -254,7 +293,7 @@ const Admin = (props) => {
             onChange={(e) => handleTextFieldChange(e)}
             onBlur={(e) => handleTimeBlur(e)}
             error={isTimeError}
-            helperText={!isTimeError || 'must be 1-12'}
+            helperText={isTimeError ? 'must be 1-12' : ''}
             value={formData.reservationClearOut}
             InputProps={{ inputProps: { min: 0, max: 12 } }}
             InputLabelProps={{
