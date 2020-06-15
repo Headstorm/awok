@@ -143,7 +143,8 @@ const CheckIn = (props) => {
     localStorage.getItem(STORAGE.CHECK_IN_DATE) ===
     new Date().toISOString().slice(0, 10);
 
-  const checkInDisabled = immuneCount + fineCount + reserveCheckedIn === totalOccupancy;
+  const checkedInCount = immuneCount + fineCount + reserveCheckedIn
+  const checkInDisabled = checkedInCount === totalOccupancy;
 
   return !loading ? (
     <BaseContainer>
@@ -158,7 +159,7 @@ const CheckIn = (props) => {
           </div>
         )}
         <H3>
-          <b>{immuneCount + fineCount + reserveCheckedIn}</b> out of <b>{totalOccupancy}</b>{' '}
+          <b>{checkedInCount}</b> out of <b>{totalOccupancy}</b>{' '}
           checked in
           <InfoOutlinedIcon
             fontSize="small"
@@ -169,7 +170,7 @@ const CheckIn = (props) => {
         <h4>Reservations expire at {clearOutTime}</h4>
         <DonutChart
           values={donutValue}
-          spotsTaken={immuneCount + fineCount + reserveCheckedIn}
+          spotsTaken={checkedInCount}
           spotsReserved={reserveCount}
           totalOccupancy={totalOccupancy}
         />
