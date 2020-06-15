@@ -67,7 +67,7 @@ function App() {
           <Route path={PATHS.RESERVATION_CHECK}>
             <ReservationCheck/>
           </Route>
-          <Route>
+          <Route path={PATHS.RESERVATION_EXPIRED}>
             <ReservationExpired/>
           </Route>
           <Route path={PATHS.ADMIN}>

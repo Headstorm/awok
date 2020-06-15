@@ -35,7 +35,7 @@ const Buttons = styled.div`
   }
 `;
 
-const HeaderQuestion = styled.h2`
+const HeaderStatement = styled.h2`
   grid-row-start: 1;
   grid-column-start: 2;
   margin-bottom: 2rem;
@@ -50,9 +50,9 @@ const ReservationExpired = (props) => {
 
   return (
     <BaseContainer>
-      <HeaderQuestion>
+      <HeaderStatement>
         Your reservation is expired. 
-      </HeaderQuestion>
+      </HeaderStatement>
       <Buttons>
         <StyledButton
           size="large"
