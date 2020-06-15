@@ -4,6 +4,8 @@ import GoodDay from './screens/GoodDay';
 import CheckIn from './screens/CheckIn';
 import COVIDCheck from './screens/COVIDCheck';
 import COVIDTestDate from './screens/COVIDTestDate';
+import ReservationCheck from './screens/ReservationCheck';
+import ReservationExpired from './screens/ReservationExpired';
 import SymptomsScreen from './screens/SymptomsScreen';
 import WFHConf from './screens/WFHConf';
 import Reservation from './screens/Reservation';
@@ -61,6 +63,12 @@ function App() {
           </Route>
           <Route path={PATHS.VIEW_RESERVATIONS}>
             <ViewReservation/>
+          </Route>
+          <Route path={PATHS.RESERVATION_CHECK}>
+            <ReservationCheck/>
+          </Route>
+          <Route>
+            <ReservationExpired/>
           </Route>
           <Route path={PATHS.ADMIN}>
             <Suspense fallback={<div>Loading</div>}>

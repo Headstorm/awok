@@ -133,17 +133,24 @@ const ViewReservations = (props) => {
 
     return (
         <Container className={classes.root} >
-            {reservedDays &&
-                <ReservationList />
-            }
-            <TextField id="standard-basic" className={classes.textField} label="Reservation Code" value={reservationCode} onChange={(event) => { setReservationCode(event.target.value) }} />
+          
+            <TextField id="standard-basic" 
+                className={classes.textField} 
+                label="Reservation Code" 
+                value={reservationCode} 
+                onChange={(event) => { setReservationCode(event.target.value) }} 
+            />
 
-            <Button variant="contained" className={classes.reservationButton} onClick={() => { getReservedDays(reservationCode) }}>
-                Get Reservations
+            <Button variant="contained" 
+                className={classes.reservationButton} 
+                onClick={() => { getReservedDays(reservationCode) }}>
+                    View Reservations
             </Button>
 
             <Typography>You will only see a check in button if the reservation is for today.</Typography>
-
+            {reservedDays &&
+                <ReservationList />
+            }
         </Container >
     );
 }

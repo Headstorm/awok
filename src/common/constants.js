@@ -14,6 +14,8 @@ export const STORAGE = {
 
 export const PATHS = {
     GOOD_DAY: '/good-day',
+    RESERVATION_CHECK: '/reservation-check',
+    RESERVATION_EXPIRED: '/reservation-expired',
     VIEW_RESERVATIONS: '/view-reservations',
     SAFETY_REJECTION: '/safety-rejection',
     COVID_TEST_DATE: '/covid-test-date',

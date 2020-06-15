@@ -189,7 +189,7 @@ const CheckIn = (props) => {
                 );
                 nextPath(PATHS.GOOD_DAY);
               } else {
-                nextPath(PATHS.COVID_CHECK);
+                nextPath(PATHS.RESERVATION_CHECK);
               }
             }}
           >
