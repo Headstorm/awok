@@ -92,6 +92,11 @@ exports.handler = async (event, context) => {
           return acc
         }, 0)
 
+        const resCountToday = reservationsToday.Items.reduce((acc, res) => {
+          if(!res.checkedIn && !res.expired) { return acc + 1 }
+          return acc
+        }, 0)
+
         const settings = await docClient
         .get({
           TableName: 'awocSettings',
@@ -130,7 +135,7 @@ exports.handler = async (event, context) => {
         const range = Array(30).fill(null).map((_, i) => i);
         const last30Keys = range.map(offset => ({ Date: moment.tz("America/Chicago").startOf('day').subtract(offset, 'd').format() }));
         body = {
-          today: { ...dbItem, reservationsToday: reservationsToday.Items.length, reservationsTodayCheckedIn },
+          today: { ...dbItem, reservationsToday: resCountToday, reservationsTodayCheckedIn },
           history: (await docClient.batchGet({
             RequestItems: {
               [tableName]: { Keys: last30Keys }
