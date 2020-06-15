@@ -78,6 +78,7 @@ const COVIDCheck = (props) => {
         .then(response => {
           goodDay();
         });
+      localStorage.removeItem(STORAGE.RESERVATION_CODE)
     }
     else {
       patchCheckIn(isPositive)
