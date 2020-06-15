@@ -246,7 +246,7 @@ Resources:
         getApi:
           Type: Api
           Properties:
-            Path: /reservations/{Code}
+            Path: /reservations
             Method: GET
             RestApiId:
               Ref: awocAPI

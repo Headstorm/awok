@@ -96,28 +96,31 @@ exports.handler = async (event, context) => {
         .promise();
       
         const currentTime = new Date().toString().substring(16, 18)
-      
-        if(settings.Item.reservationClearOut.substring(11,13) >= currentTime) {
-          // get all records with date of today
-          // change expired to true
-          // put those back in the db
-          const deleteRes = reservationsToday.map(res => {
-            return {
-                DeleteRequest: {
-                  Key: { Code: res.Code, resDate: new Date().toISOString().substring(0,10) }
+        if(currentTime >= settings.Item.reservationClearOut.substring(11,13)) {
+          if(reservationsToday.Items.length) {
+            const deleteRes = reservationsToday.Items.filter(item => !item.expired).map(res => {
+              if(!res.expired && !res.checkedIn) { return {
+                PutRequest: {
+                  Item: { Code: res.Code, resDate: res.resDate, expired: true },
+                  ConditionExpression: 'Code = :code AND resDate = :resDate',
+                  ExpressionAttributeValues: {
+                      ':code': res.Code,
+                      ':resDate': res.resDate
+                  }
+                }
+              } } 
+            })
+            if(deleteRes.length) {
+              const deleteItems = {
+                RequestItems: {
+                  'Reservation': deleteRes
                 }
               }
-          })
-
-          const deleteItems = {
-            RequestItems: {
-              'Reservation': deleteRes
+              await docClient
+                    .batchWrite(deleteItems)
+                    .promise()
             }
           }
-
-          await docClient
-                .batchWrite(deleteItems)
-                .promise()
         }
 
         const range = Array(30).fill(null).map((_, i) => i);
@@ -140,8 +143,17 @@ exports.handler = async (event, context) => {
         const negativeCount = dbItem.negativeCount + (1 - positiveDelta);
         const resCode = event.queryStringParameters.code ? event.queryStringParameters.code : null;
         if(resCode) {
+          var checkinres = {
+            TableName: 'Reservation',
+            Key: { Code: event.queryStringParameters.code, resDate: new Date().toISOString().substring(0,10) },
+            UpdateExpression: "set checkedIn=:checkedIn",
+            ExpressionAttributeValues:{
+                ":checkedIn": true
+            },
+            ReturnValues:"UPDATED_NEW"
+          };
           await docClient
-          .delete({ TableName: 'Reservation', Key: { Code: event.queryStringParameters.code, resDate: new Date().toISOString().substring(0,10) }})
+          .update(checkinres)
           .promise()
         }
         const Item = { ...Key, positiveCount, negativeCount };
@@ -151,12 +163,7 @@ exports.handler = async (event, context) => {
             Item,
           })
           .promise();
-        // await docClient
-        //   .delete({
-        //     TableName: 'Reservations',
-        //     Code: event.pathParameters.reservationCode
-        //   })
-        //   .promise()
+
         body = Item;
         break;
       // headers['Access-Control-Allow-Origin'] =

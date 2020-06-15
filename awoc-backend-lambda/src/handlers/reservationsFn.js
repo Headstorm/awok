@@ -3,6 +3,7 @@
 // Create a DocumentClient that represents the query to add an item
 const dynamodb = require("aws-sdk/clients/dynamodb");
 const docClient = new dynamodb.DocumentClient();
+const moment = require("moment-timezone");
 
 // Get the DynamoDB table name from environment variables
 const tableName = process.env.RESERVATIONS_TABLE_NAME;
@@ -68,15 +69,49 @@ exports.handler = async (event, context) => {
           .promise()
         break;
       case "GET":
-				var searchRes = {
-          TableName : tableName,
-          FilterExpression : 'Code = :code',
-          ExpressionAttributeValues : {':code' : event.pathParameters.Code }
-        };
-                
-        const reservationsToday = await docClient.scan(searchRes).promise();
+				if(event.queryStringParameters && event.queryStringParameters.Code) {
+					var searchRes = {
+						TableName : tableName,
+						FilterExpression : 'Code = :code',
+						ExpressionAttributeValues : {':code' : event.queryStringParameters.Code }
+					};
+									
+					const reservationsForCode = await docClient.scan(searchRes).promise();
+	
+					body = reservationsForCode.Items;
+				} else {
+					var searchDate = {
+						TableName: tableName,
+					}
+					const reservations = await docClient.scan(searchDate).promise();
+					const range = Array(7).fill(null).map((_, i) => i);
+					const last7Keys = range.map((offset) => ( moment.tz("America/Chicago").startOf('day').subtract(offset, 'd').format().substring(0,10) ));
 
-        body = reservationsToday.Items;
+					const history = last7Keys.map(day => {
+						const seperatedReservations = reservations.Items
+							.filter(item => item.resDate === day)
+							.reduce((acc, current) => {
+								if(current.checkedIn === true) {
+									return {
+										...acc,
+										reservationsCheckedIn: [...acc.reservationsCheckedIn, current]
+									}
+								} else {
+									return {
+										...acc,
+										reservationsExpired: [...acc.reservationsExpired, current]
+									}
+								}
+							}, { reservationsCheckedIn: [], reservationsExpired: [] })
+						return {
+							reservationsExpired: seperatedReservations.reservationsExpired.length,
+							reservationsCheckedIn: seperatedReservations.reservationsCheckedIn.length,
+							day
+						}
+					})
+					
+					body = { reservationHistory: history };
+				}
         break;
       default:
         throw new Error(`Unsupported method "${event.httpMethod}"`);
