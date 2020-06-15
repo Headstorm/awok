@@ -2,10 +2,11 @@ import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 import { Button, withStyles } from "@material-ui/core";
 import { withRouter } from "react-router-dom";
-import { getCheckInCounts } from "../apiCalls";
+import { getCheckInCounts } from '../services/apiCalls'
 import HomeIcon from '@material-ui/icons/Home';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import CheckCircleIcon from '@material-ui/icons/CheckCircle';
+import { STORAGE, PATHS } from '../common/constants';
 
 const BaseContainer = styled.div`
   display: grid;
@@ -79,13 +80,13 @@ const GoodDay = props => {
         <b>{count}</b> {numPeopleMessage}
         <br />
         <br />
-        {localStorage.getItem('successMessage')}
+        {localStorage.getItem(STORAGE.SUCCESS_MESSAGE)}
       </H2>
       <StyledButton
           size="large"
           variant="contained"
           startIcon={<HomeIcon/>}
-          onClick={() => nextPath('/')}
+          onClick={() => nextPath(PATHS.ROOT)}
         >
           Home Page
       </StyledButton>

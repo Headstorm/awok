@@ -10,12 +10,18 @@ import Reservation from './screens/Reservation';
 import Header from './common/Header';
 import Footer from './common/Footer';
 import styled from 'styled-components';
+import ViewReservation from './screens/ViewReservations';
+import { PATHS } from './common/constants';
+
 
 const BaseContainer = styled.div`
   display: flex;
   flex-flow: column;
   justify-content: space-between;
   min-height: 100vh;
+  @media (max-width: 425px) {	
+    min-height: ${window.innerHeight}px;	
+  }
 `;
 
 const Admin = lazy(() => import('./screens/Admin'));
@@ -26,53 +32,40 @@ function App() {
       <BaseContainer>
         <Header />
         <Switch>
-          <Route path="/check-in">
-<<<<<<< Updated upstream
-            <CheckIn />
-=======
+          <Route path={PATHS.CHECK_IN}>
             {React.lazy(() => import('./CheckIn')}
->>>>>>> Stashed changes
           </Route>
-          <Route path="/covid-check">
+          <Route path={PATHS.COVID_CHECK}>
             <COVIDCheck />
           </Route>
-          <Route path="/covid-test-date">
+          <Route path={PATHS.COVID_TEST_DATE}>
             <COVIDTestDate />
           </Route>
-          <Route path="/good-day">
+          <Route path={PATHS.GOOD_DAY}>
             <GoodDay />
           </Route>
-          <Route path="/symptoms-screen">
+          <Route path={PATHS.SYMPTOMS_SCREEN}>
             <SymptomsScreen />
           </Route>
-          <Route path="/safety-rejection">
+          <Route path={PATHS.SAFETY_REJECTION}>
             <WFHConf />
           </Route>
-          <Route path="/covid-positive">
-<<<<<<< HEAD
-<<<<<<< Updated upstream
-            <COVIDPositive />
-=======
+          <Route path={PATHS.COVID_POSITIVE}>
+         <WFHConf />
+          </Route>
+          <Route path={PATHS.WFH_CONFIRM}>
             <WFHConf />
           </Route>
-          <Route path="/wfh-conf">
-            <WFHConf />
->>>>>>> origin/master
-          </Route>
-          <Route path="/reservation">
+          <Route path={PATHS.RESERVATION}>
             <Reservation />
           </Route>
-          <Route path="/admin">
-<<<<<<< HEAD
-            <Admin />
-=======
-            <COVIDPostive />
->>>>>>> Stashed changes
-=======
+          <Route path={PATHS.VIEW_RESERVATIONS}>
+            <ViewReservation/>
+          </Route>
+          <Route path={PATHS.ADMIN}>
             <Suspense fallback={<div>Loading</div>}>
               <Admin />
             </Suspense>
->>>>>>> origin/master
           </Route>
           <Route path="/">
             <CheckIn />

@@ -8,7 +8,8 @@ import {
 } from "@material-ui/core";
 import styled from "styled-components";
 import { withRouter } from "react-router-dom";
-import { patchCheckIn } from "../apiCalls";
+import { patchCheckIn } from '../services/apiCalls';
+import { STORAGE, PATHS } from '../common/constants';
 
 const YesButton = withStyles(() => ({
   root: {
@@ -37,7 +38,7 @@ const HeaderDiv = styled.div`
 
 const AlertsOptIn = (props) => {
   const handleClick = (path) => {
-    patchCheckIn(localStorage.getItem("isPositive"));
+    patchCheckIn(localStorage.getItem(STORAGE.IS_POSITIVE));
     props.history.push(path);
   };
 
@@ -63,11 +64,11 @@ const AlertsOptIn = (props) => {
       <YesButton
         size="large"
         variant="contained"
-        onClick={() => handleClick("/good-day")}
+        onClick={() => handleClick(PATHS.GOOD_DAY)}
       >
         Yes
       </YesButton>
-      <NoButton size="large" onClick={() => handleClick("/good-day")}>
+      <NoButton size="large" onClick={() => handleClick(PATHS.GOOD_DAY)}>
         No thanks
       </NoButton>
     </BaseContainer>

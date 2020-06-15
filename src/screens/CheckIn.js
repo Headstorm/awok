@@ -2,12 +2,14 @@ import React, { useState, useEffect } from 'react';
 import { Button, withStyles } from '@material-ui/core';
 import styled from 'styled-components';
 import { withRouter } from 'react-router-dom';
-import { getCheckInCounts, getSettings } from '../apiCalls';
+import { getCheckInCounts, getSettings } from '../services/apiCalls';
 import DonutChart from '../common/DonutChart';
 import InfoOutlinedIcon from '@material-ui/icons/InfoOutlined';
 import InfoPopUp from '../common/InfoPopUp';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import CheckCircleIcon from '@material-ui/icons/CheckCircle';
+import { PATHS, STORAGE } from '../common/constants';
+
 
 const StyledButton = withStyles(() => ({
   root: {
@@ -67,17 +69,17 @@ const RemoteButton = withStyles(() => ({
   },
 }))(Button);
 
-// const ReserveButton = withStyles(() => ({
-//   root: {
-//     color: '#518DFD',
-//     borderColor: '#518DFD',
-//     'grid-row-start': 3,
-//     'grid-column-start': 2,
-//     'justify-self': 'center',
-//     width: '50%',
-//     '@media (max-width:425px)': { width: '100%' },
-//   },
-// }))(Button);
+const ReserveButton = withStyles(() => ({
+  root: {
+    color: '#518DFD',
+    borderColor: '#518DFD',
+    'grid-row-start': 3,
+    'grid-column-start': 2,
+    'justify-self': 'center',
+    width: '50%',
+    '@media (max-width:425px)': { width: '100%' },
+  },
+}))(Button);
 
 const CheckIn = (props) => {
   const nextPath = (path) => {
@@ -85,22 +87,19 @@ const CheckIn = (props) => {
   };
 
   const [showInfoModal, setShowInfoModal] = useState(false);
-  const [donutval, setDonutVal] = useState([0, 0]);
+  const [donutValue, setDonutVal] = useState([0, 0]);
   const [immuneCount, setImmuneCount] = useState(0);
   const [fineCount, setFineCount] = useState(0);
-  // eslint-disable-next-line no-unused-vars
   const [reserveCount, setReserveCount] = useState(0);
-  const totalOccupancy = localStorage.getItem('occupancyRule');
-  // pull the time from local storage when that gets set localStorage.getItem('reservationClearOut')
-  // const clearOutTime = new Date(`1970-01-01T${'10:00'}Z`).toLocaleString(
-  //   'en-US',
-  //   {
-  //     hour: 'numeric',
-  //     minute: 'numeric',
-  //     hour12: true,
-  //     timeZone: 'UTC',
-  //   }
-  // );
+  const [reserveCheckedIn, setReserveCheckedIn] = useState(0)
+  const totalOccupancy = localStorage.getItem(STORAGE.OCCUPANCY_RULE);
+  const clearOutTime = new Date(
+    localStorage.getItem(STORAGE.RESERVATION_CLEAR_OUT)
+  ).toLocaleString('en-US', {
+    hour: 'numeric',
+    minute: 'numeric',
+    hour12: true,
+  });
   const [loading, setLoading] = useState(true);
 
   const handleDismiss = () => {
@@ -111,11 +110,13 @@ const CheckIn = (props) => {
     getSettings()
       .then((res) => res.json())
       .then((response) => {
-        localStorage.setItem('successMessage', response.successMessage);
-        localStorage.setItem('occupancyRule', response.occupancyRule);
-        localStorage.setItem('currentRules', response.currentRules);
-        localStorage.setItem('companyName', response.companyName);
-        // localStorage.setItem('reservationClearOut', response.reservationClearOut);
+        localStorage.setItem(STORAGE.SUCCESS_MESSAGE, response.successMessage);
+        localStorage.setItem(STORAGE.OCCUPANCY_RULE, response.occupancyRule);
+        localStorage.setItem(STORAGE.CURRENT_RULES, response.currentRules);
+        localStorage.setItem(STORAGE.COMPANY_NAME, response.companyName);
+        localStorage.setItem(STORAGE.RESERVATION_CLEAR_OUT,
+          response.reservationClearOut
+        );
         setLoading(false);
       })
       .catch((e) => {
@@ -126,19 +127,19 @@ const CheckIn = (props) => {
       .then((response) => {
         setImmuneCount(response.today.positiveCount);
         setFineCount(response.today.negativeCount);
-        // setReserveCount(response.today.reserveCount) un-comment when this is set up in api
+        setReserveCount(response.today.reservationsToday);
         setDonutVal(
-          // Add reserve count below when that api call becomes available
-          [response.today.positiveCount + response.today.negativeCount, 0].map(
-            (val) => (val / totalOccupancy) * 100
-          )
+          [
+            response.today.positiveCount + response.today.negativeCount,
+            response.today.reservationsToday,
+          ].map((val) => (val / totalOccupancy) * 100)
         );
       })
       .catch((error) => console.log(error));
   }, [totalOccupancy]);
 
   const hasCheckedInToday =
-    localStorage.getItem('checkInDate') ===
+    localStorage.getItem(STORAGE.CHECK_IN_DATE) ===
     new Date().toISOString().slice(0, 10);
 
   const checkInDisabled = immuneCount + fineCount === totalOccupancy;
@@ -164,10 +165,9 @@ const CheckIn = (props) => {
           />
         </H3>
         <h3>Today's checkins</h3>
-        {/* uncomment below when we have reservations connected */}
-        {/* <h4>Reservations expire at {clearOutTime}</h4> */}
+        <h4>Reservations expire at {clearOutTime}</h4>
         <DonutChart
-          values={donutval}
+          values={donutValue}
           spotsTaken={immuneCount + fineCount}
           spotsReserved={reserveCount}
           totalOccupancy={totalOccupancy}
@@ -180,27 +180,27 @@ const CheckIn = (props) => {
             variant="contained"
             disabled={checkInDisabled}
             onClick={() => {
-              if (localStorage.getItem('covidDate')) {
+              if (localStorage.getItem(STORAGE.COVID_DATE)) {
                 localStorage.setItem(
-                  'checkInDate',
+                  STORAGE.CHECK_IN_DATE,
                   new Date().toISOString().slice(0, 10)
                 );
-                nextPath('/good-day');
+                nextPath(PATHS.GOOD_DAY);
               } else {
-                nextPath('/covid-check');
+                nextPath(PATHS.COVID_CHECK);
               }
             }}
           >
             {!checkInDisabled ? 'Check In' : 'Sorry, capacity reached'}
           </StyledButton>
-          {/* <ReserveButton
+          <ReserveButton
             size="large"
             variant="outlined"
-            onClick={() => nextPath('/reservation')}
+            onClick={() => nextPath(PATHS.RESERVATION)}
           >
             Reserve
-          </ReserveButton> */}
-          <RemoteButton size="large" onClick={() => nextPath('/wfh-conf')}>
+          </ReserveButton>
+          <RemoteButton size="large" onClick={() => nextPath(PATHS.WFH_CONFIRM)}>
             I'm working remote today
           </RemoteButton>
         </>
@@ -208,7 +208,7 @@ const CheckIn = (props) => {
       {showInfoModal ? (
         <InfoPopUp
           handleDismiss={handleDismiss}
-          content={localStorage.getItem('currentRules')}
+          content={localStorage.getItem(STORAGE.CURRENT_RULES)}
         />
       ) : null}
     </BaseContainer>
