@@ -38,7 +38,7 @@ const Header = (props) => {
       .then((res) => res.json())
       .then((response) => {
         setNumCheckedIn(
-          response.today.positiveCount + response.today.negativeCount
+          response.today.positiveCount + response.today.negativeCount + response.today.reservationsTodayCheckedIn
         );
         localStorage.setItem(
           'checkInHistory',

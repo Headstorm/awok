@@ -91,6 +91,7 @@ const CheckIn = (props) => {
   const [immuneCount, setImmuneCount] = useState(0);
   const [fineCount, setFineCount] = useState(0);
   const [reserveCount, setReserveCount] = useState(0);
+  const [reserveCheckedIn, setReserveCheckedIn] = useState(0)
   const totalOccupancy = localStorage.getItem(STORAGE.OCCUPANCY_RULE);
   const clearOutTime = new Date(
     localStorage.getItem(STORAGE.RESERVATION_CLEAR_OUT)
@@ -127,9 +128,10 @@ const CheckIn = (props) => {
         setImmuneCount(response.today.positiveCount);
         setFineCount(response.today.negativeCount);
         setReserveCount(response.today.reservationsToday);
+        setReserveCheckedIn(response.today.reservationsTodayCheckedIn)
         setDonutVal(
           [
-            response.today.positiveCount + response.today.negativeCount,
+            response.today.positiveCount + response.today.negativeCount + response.today.reservationsTodayCheckedIn,
             response.today.reservationsToday,
           ].map((val) => (val / totalOccupancy) * 100)
         );
@@ -141,7 +143,8 @@ const CheckIn = (props) => {
     localStorage.getItem(STORAGE.CHECK_IN_DATE) ===
     new Date().toISOString().slice(0, 10);
 
-  const checkInDisabled = immuneCount + fineCount === totalOccupancy;
+  const checkedInCount = immuneCount + fineCount + reserveCheckedIn
+  const checkInDisabled = checkedInCount === totalOccupancy;
 
   return !loading ? (
     <BaseContainer>
@@ -156,7 +159,7 @@ const CheckIn = (props) => {
           </div>
         )}
         <H3>
-          <b>{immuneCount + fineCount}</b> out of <b>{totalOccupancy}</b>{' '}
+          <b>{checkedInCount}</b> out of <b>{totalOccupancy}</b>{' '}
           checked in
           <InfoOutlinedIcon
             fontSize="small"
@@ -167,7 +170,7 @@ const CheckIn = (props) => {
         <h4>Reservations expire at {clearOutTime}</h4>
         <DonutChart
           values={donutValue}
-          spotsTaken={immuneCount + fineCount}
+          spotsTaken={checkedInCount}
           spotsReserved={reserveCount}
           totalOccupancy={totalOccupancy}
         />
