@@ -81,7 +81,14 @@ const COVIDTestDate = (props) => {
     if (covidDate >= twoWeeksAgoDate) {
       nextPath(PATHS.COVID_POSITIVE);
     } else {
-      patchCheckIn(localStorage.getItem(STORAGE.IS_POSITIVE));
+      const reservationCode = localStorage.getItem(STORAGE.RESERVATION_CODE);
+      const isPositive = localStorage.getItem(STORAGE.IS_POSITIVE)
+      if (reservationCode) {
+        patchCheckIn(isPositive, reservationCode)
+          .then(response => {
+            localStorage.removeItem(STORAGE.RESERVATION_CODE)
+          });
+      } else { patchCheckIn(isPositive); }
       nextPath(PATHS.GOOD_DAY);
       if (saveCovidDate) {
         localStorage.setItem(STORAGE.COVID_DATE, covidDate);
