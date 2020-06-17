@@ -87,15 +87,6 @@ exports.handler = async (event, context) => {
         };
                 
         const reservationsToday = await docClient.scan(searchRes).promise();
-        const reservationsTodayCheckedIn = reservationsToday.Items.reduce((acc, res) => {
-          if(res.checkedIn) { return acc + 1 }
-          return acc
-        }, 0)
-
-        const resCountToday = reservationsToday.Items.reduce((acc, res) => {
-          if(!res.checkedIn && !res.expired) { return acc + 1 }
-          return acc
-        }, 0)
 
         const settings = await docClient
         .get({
@@ -103,7 +94,10 @@ exports.handler = async (event, context) => {
           Key: { companyName: 'Headstorm' }
         })
         .promise();
-      
+        let resCountToday = reservationsToday.Items.reduce((acc, res) => {
+          if(!res.checkedIn && !res.expired) { return acc + 1 }
+          return acc
+        }, 0)
         const currentTime = new Date().toString().substring(16, 18)
         if(currentTime >= settings.Item.reservationClearOut.substring(11,13)) {
           if(reservationsToday.Items.length) {
@@ -128,9 +122,15 @@ exports.handler = async (event, context) => {
               await docClient
                     .batchWrite(deleteItems)
                     .promise()
+              resCountToday = resCountToday - deleteRes.length
             }
           }
         }
+
+        const reservationsTodayCheckedIn = reservationsToday.Items.reduce((acc, res) => {
+          if(res.checkedIn) { return acc + 1 }
+          return acc
+        }, 0)
 
         const range = Array(30).fill(null).map((_, i) => i);
         const last30Keys = range.map(offset => ({ Date: moment.tz("America/Chicago").startOf('day').subtract(offset, 'd').format() }));
