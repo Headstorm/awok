@@ -33,7 +33,7 @@ function App() {
         <Header />
         <Switch>
           <Route path={PATHS.CHECK_IN}>
-            {React.lazy(() => import('./CheckIn')}
+            <CheckIn />
           </Route>
           <Route path={PATHS.COVID_CHECK}>
             <COVIDCheck />
@@ -51,7 +51,7 @@ function App() {
             <WFHConf />
           </Route>
           <Route path={PATHS.COVID_POSITIVE}>
-         <WFHConf />
+            <WFHConf />
           </Route>
           <Route path={PATHS.WFH_CONFIRM}>
             <WFHConf />
