@@ -35,6 +35,7 @@ exports.handler = async (event, context) => {
           occupancyRule,
           currentRules,
           successMessage,
+          reservationClearOut
         } = body;
         await docClient
           .put({
@@ -44,6 +45,7 @@ exports.handler = async (event, context) => {
               occupancyRule,
               currentRules,
               successMessage,
+              reservationClearOut
             },
           })
           .promise();
