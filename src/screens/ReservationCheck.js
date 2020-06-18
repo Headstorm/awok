@@ -1,77 +1,140 @@
-import React from "react";
-import { Button, withStyles } from "@material-ui/core";
-import styled from "styled-components";
+import React, { useState } from 'react';
+import { Button, Container, TextField, Grid, Typography } from "@material-ui/core";
+import { makeStyles } from '@material-ui/core/styles';
 import { withRouter } from "react-router-dom";
-import CheckIcon from '@material-ui/icons/Check';
-import ClearIcon from '@material-ui/icons/Clear';
-import { STORAGE, PATHS } from '../common/constants';
+import { getReservation } from '../services/apiCalls';
+import { changeDateFormat } from '../common/dateFormat';
+import { PATHS, STORAGE } from '../common/constants';
 
-const StyledButton = withStyles(() => ({
+const useStyles = makeStyles((theme) => ({
   root: {
-    color: "#FFFFFF",
-    backgroundColor: "#518DFD",
-    width: "50%",
-    margin: '1rem',
-    "@media (max-width:425px)": { width: "100%" },
+    display: "flex",
+    flexDirection: "column",
+    alignItems: "center",
   },
-}))(Button);
-
-const BaseContainer = styled.div`
-  display: grid;
-  grid-template-rows: repeat(3, auto);
-  grid-template-columns: repeat(3, auto);
-  grid-gap: 0.625rem;
-  padding: 0.625rem;
-`;
-
-const Buttons = styled.div`
-  grid-row-start: 2;
-  grid-column-start: 2;
-  display: flex;
-  align-items: center;
-  flex-direction: row;
-  @media (max-width:425px) {
-    width: 100%;
+  styledButton: {
+    marginBottom: '1rem',
+    padding: '.5rem 1.375rem',
+    'grid-row-start': 2,
+    'grid-column-start': 2,
+    'justify-self': 'center',
+    width: '50%',
+    '@media (max-width:425px)': { width: '100%' },
   }
-`;
-
-const HeaderQuestion = styled.h2`
-  grid-row-start: 1;
-  grid-column-start: 2;
-  margin-bottom: 2rem;
-  text-align: center;
-`;
+}));
 
 const ReservationCheck = (props) => {
-  const handleClick = (path, isPositive) => {
-    localStorage.setItem(STORAGE.IS_POSITIVE, isPositive);
+  const classes = useStyles();
+
+  const [reservedDays, setReservedDays] = useState([]);
+  const [reservationError, setReservationError] = useState({});
+  const [reservationCode, setReservationCode] = useState();
+  const nextPath = (path) => {
     props.history.push(path);
   };
 
+  const compare = (a, b) => {
+    if (a.resDate > b.resDate) return 1;
+    if (b.resDate > a.resDate) return -1;
+
+    return 0;
+  }
+
+
+
+  const isToday = (date) => {
+    const today = new Date();
+    const value = new Date(date);
+
+    return value.getDate() === today.getDate() &&
+      value.getMonth() === today.getMonth() &&
+      value.getFullYear() === today.getFullYear();
+  };
+
+  const getTodaysReservation = () => {
+    return reservedDays.find((res) => {
+      if (isToday(res.resDate)) {
+        return res;
+      }
+    })
+  }
+
+  const validReservationCheckin = () => {
+    localStorage.setItem(STORAGE.RESERVATION_CODE, reservationCode);
+    nextPath(PATHS.COVID_CHECK);
+  }
+
+  const isReservationValidToday = () => {
+    const today = getTodaysReservation();
+    if (today) {
+      if (today.expired) {
+        return setReservationError({ error: true, helperText: 'This code is invalid. Try again.' });
+      }
+      validReservationCheckin();
+    }
+    return setReservationError({ error: true, helperText: 'This code is invalid. Try again.' });
+  }
+
+  const getReservedDays = (reservationRetrievalCode) => {
+    getReservation(reservationRetrievalCode)
+      .then((res) => res.json())
+      .then((response) => {
+        const resps = response.map((res) => {
+          return {
+            ...res,
+            resDate: changeDateFormat(res.resDate)
+          }
+        });
+        resps.sort(compare);
+        setReservedDays(resps);
+        isReservationValidToday();
+      })
+  };
+
   return (
-    <BaseContainer>
-      <HeaderQuestion>
-        Do you have a reservation?
-      </HeaderQuestion>
-      <Buttons>
-        <StyledButton
-          size="large"
-          variant="contained"
-          startIcon={<CheckIcon/>}
-          onClick={() => handleClick(PATHS.VIEW_RESERVATIONS, true)}
-        >
-          Yes
-        </StyledButton>
-        <StyledButton
-          size="large"
-          variant="contained"
-          startIcon={<ClearIcon/>}
-          onClick={() => handleClick(PATHS.COVID_CHECK, false)}
-        >
-          No
-        </StyledButton>
-      </Buttons>
-    </BaseContainer>
+    <Container >
+      <Grid className={classes.root} container spacing={3}>
+        <Grid item>
+          <Typography variant="h6">
+            Enter your reservation code
+        </Typography>
+        </Grid>
+        <Grid item>
+          <TextField id="standard-basic"
+            className={classes.textField}
+            error={reservationError.error}
+            label="Reservation Code"
+            size="small"
+            value={reservationCode}
+            variant="outlined"
+            helperText={reservationError.helperText}
+            onChange={(event) => {
+              setReservationCode(event.target.value)
+            }}
+          />
+        </Grid>
+        <Grid item>
+          <Button disabled={!reservationError.error}
+            color="primary"
+            size="small"
+            className={classes.styledButton}
+            onClick={() => { nextPath(PATHS.COVID_CHECK) }}>
+            Resume regular checkin
+        </Button>
+          <Button variant="contained"
+            disabled={reservationError.error && reservationCode}
+            color="primary"
+            size="normal"
+            className={classes.styledButton}
+            onClick={() => {
+              getReservedDays(reservationCode)
+            }}>
+            Continue
+        </Button>
+
+        </Grid>
+      </Grid>
+    </Container>
   );
 };
 

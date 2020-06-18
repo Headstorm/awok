@@ -4,7 +4,7 @@ import styled from "styled-components";
 import { withRouter } from "react-router-dom";
 import CheckIcon from '@material-ui/icons/Check';
 import ClearIcon from '@material-ui/icons/Clear';
-import { STORAGE, PATHS } from '../common/constants';
+import { PATHS } from '../common/constants';
 
 const StyledButton = withStyles(() => ({
   root: {
@@ -43,8 +43,8 @@ const HeaderStatement = styled.h2`
 `;
 
 const ReservationExpired = (props) => {
-  const handleClick = (path, isPositive) => {
-    localStorage.setItem(STORAGE.IS_POSITIVE, isPositive);
+  
+  const nextPath = (path) => {
     props.history.push(path);
   };
 
@@ -58,7 +58,7 @@ const ReservationExpired = (props) => {
           size="large"
           variant="contained"
           startIcon={<CheckIcon/>}
-          onClick={() => handleClick(PATHS.VIEW_RESERVATIONS, true)}
+          onClick={() => nextPath(PATHS.VIEW_RESERVATIONS)}
         >
           
         </StyledButton>
@@ -66,7 +66,7 @@ const ReservationExpired = (props) => {
           size="large"
           variant="contained"
           startIcon={<ClearIcon/>}
-          onClick={() => handleClick(PATHS.COVID_CHECK, false)}
+          onClick={() => nextPath(PATHS.COVID_CHECK)}
         >
           Check In
         </StyledButton>
