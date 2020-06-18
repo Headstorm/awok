@@ -80,11 +80,6 @@ const ViewReservations = (props) => {
         props.history.push(path);
     };
 
-    const checkInTodaysReservation = (date) => {
-        localStorage.setItem(STORAGE.RESERVATION_CODE, reservationCode);
-        nextPath(PATHS.COVID_CHECK);
-    }
-
     const hasCheckedInToday =
         localStorage.getItem(STORAGE.CHECK_IN_DATE) ===
         new Date().toISOString().slice(0, 10);
@@ -108,9 +103,6 @@ const ViewReservations = (props) => {
                     return (
                         <ListItem key={reservation.resDate} dense>
                             <ListItemSecondaryAction>
-                                {isToday(reservation.resDate) && !hasCheckedInToday && !reservation.checkedIn && !reservation.expired &&
-                                    <Button color="primary" onClick={() => { checkInTodaysReservation(reservation.resDate) }} >Check In</Button>
-                                }
                                 {isToday(reservation.resDate) && hasCheckedInToday && reservation.checkedIn &&
                                     <Icon className={classes.icon}>
                                         Checked In <CheckCircleIcon className={classes.styledIcon} />
@@ -121,7 +113,6 @@ const ViewReservations = (props) => {
                                         Expired <EventBusyOutlinedIcon className={classes.styledIcon}></EventBusyOutlinedIcon>
                                     </Icon>
                                 }
-
                             </ListItemSecondaryAction>
                             <ListItemText id={labelId} primary={`${reservation.resDate}`} />
                         </ListItem>

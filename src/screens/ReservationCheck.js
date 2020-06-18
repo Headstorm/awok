@@ -40,7 +40,10 @@ const ReservationCheck = (props) => {
     return 0;
   }
 
-
+  const checkInTodaysReservation = () => {
+    localStorage.setItem(STORAGE.RESERVATION_CODE, reservationCode);
+    nextPath(PATHS.COVID_CHECK);
+}
 
   const isToday = (date) => {
     const today = new Date();
@@ -59,18 +62,13 @@ const ReservationCheck = (props) => {
     })
   }
 
-  const validReservationCheckin = () => {
-    localStorage.setItem(STORAGE.RESERVATION_CODE, reservationCode);
-    nextPath(PATHS.COVID_CHECK);
-  }
-
   const isReservationValidToday = () => {
     const today = getTodaysReservation();
     if (today) {
       if (today.expired) {
         return setReservationError({ error: true, helperText: 'This code is invalid. Try again.' });
       }
-      validReservationCheckin();
+      checkInTodaysReservation();
     }
     return setReservationError({ error: true, helperText: 'This code is invalid. Try again.' });
   }
