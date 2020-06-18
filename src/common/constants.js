@@ -1,7 +1,7 @@
 
 export const STORAGE = {
     RESERVATION_CODE: 'reservationCode',
-    RESERVATION_CLEAR_OUT: 'reservationClearOut',
+    RESERVATION_EXPIRATION_TIME: 'reservationClearOut',
     SUCCESS_MESSAGE: 'successMessage',
     OCCUPANCY_RULE: 'occupancyRule',
     COMPANY_NAME: 'companyName',

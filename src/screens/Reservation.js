@@ -4,6 +4,8 @@ import ButtonGroup from '@material-ui/core/ButtonGroup';
 import { TextField, Divider, withStyles } from '@material-ui/core';
 import styled from "styled-components";
 import { setReservation } from '../services/apiCalls';
+import { STORAGE } from '../common/constants';
+import moment from 'moment';
 
 const MONTHS = [
   'Jan',
@@ -104,6 +106,10 @@ const Reservation = (props) => {
       .toISOString()
       .slice(0, 10);
 
+  const getExpirationTime = () =>{
+    return localStorage.getItem(STORAGE.RESERVATION_EXPIRATION_TIME);
+  }
+
   const getReadableDay = (dateToConvert) => {
     const [month, numDay] = dateToConvert.slice(5).split('-');
     return MONTHS[parseInt(month - 1)] + ' ' + numDay;
@@ -115,6 +121,18 @@ const Reservation = (props) => {
   const firstWeekEnd = getReadableDay(getSpecificDay(5));
   const secondWeek = getReadableDay(getSpecificDay(8));
   const secondWeekEnd = getReadableDay(getSpecificDay(12));
+
+  const isDisabled = () => {
+    const expirationTime = getExpirationTime();
+    const diff = moment(expirationTime, "YYYYMMDD").fromNow(); // 9 years ago
+    console.log(diff)
+
+    if(diff > getExpirationTime) {
+    }
+
+  }
+
+  isDisabled()
 
   const getButtons = (startDay) => {
     return ['M', 'T', 'W', 'T', 'F'].map((d, x) => {

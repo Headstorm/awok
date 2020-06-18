@@ -94,7 +94,7 @@ const CheckIn = (props) => {
   const [reserveCheckedIn, setReserveCheckedIn] = useState(0)
   const totalOccupancy = localStorage.getItem(STORAGE.OCCUPANCY_RULE);
   const clearOutTime = new Date(
-    localStorage.getItem(STORAGE.RESERVATION_CLEAR_OUT)
+    localStorage.getItem(STORAGE.RESERVATION_EXPIRATION_TIME)
   ).toLocaleString('en-US', {
     hour: 'numeric',
     minute: 'numeric',
@@ -114,7 +114,7 @@ const CheckIn = (props) => {
         localStorage.setItem(STORAGE.OCCUPANCY_RULE, response.occupancyRule);
         localStorage.setItem(STORAGE.CURRENT_RULES, response.currentRules);
         localStorage.setItem(STORAGE.COMPANY_NAME, response.companyName);
-        localStorage.setItem(STORAGE.RESERVATION_CLEAR_OUT,
+        localStorage.setItem(STORAGE.RESERVATION_EXPIRATION_TIME,
           response.reservationClearOut
         );
         setLoading(false);
