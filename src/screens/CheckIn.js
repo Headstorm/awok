@@ -9,7 +9,7 @@ import InfoPopUp from '../common/InfoPopUp';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import CheckCircleIcon from '@material-ui/icons/CheckCircle';
 import { PATHS, STORAGE } from '../common/constants';
-
+import moment from 'moment';
 
 const StyledButton = withStyles(() => ({
   root: {
@@ -146,6 +146,30 @@ const CheckIn = (props) => {
   const checkedInCount = immuneCount + fineCount + reserveCheckedIn
   const checkInDisabled = checkedInCount === totalOccupancy;
 
+  const convertTo12Hour = (datetime) => {
+    return moment(new Date(datetime), 'HH:mm').format('h a').split(' ');
+  }
+
+  const isBeforeExpireLocal = () => {
+    var now = moment(new Date());
+    var expireTime = moment(localStorage.getItem(STORAGE.RESERVATION_EXPIRATION_TIME));
+    var currentTime = moment(now);
+   
+    if(currentTime.isBefore(expireTime)){
+      return true;
+    }
+    
+    return false;
+  }
+
+  const checkInPath = () => {
+    if(isBeforeExpireLocal()){
+      nextPath(PATHS.RESERVATION_CHECK)
+    }
+    nextPath(PATHS.COVID_CHECK)
+  }
+
+
   return !loading ? (
     <BaseContainer>
       <HeaderDiv>
@@ -189,7 +213,7 @@ const CheckIn = (props) => {
                 );
                 nextPath(PATHS.GOOD_DAY);
               } else {
-                nextPath(PATHS.RESERVATION_CHECK);
+                checkInPath();
               }
             }}
           >

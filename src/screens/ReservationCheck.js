@@ -18,7 +18,7 @@ const useStyles = makeStyles((theme) => ({
     'grid-row-start': 2,
     'grid-column-start': 2,
     'justify-self': 'center',
-    width: '50%',
+    width: '100%',
     '@media (max-width:425px)': { width: '100%' },
   }
 }));
@@ -43,7 +43,7 @@ const ReservationCheck = (props) => {
   const checkInTodaysReservation = () => {
     localStorage.setItem(STORAGE.RESERVATION_CODE, reservationCode);
     nextPath(PATHS.COVID_CHECK);
-}
+  }
 
   const isToday = (date) => {
     const today = new Date();
@@ -94,7 +94,7 @@ const ReservationCheck = (props) => {
       <Grid className={classes.root} container spacing={3}>
         <Grid item>
           <Typography variant="h6">
-            Enter your reservation code
+            Have a reservation today?
         </Typography>
         </Grid>
         <Grid item>
@@ -120,16 +120,14 @@ const ReservationCheck = (props) => {
             Return to regular checkin
         </Button>
           <Button variant="contained"
-            disabled={reservationError.error && reservationCode}
             color="primary"
-            size="normal"
+            size="small"
             className={classes.styledButton}
             onClick={() => {
               getReservedDays(reservationCode)
             }}>
             Continue
         </Button>
-
         </Grid>
       </Grid>
     </Container>

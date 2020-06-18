@@ -4,7 +4,7 @@ import { getReservation } from '../services/apiCalls';
 import { TextField, Icon, ListItemSecondaryAction, ListItemText, Typography, List, Button, Container, ListItem } from '@material-ui/core';
 import { withRouter } from 'react-router-dom';
 import CheckCircleIcon from '@material-ui/icons/CheckCircle';
-import { STORAGE, PATHS } from '../common/constants';
+import { STORAGE } from '../common/constants';
 import { changeDateFormat } from '../common/dateFormat';
 import EventBusyOutlinedIcon from '@material-ui/icons/EventBusyOutlined';
 
@@ -73,11 +73,6 @@ const ViewReservations = (props) => {
                 resps.sort(compare);
                 setReservedDays(resps);
             })
-    };
-
-
-    const nextPath = (path) => {
-        props.history.push(path);
     };
 
     const hasCheckedInToday =
