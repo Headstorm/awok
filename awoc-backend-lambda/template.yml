@@ -17,6 +17,21 @@ Globals:
     MemorySize: 128
     Timeout: 100
 
+# iamRoleStatements:
+#     - Effect: Allow
+#       Action:
+#         - dynamodb:DescribeTable
+#         - dynamodb:Query
+#         - dynamodb:Scan
+#         - dynamodb:GetItem
+#         - dynamodb:PutItem
+#         - dynamodb:UpdateItem
+#         - dynamodb:DeleteItem
+#       # Restrict our IAM role permissions to
+#       # the specific table for the stage
+#       Resource:
+#         - "Fn::ewocFunction": [ Reservation, awocSettings ]
+
 # Resources declares the AWS resources that you want to include in the stack
 # https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/resources-section-structure.html
 Resources:
@@ -30,49 +45,65 @@ Resources:
         AllowOrigin: "'*'"
       OpenApiVersion: "2.0"
       Name: AWOC-API
-      Models:
-        settings:
-          type: object
-          required:
-            - companyName
-          properties:
-            companyName:
-              type: string
-            occupancyRule:
-              type: string
-            currentRules:
-              type: string
-            successMessage:
-              type: string
+      # Models:
+      #   settings:
+      #     type: object
+      #     required:
+      #       - companyName
+      #     properties:
+      #       companyName:
+      #         type: string
+      #       occupancyRule:
+      #         type: string
+      #       currentRules:
+      #         type: string
+      #       successMessage:
+      #         type: string
+      #       resClearTime:
+      #         type: string
+      #   reservation:
+      #     type: object
+      #     required:
+      #       - resDate
+      #       - Code
+      #     properties:
+      #       resDate:
+      #         type: string
+      #       Code:
+      #         type: string
+      #       expired:
+      #         type: string
+      #       status:
+      #         type: string
 
   # Each Lambda function is defined by properties:
   # https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#awsserverlessfunction
 
   # # This is a Lambda function config associated with the source code: get-all-items.js
-  getAllItemsFunction:
-    Type: AWS::Serverless::Function
-    Properties:
-      Handler: src/handlers/get-all-items.getAllItemsHandler
-      Runtime: nodejs12.x
-      MemorySize: 128
-      Timeout: 100
-      Description: A simple example includes a HTTP get method to get all items from a DynamoDB table.
-      Policies:
-        # Give Create/Read/Update/Delete Permissions to the SampleTable
-        - DynamoDBCrudPolicy:
-            TableName: !Ref SampleTable
-      Environment:
-        Variables:
-          # Make table name accessible as environment variable from function code during execution
-          SAMPLE_TABLE: !Ref SampleTable
-      Events:
-        Api:
-          Type: Api
-          Properties:
-            Path: /
-            Method: GET
-            RestApiId:
-              Ref: awocAPI
+  # getAllItemsFunction:
+  #   Type: AWS::Serverless::Function
+  #   Properties:
+  #     Handler: src/handlers/get-all-items.getAllItemsHandler
+  #     Runtime: nodejs12.x
+  #     MemorySize: 128
+  #     Timeout: 100
+  #     Description: A simple example includes a HTTP get method to get all items from a DynamoDB table.
+  #     Policies:
+  #       # Give Create/Read/Update/Delete Permissions to the SampleTable
+  #       - DynamoDBCrudPolicy:
+  #           TableName: !Ref SampleTable
+  #     Environment:
+  #       Variables:
+  #         # Make table name accessible as environment variable from function code during execution
+  #         SAMPLE_TABLE: !Ref SampleTable
+  #     Events:
+  #       Api:
+  #         Type: Api
+  #         Properties:
+  #           Path: /
+  #           Method: GET
+  #           RestApiId:
+  #             Ref: awocAPI
   # # Each Lambda function is defined by properties:
   # # https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#awsserverlessfunction
 
@@ -199,19 +230,61 @@ Resources:
             RestApiId:
               Ref: awocAPI
 
+  reservationsFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      Handler: src/handlers/reservationsFn.handler
+      Description: All the functions for awoc beta
+      Policies:
+        - DynamoDBCrudPolicy:
+            TableName: !Ref Reservation
+      Environment:
+        Variables:
+          # Make table name accessible as environment variable from function code during execution
+          RESERVATIONS_TABLE_NAME: !Ref Reservation
+      Events:
+        getApi:
+          Type: Api
+          Properties:
+            Path: /reservations
+            Method: GET
+            RestApiId:
+              Ref: awocAPI
+        patchApi:
+          Type: Api
+          Properties:
+            Path: /reservations
+            Method: PATCH
+            RestApiId:
+              Ref: awocAPI
+        postApi:
+          Type: Api
+          Properties:
+            Path: /reservations
+            Method: POST
+            RestApiId:
+              Ref: awocAPI
+        deleteApi:
+          Type: Api
+          Properties:
+            Path: /reservations
+            Method: DELETE
+            RestApiId:
+              Ref: awocAPI
+
   # Simple syntax to create a DynamoDB table with a single attribute primary key, more in
   # https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#awsserverlesssimpletable
 
   # # DynamoDB table to store item: {id: &lt;ID&gt;, name: &lt;NAME&gt;}
-  SampleTable:
-    Type: AWS::Serverless::SimpleTable
-    Properties:
-      PrimaryKey:
-        Name: id
-        Type: String
-      ProvisionedThroughput:
-        ReadCapacityUnits: 2
-        WriteCapacityUnits: 2
+  # SampleTable:
+  #   Type: AWS::Serverless::SimpleTable
+  #   Properties:
+  #     PrimaryKey:
+  #       Name: id
+  #       Type: String
+  #     ProvisionedThroughput:
+  #       ReadCapacityUnits: 2
+  #       WriteCapacityUnits: 2
 
   EmployeeCount:
     Type: AWS::Serverless::SimpleTable
@@ -223,6 +296,7 @@ Resources:
       ProvisionedThroughput:
         ReadCapacityUnits: 1
         WriteCapacityUnits: 1
+
   awocSettings:
     Type: AWS::Serverless::SimpleTable
     Properties:
@@ -231,6 +305,28 @@ Resources:
         Name: companyName
         Type: String
       ProvisionedThroughput:
+        ReadCapacityUnits: 1
+        WriteCapacityUnits: 1
+
+  Reservation: 
+    Type: AWS::DynamoDB::Table
+    Properties: 
+      TableName: Reservation
+      AttributeDefinitions:
+        - 
+          AttributeName: "resDate"
+          AttributeType: "S"
+        - 
+          AttributeName: "Code"
+          AttributeType: "S"
+      KeySchema: 
+        - 
+          AttributeName: "resDate"
+          KeyType: "HASH"
+        - 
+          AttributeName: "Code"
+          KeyType: "RANGE"
+      ProvisionedThroughput: 
         ReadCapacityUnits: 1
         WriteCapacityUnits: 1
 # Outputs:
