@@ -87,7 +87,6 @@ exports.handler = async (event, context) => {
         };
                 
         const reservationsToday = await docClient.scan(searchRes).promise();
-
         const settings = await docClient
         .get({
           TableName: 'awocSettings',
@@ -101,7 +100,8 @@ exports.handler = async (event, context) => {
         const currentTime = new Date().toString().substring(16, 18)
         if(currentTime >= settings.Item.reservationClearOut.substring(11,13)) {
           if(reservationsToday.Items.length) {
-            const deleteRes = reservationsToday.Items.filter(item => !item.expired).map(res => {
+            let deleteRes = reservationsToday.Items.filter(item => (!item.expired && !item.checkedIn))
+              .map(res => {
               if(!res.expired && !res.checkedIn) { return {
                 PutRequest: {
                   Item: { Code: res.Code, resDate: res.resDate, expired: true },
@@ -111,8 +111,10 @@ exports.handler = async (event, context) => {
                       ':resDate': res.resDate
                   }
                 }
-              } } 
+              }
+            }
             })
+          
             if(deleteRes.length) {
               const deleteItems = {
                 RequestItems: {
