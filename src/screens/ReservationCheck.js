@@ -119,7 +119,7 @@ const ReservationCheck = (props) => {
             size="small"
             className={classes.styledButton}
             onClick={() => { nextPath(PATHS.COVID_CHECK) }}>
-            Resume regular checkin
+            Return to regular checkin
         </Button>
           <Button variant="contained"
             disabled={reservationError.error && reservationCode}
