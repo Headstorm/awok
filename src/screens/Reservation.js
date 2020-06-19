@@ -106,7 +106,7 @@ const Reservation = (props) => {
       .toISOString()
       .slice(0, 10);
 
-  const getExpirationTime = () =>{
+  const getExpirationTime = () => {
     return localStorage.getItem(STORAGE.RESERVATION_EXPIRATION_TIME);
   }
 
@@ -122,17 +122,39 @@ const Reservation = (props) => {
   const secondWeek = getReadableDay(getSpecificDay(8));
   const secondWeekEnd = getReadableDay(getSpecificDay(12));
 
-  const isDisabled = () => {
-    const expirationTime = getExpirationTime();
-    const diff = moment(expirationTime, "YYYYMMDD").fromNow(); // 9 years ago
-    console.log(diff)
+  const isBeforeExpireLocal = () => {
+    var now = moment(new Date());
 
-    if(diff > getExpirationTime) {
+    const expireTime = moment(localStorage.getItem(STORAGE.RESERVATION_EXPIRATION_TIME)).format('LT');
+    const currentTime = now.format('LT');
+
+    const todayDateTime = moment(now.format('LL') + ' ' + currentTime);
+    const todayDateExpireTime = moment(now.format('LL') + ' ' + expireTime);
+
+    if (todayDateTime.isBefore(todayDateExpireTime)) {
+      return true;
     }
 
+    return false;
   }
 
-  isDisabled()
+  const isToday = (date) => {
+    return moment(date).isSame(new Date(), "day");
+  };
+
+  const isDisabled = (storeValue) => {
+    if (storeValue < today) {
+      return true
+    }
+    if (isToday(storeValue)) {
+      if (isBeforeExpireLocal()) {
+        return false;
+      } else {
+        return true;
+      }
+    }
+    return false;
+  }
 
   const getButtons = (startDay) => {
     return ['M', 'T', 'W', 'T', 'F'].map((d, x) => {
@@ -149,7 +171,7 @@ const Reservation = (props) => {
               : setStoredDays([...storedDays, storeValue]);
           }}
           variant={storedDays.includes(storeValue) ? 'contained' : ''}
-          disabled={storeValue < today}
+          disabled={isDisabled(storeValue)}
         >
           {d}
         </Button>

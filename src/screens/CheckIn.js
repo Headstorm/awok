@@ -146,16 +146,16 @@ const CheckIn = (props) => {
   const checkedInCount = immuneCount + fineCount + reserveCheckedIn
   const checkInDisabled = checkedInCount === totalOccupancy;
 
-  const convertTo12Hour = (datetime) => {
-    return moment(new Date(datetime), 'HH:mm').format('h a').split(' ');
-  }
-
   const isBeforeExpireLocal = () => {
-    var now = moment(new Date());
-    var expireTime = moment(localStorage.getItem(STORAGE.RESERVATION_EXPIRATION_TIME));
-    var currentTime = moment(now);
-   
-    if(currentTime.isBefore(expireTime)){
+    var today = moment(new Date());
+
+    const expireTime =  moment(localStorage.getItem(STORAGE.RESERVATION_EXPIRATION_TIME)).format('LT');
+    const currentTime = today.format('LT');
+
+    const todayDateTime = moment(today.format('LL') + ' ' + currentTime);
+    const todayDateExpireTime = moment(today.format('LL') + ' ' + expireTime);
+
+    if(todayDateTime.isBefore(todayDateExpireTime)){
       return true;
     }
     
