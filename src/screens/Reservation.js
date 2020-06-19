@@ -125,7 +125,7 @@ const Reservation = (props) => {
   const isBeforeExpireLocal = () => {
     var now = moment(new Date());
 
-    const expireTime = moment(localStorage.getItem(STORAGE.RESERVATION_EXPIRATION_TIME)).format('LT');
+    const expireTime = moment(getExpirationTime()).format('LT');
     const currentTime = now.format('LT');
 
     const todayDateTime = moment(now.format('LL') + ' ' + currentTime);

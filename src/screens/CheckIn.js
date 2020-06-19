@@ -145,11 +145,14 @@ const CheckIn = (props) => {
 
   const checkedInCount = immuneCount + fineCount + reserveCheckedIn
   const checkInDisabled = checkedInCount === totalOccupancy;
-
+  const getExpirationTime = () => {
+    return localStorage.getItem(STORAGE.RESERVATION_EXPIRATION_TIME);
+  }
+  
   const isBeforeExpireLocal = () => {
     var today = moment(new Date());
 
-    const expireTime =  moment(localStorage.getItem(STORAGE.RESERVATION_EXPIRATION_TIME)).format('LT');
+    const expireTime =  moment(getExpirationTime()).format('LT');
     const currentTime = today.format('LT');
 
     const todayDateTime = moment(today.format('LL') + ' ' + currentTime);
