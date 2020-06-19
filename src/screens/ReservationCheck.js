@@ -5,6 +5,7 @@ import { withRouter } from "react-router-dom";
 import { getReservation } from '../services/apiCalls';
 import { changeDateFormat } from '../common/dateFormat';
 import { PATHS, STORAGE } from '../common/constants';
+import moment from 'moment';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -46,19 +47,15 @@ const ReservationCheck = (props) => {
   }
 
   const isToday = (date) => {
-    const today = new Date();
-    const value = new Date(date);
-
-    return value.getDate() === today.getDate() &&
-      value.getMonth() === today.getMonth() &&
-      value.getFullYear() === today.getFullYear();
+    return moment(date).isSame(new Date(), "day");
   };
 
   const getTodaysReservation = () => {
-    return reservedDays.find((res) => {
+    return reservedDays.find((res)=> {
       if (isToday(res.resDate)) {
         return res;
       }
+      return undefined;
     })
   }
 
