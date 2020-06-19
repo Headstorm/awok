@@ -145,6 +145,7 @@ const CheckIn = (props) => {
 
   const checkedInCount = immuneCount + fineCount + reserveCheckedIn
   const checkInDisabled = checkedInCount === totalOccupancy;
+
   const getExpirationTime = () => {
     return localStorage.getItem(STORAGE.RESERVATION_EXPIRATION_TIME);
   }
@@ -171,7 +172,6 @@ const CheckIn = (props) => {
     }
     nextPath(PATHS.COVID_CHECK)
   }
-
 
   return !loading ? (
     <BaseContainer>
