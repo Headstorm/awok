@@ -4,7 +4,7 @@ import { getReservation } from '../services/apiCalls';
 import { TextField, Icon, ListItemSecondaryAction, ListItemText, Typography, List, Button, Container, ListItem } from '@material-ui/core';
 import { withRouter } from 'react-router-dom';
 import CheckCircleIcon from '@material-ui/icons/CheckCircle';
-import { STORAGE, PATHS } from '../common/constants';
+import { STORAGE } from '../common/constants';
 import { changeDateFormat } from '../common/dateFormat';
 import EventBusyOutlinedIcon from '@material-ui/icons/EventBusyOutlined';
 
@@ -75,16 +75,6 @@ const ViewReservations = (props) => {
             })
     };
 
-
-    const nextPath = (path) => {
-        props.history.push(path);
-    };
-
-    const checkInTodaysReservation = (date) => {
-        localStorage.setItem(STORAGE.RESERVATION_CODE, reservationCode);
-        nextPath(PATHS.COVID_CHECK);
-    }
-
     const hasCheckedInToday =
         localStorage.getItem(STORAGE.CHECK_IN_DATE) ===
         new Date().toISOString().slice(0, 10);
@@ -108,9 +98,6 @@ const ViewReservations = (props) => {
                     return (
                         <ListItem key={reservation.resDate} dense>
                             <ListItemSecondaryAction>
-                                {isToday(reservation.resDate) && !hasCheckedInToday && !reservation.checkedIn && !reservation.expired &&
-                                    <Button color="primary" onClick={() => { checkInTodaysReservation(reservation.resDate) }} >Check In</Button>
-                                }
                                 {isToday(reservation.resDate) && hasCheckedInToday && reservation.checkedIn &&
                                     <Icon className={classes.icon}>
                                         Checked In <CheckCircleIcon className={classes.styledIcon} />
@@ -121,7 +108,6 @@ const ViewReservations = (props) => {
                                         Expired <EventBusyOutlinedIcon className={classes.styledIcon}></EventBusyOutlinedIcon>
                                     </Icon>
                                 }
-
                             </ListItemSecondaryAction>
                             <ListItemText id={labelId} primary={`${reservation.resDate}`} />
                         </ListItem>
@@ -136,10 +122,17 @@ const ViewReservations = (props) => {
             {reservedDays &&
                 <ReservationList />
             }
-            <TextField id="standard-basic" className={classes.textField} label="Reservation Code" value={reservationCode} onChange={(event) => { setReservationCode(event.target.value) }} />
+            <TextField id="standard-basic"
+                className={classes.textField}
+                label="Reservation Code"
+                value={reservationCode}
+                onChange={(event) => { setReservationCode(event.target.value) }}
+            />
 
-            <Button variant="contained" className={classes.reservationButton} onClick={() => { getReservedDays(reservationCode) }}>
-                Get Reservations
+            <Button variant="contained"
+                className={classes.reservationButton}
+                onClick={() => { getReservedDays(reservationCode) }}>
+                View Reservations
             </Button>
 
             <Typography>You will only see a check in button if the reservation is for today.</Typography>

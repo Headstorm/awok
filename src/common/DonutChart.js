@@ -111,7 +111,7 @@ const DonutChart = (props) => {
       <LabelsContainer>
         <Label>
           <label>
-            <b>{spotsOpen}</b> Spots Open
+            <b>{spotsOpen}</b> spots open
           </label>
           <SVGLabel>
             <circle cx={20} cy={20} r={10} fill="#DAE2E5" />
@@ -119,7 +119,7 @@ const DonutChart = (props) => {
         </Label>
         <Label>
           <label>
-            <b>{props.spotsTaken}</b> Checked In
+            <b>{props.spotsTaken}</b> spots occupied
           </label>
           <SVGLabel>
             <circle cx={20} cy={20} r={10} fill="#80e27e" />
@@ -127,7 +127,7 @@ const DonutChart = (props) => {
         </Label>
         <Label>
           <label>
-            <b>{props.spotsReserved}</b> Reserved
+            <b>{props.spotsReserved}</b> spots reserved
           </label>
           <SVGLabel>
             <circle cx={20} cy={20} r={10} fill="#8cbdff" />

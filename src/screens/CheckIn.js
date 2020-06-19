@@ -9,7 +9,7 @@ import InfoPopUp from '../common/InfoPopUp';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import CheckCircleIcon from '@material-ui/icons/CheckCircle';
 import { PATHS, STORAGE } from '../common/constants';
-
+import moment from 'moment';
 
 const StyledButton = withStyles(() => ({
   root: {
@@ -94,7 +94,7 @@ const CheckIn = (props) => {
   const [reserveCheckedIn, setReserveCheckedIn] = useState(0)
   const totalOccupancy = localStorage.getItem(STORAGE.OCCUPANCY_RULE);
   const clearOutTime = new Date(
-    localStorage.getItem(STORAGE.RESERVATION_CLEAR_OUT)
+    localStorage.getItem(STORAGE.RESERVATION_EXPIRATION_TIME)
   ).toLocaleString('en-US', {
     hour: 'numeric',
     minute: 'numeric',
@@ -114,7 +114,7 @@ const CheckIn = (props) => {
         localStorage.setItem(STORAGE.OCCUPANCY_RULE, response.occupancyRule);
         localStorage.setItem(STORAGE.CURRENT_RULES, response.currentRules);
         localStorage.setItem(STORAGE.COMPANY_NAME, response.companyName);
-        localStorage.setItem(STORAGE.RESERVATION_CLEAR_OUT,
+        localStorage.setItem(STORAGE.RESERVATION_EXPIRATION_TIME,
           response.reservationClearOut
         );
         setLoading(false);
@@ -145,6 +145,33 @@ const CheckIn = (props) => {
 
   const checkedInCount = immuneCount + fineCount + reserveCheckedIn
   const checkInDisabled = checkedInCount === totalOccupancy;
+
+  const getExpirationTime = () => {
+    return localStorage.getItem(STORAGE.RESERVATION_EXPIRATION_TIME);
+  }
+  
+  const isBeforeExpireLocal = () => {
+    var today = moment(new Date());
+
+    const expireTime =  moment(getExpirationTime()).format('LT');
+    const currentTime = today.format('LT');
+
+    const todayDateTime = moment(today.format('LL') + ' ' + currentTime);
+    const todayDateExpireTime = moment(today.format('LL') + ' ' + expireTime);
+
+    if(todayDateTime.isBefore(todayDateExpireTime)){
+      return true;
+    }
+    
+    return false;
+  }
+
+  const checkInPath = () => {
+    if(isBeforeExpireLocal()){
+      nextPath(PATHS.RESERVATION_CHECK)
+    }
+    nextPath(PATHS.COVID_CHECK)
+  }
 
   return !loading ? (
     <BaseContainer>
@@ -189,7 +216,7 @@ const CheckIn = (props) => {
                 );
                 nextPath(PATHS.GOOD_DAY);
               } else {
-                nextPath(PATHS.COVID_CHECK);
+                checkInPath();
               }
             }}
           >

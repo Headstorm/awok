@@ -4,6 +4,8 @@ import ButtonGroup from '@material-ui/core/ButtonGroup';
 import { TextField, Divider, withStyles } from '@material-ui/core';
 import styled from "styled-components";
 import { setReservation } from '../services/apiCalls';
+import { STORAGE } from '../common/constants';
+import moment from 'moment';
 
 const MONTHS = [
   'Jan',
@@ -104,6 +106,10 @@ const Reservation = (props) => {
       .toISOString()
       .slice(0, 10);
 
+  const getExpirationTime = () => {
+    return localStorage.getItem(STORAGE.RESERVATION_EXPIRATION_TIME);
+  }
+
   const getReadableDay = (dateToConvert) => {
     const [month, numDay] = dateToConvert.slice(5).split('-');
     return MONTHS[parseInt(month - 1)] + ' ' + numDay;
@@ -115,6 +121,40 @@ const Reservation = (props) => {
   const firstWeekEnd = getReadableDay(getSpecificDay(5));
   const secondWeek = getReadableDay(getSpecificDay(8));
   const secondWeekEnd = getReadableDay(getSpecificDay(12));
+
+  const isBeforeExpireLocal = () => {
+    var now = moment(new Date());
+
+    const expireTime = moment(getExpirationTime()).format('LT');
+    const currentTime = now.format('LT');
+
+    const todayDateTime = moment(now.format('LL') + ' ' + currentTime);
+    const todayDateExpireTime = moment(now.format('LL') + ' ' + expireTime);
+
+    if (todayDateTime.isBefore(todayDateExpireTime)) {
+      return true;
+    }
+
+    return false;
+  }
+
+  const isToday = (date) => {
+    return moment(date).isSame(new Date(), "day");
+  };
+
+  const isDisabled = (storeValue) => {
+    if (storeValue < today) {
+      return true
+    }
+    if (isToday(storeValue)) {
+      if (isBeforeExpireLocal()) {
+        return false;
+      } else {
+        return true;
+      }
+    }
+    return false;
+  }
 
   const getButtons = (startDay) => {
     return ['M', 'T', 'W', 'T', 'F'].map((d, x) => {
@@ -131,7 +171,7 @@ const Reservation = (props) => {
               : setStoredDays([...storedDays, storeValue]);
           }}
           variant={storedDays.includes(storeValue) ? 'contained' : ''}
-          disabled={storeValue < today}
+          disabled={isDisabled(storeValue)}
         >
           {d}
         </Button>

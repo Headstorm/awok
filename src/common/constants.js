@@ -1,7 +1,7 @@
 
 export const STORAGE = {
     RESERVATION_CODE: 'reservationCode',
-    RESERVATION_CLEAR_OUT: 'reservationClearOut',
+    RESERVATION_EXPIRATION_TIME: 'reservationClearOut',
     SUCCESS_MESSAGE: 'successMessage',
     OCCUPANCY_RULE: 'occupancyRule',
     COMPANY_NAME: 'companyName',
@@ -14,6 +14,7 @@ export const STORAGE = {
 
 export const PATHS = {
     GOOD_DAY: '/good-day',
+    RESERVATION_CHECK: '/reservation-check',
     VIEW_RESERVATIONS: '/view-reservations',
     SAFETY_REJECTION: '/safety-rejection',
     COVID_TEST_DATE: '/covid-test-date',
